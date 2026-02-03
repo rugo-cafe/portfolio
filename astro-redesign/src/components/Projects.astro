@@ -1,0 +1,393 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+
+// Project data
+type ProjectStatus = 'live' | 'in-progress' | 'planned';
+
+interface Project {
+  id: string;
+  title: string;
+  tagline: string;
+  desc: string;
+  tags: string[];
+  status: ProjectStatus;
+  icon: string;
+  color: string;
+  image?: string;
+}
+
+const projects: Project[] = [
+  {
+    id: 'riji',
+    title: '日记 Riji',
+    tagline: t('projects.riji.tagline'),
+    desc: t('projects.riji.desc'),
+    tags: ['Vite', 'TypeScript', 'Tailwind', 'Supabase', 'localStorage'],
+    status: 'in-progress',
+    icon: 'ph:notebook-bold',
+    color: 'purple',
+  },
+  {
+    id: 'coisas-bonitas',
+    title: 'Coisas Bonitas',
+    tagline: t('projects.coisas.tagline'),
+    desc: t('projects.coisas.desc'),
+    tags: ['HTML', 'CSS', 'JavaScript', 'Neocities'],
+    status: 'planned',
+    icon: 'ph:radio-bold',
+    color: 'terracotta',
+  },
+  {
+    id: 'noise-mixer',
+    title: 'Noise Mixer',
+    tagline: t('projects.noise.tagline'),
+    desc: t('projects.noise.desc'),
+    tags: ['Web Audio API', 'SVG', 'TypeScript'],
+    status: 'planned',
+    icon: 'ph:waveform-bold',
+    color: 'green',
+  },
+  {
+    id: 'dither-tool',
+    title: 'Dither Studio',
+    tagline: t('projects.dither.tagline'),
+    desc: t('projects.dither.desc'),
+    tags: ['Rust', 'WebAssembly', 'Canvas'],
+    status: 'planned',
+    icon: 'ph:image-bold',
+    color: 'purple',
+  },
+];
+
+const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
+  'live': { label: t('projects.status.live'), class: 'bg-green-500/20 text-green-600 dark:text-green-400' },
+  'in-progress': { label: t('projects.status.progress'), class: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' },
+  'planned': { label: t('projects.status.planned'), class: 'bg-brand-purple/20 text-brand-purple' },
+};
+
+const colorConfig: Record<string, string> = {
+  purple: 'from-brand-purple/20 to-brand-purple/5',
+  terracotta: 'from-brand-terracotta/20 to-brand-terracotta/5',
+  green: 'from-brand-green/20 to-brand-green/5',
+};
+
+const rijiStack = ['Vite', 'TypeScript', 'Tailwind', 'Supabase', 'Vercel'];
+const projectModals: Record<string, { title: string; content: string }> = {
+  'riji': {
+    title: '日记 Riji',
+    content: `
+      <div class="space-y-6">
+        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
+          ${t('projects.riji.modal.intro')}
+        </p>
+        <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
+          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+        </div>
+        <a
+          href="https://rijiapp.site"
+          target="_blank"
+          class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple hover:text-brand-terracotta transition-colors duration-300 lowercase"
+        >
+          ${t('projects.riji.linkLabel')}
+          <span aria-hidden="true">↗</span>
+        </a>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.riji.modal.featuresTitle')}</h3>
+        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
+          <li>${t('projects.riji.feature.1')}</li>
+          <li>${t('projects.riji.feature.2')}</li>
+          <li>${t('projects.riji.feature.3')}</li>
+          <li>${t('projects.riji.feature.4')}</li>
+          <li>${t('projects.riji.feature.5')}</li>
+          <li>${t('projects.riji.feature.6')}</li>
+        </ul>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.riji.modal.stackTitle')}</h3>
+        <div class="flex flex-wrap gap-2">
+          ${rijiStack.map((tag) => `
+            <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">${tag}</span>
+          `).join('')}
+        </div>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.riji.modal.archTitle')}</h3>
+        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
+          <li>${t('projects.riji.arch.1')}</li>
+          <li>${t('projects.riji.arch.2')}</li>
+          <li>${t('projects.riji.arch.3')}</li>
+          <li>${t('projects.riji.arch.4')}</li>
+        </ul>
+      </div>
+    `
+  },
+  'coisas-bonitas': {
+    title: 'Coisas Bonitas',
+    content: `
+      <div class="space-y-6">
+        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
+          ${t('projects.coisas.modal.intro')}
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="https://coisasbonitas.neocities.org" target="_blank" class="p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-brand-dark/5 dark:border-brand-light/5 hover:border-brand-purple/30 transition-colors">
+            <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.site')}</span>
+          </a>
+          <a href="https://soundcloud.com/coisasbonitas" target="_blank" class="p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-brand-dark/5 dark:border-brand-light/5 hover:border-brand-purple/30 transition-colors">
+            <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.soundcloud')}</span>
+          </a>
+          <a href="https://hkcr.live" target="_blank" class="p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-brand-dark/5 dark:border-brand-light/5 hover:border-brand-purple/30 transition-colors">
+            <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.hkcr')}</span>
+          </a>
+        </div>
+        <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
+          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+        </div>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.coisas.modal.structureTitle')}</h3>
+        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
+          <li>${t('projects.coisas.structure.1')}</li>
+          <li>${t('projects.coisas.structure.2')}</li>
+          <li>${t('projects.coisas.structure.3')}</li>
+        </ul>
+      </div>
+    `
+  },
+  'noise-mixer': {
+    title: 'Noise Mixer',
+    content: `
+      <div class="space-y-6">
+        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
+          ${t('projects.noise.modal.intro')}
+        </p>
+        <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
+          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+        </div>
+      </div>
+    `
+  },
+  'dither-tool': {
+    title: 'Dither Studio',
+    content: `
+      <div class="space-y-6">
+        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
+          ${t('projects.dither.modal.intro')}
+        </p>
+        <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
+          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+        </div>
+      </div>
+    `
+  }
+};
+---
+
+<section id="projects" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
+  
+  <!-- Section Header -->
+  <div class="mb-10 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-4 reveal">
+    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase">
+      {t('nav.projects')}<span class="text-brand-purple">.</span>
+    </h2>
+    <div class="h-px bg-brand-dark/10 dark:bg-brand-light/10 flex-1 ml-6 mb-2 hidden md:block"></div>
+    <span class="text-xs font-mono uppercase tracking-widest text-brand-dark/50 dark:text-brand-light/50 mb-1.5 hidden md:block">
+      side projects
+    </span>
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {projects.map((project, index) => (
+      <button 
+        type="button"
+        data-project={project.id}
+        class={`project-card group relative p-8 rounded-3xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer`}
+        style="transition: transform 800ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 800ms cubic-bezier(0.19, 1, 0.22, 1), border-color 600ms ease;"
+        onmouseenter="this.style.transform = 'translateY(-4px)'; this.style.borderColor = 'rgba(176, 102, 255, 0.3)';"
+        onmouseleave="this.style.transform = 'translateY(0)'; this.style.borderColor = '';"
+      >
+        <!-- Gradient Background on Hover -->
+        <div class={`absolute inset-0 bg-gradient-to-br ${colorConfig[project.color]} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}></div>
+        
+        <!-- Content -->
+        <div class="relative z-10">
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-brand-dark/5 dark:bg-white/10 flex items-center justify-center group-hover:bg-brand-purple/10 transition-colors duration-500">
+                <Icon name={project.icon} class="w-6 h-6 text-brand-dark/60 dark:text-brand-light/60 group-hover:text-brand-purple transition-colors duration-500" />
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-xl text-brand-dark dark:text-brand-light group-hover:text-brand-purple transition-colors duration-300 lowercase">
+                  {project.title}
+                </h3>
+                <span class="text-sm text-brand-dark/50 dark:text-brand-light/50 lowercase">
+                  {project.tagline}
+                </span>
+              </div>
+            </div>
+            
+            <span class={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${statusConfig[project.status].class}`}>
+              {statusConfig[project.status].label}
+            </span>
+          </div>
+          
+          <!-- Description -->
+          <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed mb-6">
+            {project.desc}
+          </p>
+          
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            {project.tags.map((tag) => (
+              <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">
+                {tag}
+              </span>
+            ))}
+          </div>
+          
+          <!-- CTA -->
+          <div class="flex items-center gap-2 text-sm font-medium text-brand-purple opacity-0 group-hover:opacity-100 transition-opacity duration-500 lowercase">
+            <span>ver detalhes</span>
+            <Icon name="ph:arrow-right-bold" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          </div>
+        </div>
+        
+        <!-- Corner Decoration -->
+        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-brand-purple/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      </button>
+    ))}
+  </div>
+
+  <!-- GitHub Link -->
+  <div class="text-center mt-12 reveal">
+    <a 
+      href="https://github.com/rugo-cafe" 
+      target="_blank"
+      class="inline-flex items-center gap-2 text-sm text-brand-dark/50 dark:text-brand-light/50 hover:text-brand-purple transition-colors duration-300 lowercase"
+    >
+      <Icon name="simple-icons:github" class="w-4 h-4" />
+      <span>mais projetos no github</span>
+      <Icon name="ph:arrow-up-right-bold" class="w-3 h-3" />
+    </a>
+  </div>
+
+</section>
+
+<!-- Project Detail Modal -->
+<dialog 
+  id="project-modal"
+  class="fixed inset-0 m-auto p-0 w-[90vw] max-w-4xl max-h-[85vh] overflow-hidden bg-white/90 dark:bg-brand-dark/95 backdrop-blur-2xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl opacity-0 scale-95 translate-y-4 transition-all duration-300 open:opacity-100 open:scale-100 open:translate-y-0"
+>
+  <div class="sticky top-0 z-10 flex items-center justify-between px-8 py-5 border-b border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-black/20 backdrop-blur-xl">
+    <h2 id="modal-title" class="font-display font-bold text-2xl text-brand-dark dark:text-brand-light"></h2>
+    <button 
+      type="button"
+      id="modal-close"
+      class="flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors cursor-pointer"
+    >
+      <Icon name="ph:x-bold" class="w-5 h-5 text-brand-dark/60 dark:text-brand-light/60" />
+    </button>
+  </div>
+  
+  <div id="modal-content" class="p-8 overflow-y-auto" style="max-height: calc(85vh - 80px);">
+    <!-- Content injected via JS -->
+  </div>
+</dialog>
+
+<div id="project-modal-backdrop" class="fixed inset-0 z-40 bg-brand-dark/40 dark:bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+<script is:inline define:vars={{ projectModals }}>
+  document.addEventListener('astro:page-load', () => {
+    const modal = document.getElementById('project-modal');
+    const backdrop = document.getElementById('project-modal-backdrop');
+    const closeBtn = document.getElementById('modal-close');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+
+    if (!modal || !backdrop || !modalTitle || !modalContent) return;
+
+    const projects = projectModals;
+
+    function openModal(projectId) {
+      const project = projects[projectId];
+      if (!project) return;
+      
+      modalTitle.textContent = project.title;
+      modalContent.innerHTML = project.content;
+      
+      if (typeof modal.showModal === 'function') {
+        modal.showModal();
+      } else {
+        modal.setAttribute('open', '');
+      }
+      backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      backdrop.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (typeof modal.close === 'function') {
+        modal.close();
+      } else {
+        modal.removeAttribute('open');
+      }
+      backdrop.classList.add('opacity-0', 'pointer-events-none');
+      backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      const card = target && target.closest ? target.closest('.project-card') : null;
+      if (!card) return;
+      const projectId = card.dataset.project;
+      if (projectId) openModal(projectId);
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    
+    modal.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+  });
+</script>
+
+<style>
+  dialog::backdrop {
+    display: none;
+  }
+
+  #modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(176, 102, 255, 0.6) rgba(255, 255, 255, 0.08);
+  }
+
+  #modal-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+  }
+
+  #modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(176, 102, 255, 0.7), rgba(192, 72, 72, 0.7));
+    border-radius: 999px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  :root.dark #modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  :root.dark #modal-content::-webkit-scrollbar-thumb {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+</style>

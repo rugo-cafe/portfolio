@@ -1,0 +1,155 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+
+const highlights = [
+  {
+    icon: 'ph:paint-brush-bold',
+    title: t('about.highlights.ui.title'),
+    desc: t('about.highlights.ui.desc'),
+  },
+  {
+    icon: 'ph:code-bold',
+    title: t('about.highlights.frontend.title'),
+    desc: t('about.highlights.frontend.desc'),
+  },
+  {
+    icon: 'ph:lightning-bold',
+    title: t('about.highlights.product.title'),
+    desc: t('about.highlights.product.desc'),
+  },
+];
+
+const values = [
+  t('about.values.1'),
+  t('about.values.2'),
+  t('about.values.3'),
+  t('about.values.4'),
+];
+---
+
+<section id="about" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
+  
+  <!-- Section Header -->
+  <div class="mb-10 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-4 reveal">
+    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase">
+      {t('nav.about')}<span class="text-brand-purple">.</span>
+    </h2>
+    <div class="h-px bg-brand-dark/10 dark:bg-brand-light/10 flex-1 ml-6 mb-2 hidden md:block"></div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+    
+    <!-- Photo Column -->
+    <div class="lg:col-span-4 reveal reveal-delay-100">
+      <div class="relative">
+        <!-- Photo Container -->
+        <div class="aspect-square rounded-3xl overflow-hidden bg-linear-to-br from-brand-purple/10 via-brand-terracotta/10 to-brand-dark/5 dark:from-brand-purple/20 dark:via-brand-terracotta/20 dark:to-white/5 border border-brand-dark/10 dark:border-white/10 flex items-center justify-center">
+          <!-- Placeholder Icon -->
+          <div class="text-brand-dark/20 dark:text-white/10">
+            <Icon name="ph:user-circle-fill" class="w-32 h-32" />
+          </div>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-purple/20 rounded-full blur-2xl" data-parallax="0.3"></div>
+        <div class="absolute -top-4 -left-4 w-16 h-16 bg-brand-terracotta/20 rounded-full blur-xl" data-parallax="0.5"></div>
+        
+        <!-- Floating Badge -->
+        <div class="absolute -bottom-3 left-6 right-6 p-4 rounded-2xl bg-white/80 dark:bg-brand-dark/80 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-lg">
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <span class="flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+            </div>
+            <span class="text-sm font-medium text-brand-dark dark:text-brand-light">
+              {t('work.status')}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Column -->
+    <div class="lg:col-span-8 space-y-10">
+      
+      <!-- Intro -->
+      <div class="space-y-4 reveal reveal-delay-200">
+        <p class="text-xl md:text-2xl leading-relaxed text-brand-dark/90 dark:text-brand-light/90 font-medium">
+          {t('about.intro.1')}
+        </p>
+        <p class="text-base md:text-lg leading-relaxed text-brand-dark/60 dark:text-brand-light/60">
+          {t('about.intro.2')}
+        </p>
+      </div>
+
+      <!-- Highlights Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 reveal reveal-delay-300">
+        {highlights.map((item, index) => (
+          <div 
+            class="stagger-item group p-5 rounded-2xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 hover:border-brand-purple/30 hover:bg-white/80 dark:hover:bg-white/10 hover:scale-[1.02] hover:shadow-lg transition-all duration-500"
+            style={`transition-delay: ${index * 100}ms;`}
+          >
+            <div class="w-10 h-10 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4 group-hover:bg-brand-purple/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+              <Icon name={item.icon} class="w-5 h-5 text-brand-purple" />
+            </div>
+            <h3 class="font-bold text-base text-brand-dark dark:text-brand-light mb-2">
+              {item.title}
+            </h3>
+            <p class="text-sm text-brand-dark/60 dark:text-brand-light/60 leading-relaxed">
+              {item.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Values -->
+      <div class="pt-6 border-t border-brand-dark/5 dark:border-brand-light/5 reveal reveal-delay-400">
+        <h3 class="text-xs font-mono uppercase tracking-widest text-brand-dark/40 dark:text-brand-light/40 mb-4">
+          {t('about.values.label')}
+        </h3>
+        <div class="flex flex-wrap gap-3">
+          {values.map((value, index) => (
+            <span 
+              class="stagger-item px-4 py-2 rounded-full border border-brand-dark/10 dark:border-brand-light/10 text-sm font-medium text-brand-dark/70 dark:text-brand-light/70 bg-white/50 dark:bg-black/20 hover:border-brand-purple/30 hover:text-brand-purple hover:scale-105 transition-all duration-300 cursor-default"
+              style={`transition-delay: ${index * 100}ms;`}
+            >
+              {value}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="flex flex-col sm:flex-row gap-4 reveal reveal-delay-500">
+        <a 
+          href="mailto:contato@vitorhugocunha.com" 
+          class="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-purple text-white font-medium hover:bg-brand-purple/90 hover:scale-105 hover:shadow-lg hover:shadow-brand-purple/30 transition-all duration-300 lowercase"
+        >
+          <Icon name="ph:envelope-simple-bold" class="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+          <span>{t('about.cta.contact')}</span>
+        </a>
+        <a 
+          href="/cv-vitor-hugo-cunha.pdf" 
+          target="_blank"
+          class="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-brand-dark/10 dark:border-brand-light/10 text-brand-dark dark:text-brand-light font-medium hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105 hover:border-brand-purple/30 transition-all duration-300 lowercase"
+        >
+          <Icon name="ph:file-pdf-bold" class="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+          <span>{t('about.cta.cv')}</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</section>

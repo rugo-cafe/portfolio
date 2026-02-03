@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import '@fontsource/bricolage-grotesque/200.css';
+import '@fontsource/bricolage-grotesque/400.css';
+import '@fontsource/bricolage-grotesque/800.css';
+import '@fontsource/hanken-grotesk/400.css';
+import '@fontsource/hanken-grotesk/600.css';
+import { ClientRouter } from 'astro:transitions';
+
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-br" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="portfolio vitor hugo cunha - creative technologist" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/logo-light.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title.toLowerCase()}</title>
+    <ClientRouter />
+    
+    <script is:inline>
+      // Theme initialization (inline for FOUC prevention)
+      (function() {
+        const theme = localStorage.getItem('theme') || 
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+        
+        window.toggleTheme = function() {
+          document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        };
+      })();
+    </script>
+  </head>
+  <body class="
+    lowercase 
+    bg-[#EBEBEB] text-[#27232A] 
+    dark:bg-[#27232A] dark:text-[#EBEBEB] 
+    transition-colors duration-500 
+    font-sans antialiased overflow-x-hidden 
+    selection:bg-[#B066FF] selection:text-white
+  ">
+    <div class="bg-noise" style="z-index: 0;"></div>
+    
+    <slot />
+
+    <script>
+      import '../scripts/theme';
+      import '../scripts/scroll-animations';
+    </script>
+  </body>
+</html>

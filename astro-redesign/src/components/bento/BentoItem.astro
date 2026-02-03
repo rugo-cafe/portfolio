@@ -1,0 +1,45 @@
+---
+interface Props {
+  class?: string;
+  variant?: 'primary' | 'card' | 'light' | 'ghost';
+  href?: string;
+  delay?: string;
+}
+
+const { 
+  class: className, 
+  variant = 'card', 
+  href,
+  delay = '0' 
+} = Astro.props;
+
+// Mapeamento exato dos estilos visuais
+const variants = {
+  primary: "bg-brand-purple text-white border-white/20 shadow-sm dark:shadow-none hover:shadow-2xl hover:shadow-brand-purple/10",
+  
+  card: "bg-white dark:bg-brand-dark text-brand-dark dark:text-brand-light border-black/5 dark:border-brand-light/5 shadow-sm dark:shadow-none hover:border-brand-purple/20 hover:shadow-xl hover:shadow-black/[0.015]",
+  
+  light: "bg-[#F5F5F5] dark:bg-white text-brand-dark border-transparent hover:shadow-xl hover:shadow-black/[0.02]",
+  
+  ghost: "bg-white dark:bg-brand-dark text-brand-dark dark:text-brand-light border-black/5 dark:border-brand-light/5 hover:bg-black/[0.015] dark:hover:bg-white/[0.015] shadow-sm dark:shadow-none hover:shadow-xl hover:shadow-black/[0.015]"
+};
+
+// Adicionei 'h-full w-full flex flex-col' para garantir que preencha o grid
+const baseStyles = "h-full w-full flex flex-col rounded-[2.5rem] p-6 md:p-8 border relative overflow-hidden group";
+
+// Hack para o Tailwind ler as classes de delay (string literal)
+const delayClass = delay === '0' ? 'reveal' : `reveal reveal-delay-${delay}`;
+
+const Tag = href ? 'a' : 'div';
+const extraProps = href ? { href, target: "_blank", rel: "nofollow" } : {};
+---
+
+<Tag 
+  class:list={[baseStyles, variants[variant], delayClass, className]} 
+  {...extraProps}
+  style="transition: transform 800ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 800ms cubic-bezier(0.19, 1, 0.22, 1), border-color 800ms cubic-bezier(0.19, 1, 0.22, 1), background-color 800ms cubic-bezier(0.19, 1, 0.22, 1);"
+  onmouseenter="this.style.transform = 'translateY(-3px)'"
+  onmouseleave="this.style.transform = 'translateY(0)'"
+>
+  <slot />
+</Tag>

@@ -1,0 +1,276 @@
+@config "../../tailwind.config.js";
+@import "tailwindcss";
+
+@theme {
+  /* Configurações de tema */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* ============================================
+   NOISE TEXTURE - Optimized for performance
+   ============================================ */
+.bg-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+/* Dark mode: slightly more visible noise */
+:root.dark .bg-noise {
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+
+/* ============================================
+   GLASSMORPHISM UTILITIES
+   ============================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+:root.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+}
+
+:root.dark .glass-strong {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS - Enhanced with GPU acceleration
+   ============================================ */
+.reveal {
+  --delay: 0ms;
+  opacity: 0;
+  transform: translateY(30px) translateZ(0);
+  filter: blur(8px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1) var(--delay),
+    transform 0.8s cubic-bezier(0.19, 1, 0.22, 1) var(--delay),
+    filter 0.8s cubic-bezier(0.19, 1, 0.22, 1) var(--delay);
+  will-change: opacity, transform, filter;
+}
+
+.reveal.revealed,
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+  filter: blur(0);
+  will-change: auto;
+}
+
+/* Delay utilities using CSS custom properties */
+.reveal-delay-100 { --delay: 100ms; }
+.reveal-delay-200 { --delay: 200ms; }
+.reveal-delay-300 { --delay: 300ms; }
+.reveal-delay-400 { --delay: 400ms; }
+.reveal-delay-500 { --delay: 500ms; }
+
+/* Stagger items for list animations */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1),
+              transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: opacity, transform;
+}
+
+.stagger-item.revealed {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+  will-change: auto;
+}
+
+/* ============================================
+   MICRO-INTERACTIONS - Enhanced with hardware acceleration
+   ============================================ */
+   
+/* Smooth focus states */
+*:focus-visible {
+  outline: 2px solid #B066FF;
+  outline-offset: 2px;
+  border-radius: 4px;
+  transition: outline-offset 0.2s ease;
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+  
+  /* Enable hardware acceleration for transforms */
+  .reveal,
+  .stagger-item,
+  [data-parallax] {
+    backface-visibility: hidden;
+  }
+}
+
+/* Magnetic hover effect */
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform;
+}
+
+.magnetic:hover {
+  transform: scale(1.05);
+}
+
+/* Button hover enhancements */
+button,
+a[href] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth image loading */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Hide default summary marker */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Custom cursor effects */
+.cursor-pointer-enhanced {
+  cursor: pointer;
+  position: relative;
+}
+
+.cursor-pointer-enhanced::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(176, 102, 255, 0.2), transparent);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.cursor-pointer-enhanced:hover::after {
+  opacity: 1;
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+   
+/* Contain layout shifts */
+.contain-layout {
+  contain: layout style paint;
+}
+
+/* GPU acceleration for specific animations */
+@supports (will-change: transform) {
+  .reveal,
+  .stagger-item,
+  [data-parallax],
+  .group:hover > * {
+    will-change: transform;
+  }
+  
+  .reveal.revealed,
+  .stagger-item.revealed {
+    will-change: auto;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .reveal,
+  .stagger-item {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Stagger children animation */
+.stagger-children > * {
+  --stagger-delay: 50ms;
+  animation: stagger-fade-in 0.5s ease-out forwards;
+  animation-delay: calc(var(--index, 0) * var(--stagger-delay));
+  opacity: 0;
+}
+
+@keyframes stagger-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ============================================
+   PERFORMANCE: Reduce motion for users who prefer it
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  
+  .reveal.active {
+    opacity: 1;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
