@@ -175,6 +175,13 @@ const languages = [
   </div>
 </nav>
 
-<script>
-  import '../scripts/navbar';
+<script is:inline>
+function attachThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  if (btn && typeof window.toggleTheme === 'function') {
+    btn.onclick = window.toggleTheme;
+  }
+}
+attachThemeToggle();
+document.addEventListener('astro:page-load', attachThemeToggle);
 </script>

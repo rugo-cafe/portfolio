@@ -1,0 +1,114 @@
+---
+// ...existing code...
+
+import { useTranslations } from '../i18n/utils';
+import BentoGrid from './bento/BentoGrid.astro';
+import BentoItem from './bento/BentoItem.astro';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+
+const toolkit = [
+  { icon: 'simple-icons:astro', brand: 'Astro', color: '#BC52EE' },
+  { icon: 'simple-icons:react', brand: 'React', color: '#61DAFB' },
+  { icon: 'simple-icons:tailwindcss', brand: 'Tailwind', color: '#38BDF8' },
+  { icon: 'simple-icons:figma', brand: 'Figma', color: '#F24E1E' },
+  { icon: 'simple-icons:typescript', brand: 'TypeScript', color: '#3178C6' },
+  { icon: 'simple-icons:supabase', brand: 'Supabase', color: '#3ECF8E' },
+];
+---
+
+
+<section class="w-full max-w-[1400px] mx-auto pt-32 pb-16 px-6 md:px-12">
+  <div class="mb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end reveal">
+    <div class="lg:col-span-9">
+      <span class="font-mono text-xs uppercase tracking-widest text-brand-purple mb-4 block">
+        {lang === 'pt' ? 'Portfólio 2026' : 'Portfolio 2026'}
+      </span>
+      <h1 class="font-display font-bold text-6xl md:text-8xl tracking-tighter text-brand-dark dark:text-brand-light leading-[0.9]">
+        design
+        <span class="text-brand-purple block md:inline">engineer.</span>
+      </h1>
+    </div>
+    <div class="lg:col-span-3 pb-2">
+      <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed max-w-[300px]">
+        {t('hero.desc')}
+      </p>
+    </div>
+  </div>
+
+  <BentoGrid class="reveal">
+    {/* Riji App - Featured Project */}
+    <BentoItem
+      variant="primary"
+      class="col-span-2 md:col-span-2 row-span-1 md:row-span-1 flex flex-row min-h-[180px] md:min-h-[160px] overflow-hidden group cursor-pointer relative"
+      href="https://rijiapp.site"
+      delay="100"
+    >
+      <div class="flex flex-col justify-between h-full w-full z-10">
+        <div class="flex items-center justify-between mb-2">
+          <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-wider text-white">
+            2026
+          </span>
+          <Icon name="simple-icons:astro" class="w-5 h-5 text-white opacity-60 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+        </div>
+        <div class="flex-1 flex flex-col justify-center">
+          <h3 class="font-display font-bold text-2xl md:text-3xl text-white mb-1">日记 - riji</h3>
+          <p class="text-white/80 text-sm md:text-base max-w-[80%] leading-relaxed">
+            {t('projects.riji.desc')}
+          </p>
+        </div>
+      </div>
+      {/* Ícone translúcido decorativo */}
+      <Icon name="simple-icons:supabase" class="absolute right-4 bottom-2 md:right-8 md:bottom-4 w-32 h-32 md:w-40 md:h-40 text-white/10 opacity-60 pointer-events-none select-none -z-0 group-hover:scale-110 group-hover:opacity-80 transition-all duration-500" />
+    </BentoItem>
+
+    {/* Toolkit - Stack Tecnológica */}
+    <BentoItem variant="card" class="col-span-1 row-span-1 flex flex-col justify-center items-center" delay="200">
+      <span class="text-xs font-mono uppercase tracking-widest opacity-40 mb-3">Toolkit</span>
+      <div class="grid grid-cols-3 grid-rows-2 gap-3 md:gap-4 w-full max-w-[180px] mx-auto">
+        {toolkit.map((tool) => (
+          <div class="flex items-center justify-center">
+            <div
+              class="transition-all duration-200 rounded-xl p-2 md:p-2.5 bg-brand-dark/5 dark:bg-white/5 hover:opacity-90 hover:scale-105 cursor-pointer"
+              style={`box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.03)`}
+              title={tool.brand}
+            >
+              <Icon
+                name={tool.icon}
+                class="w-7 h-7 md:w-8 md:h-8"
+                style={`color: ${tool.color}`}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </BentoItem>
+
+    {/* Status/Availability */}
+    <BentoItem variant="card" class="col-span-1 row-span-1 flex flex-col justify-between" delay="300">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </span>
+        <span class="text-xs font-bold uppercase tracking-wide text-brand-dark/60 dark:text-brand-light/60">
+          {t('work.statusShort')}
+        </span>
+      </div>
+      <div class="mt-auto">
+        <p class="text-sm font-medium text-brand-dark dark:text-brand-light leading-tight">
+          {t('work.status')}
+        </p>
+        <a href="mailto:contato@vitorhugocunha.com" class="text-xs text-brand-purple hover:underline mt-2 block">
+          {t('work.title')}
+        </a>
+      </div>
+    </BentoItem>
+  </BentoGrid>
+</section>

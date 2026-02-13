@@ -46,14 +46,14 @@ const projects: Project[] = [
     color: 'terracotta',
   },
   {
-    id: 'noise-mixer',
-    title: 'Noise Mixer',
-    tagline: t('projects.noise.tagline'),
-    desc: t('projects.noise.desc'),
-    tags: ['Web Audio API', 'SVG', 'TypeScript'],
-    status: 'planned',
-    icon: 'ph:waveform-bold',
-    color: 'green',
+    id: 'giu-kits',
+    title: 'Giu Kits',
+    tagline: 'Astro E-commerce & Admin',
+    desc: 'Loja completa com checkout Mercado Pago, cálculo de frete via Melhor Envio e painel administrativo.',
+    tags: ['Astro', 'TypeScript', 'Supabase', 'Mercado Pago'],
+    status: 'in-progress',
+    icon: 'ph:shopping-bag-bold',
+    color: 'terracotta',
   },
   {
     id: 'dither-tool',
@@ -154,15 +154,31 @@ const projectModals: Record<string, { title: string; content: string }> = {
       </div>
     `
   },
-  'noise-mixer': {
-    title: 'Noise Mixer',
+  'giu-kits': {
+    title: 'Giu Kits - E-commerce',
     content: `
       <div class="space-y-6">
         <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
-          ${t('projects.noise.modal.intro')}
+          Plataforma de e-commerce fullstack focada em performance, conversão e gestão fácil.
         </p>
         <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
-          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+          <a href="https://giu-kits.vercel.app" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-brand-terracotta hover:text-brand-purple transition-colors duration-300 lowercase">
+            giu-kits.vercel.app <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">Principais funções</h3>
+        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
+          <li>Checkout Pro (Mercado Pago)</li>
+          <li>Cotação de Frete (Melhor Envio)</li>
+          <li>Painel Admin com Magic Link (Supabase)</li>
+          <li>Carrinho de compras persistente</li>
+        </ul>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">Stack</h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">Astro</span>
+          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">TypeScript</span>
+          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">Supabase</span>
+          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">Tailwind</span>
         </div>
       </div>
     `

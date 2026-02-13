@@ -96,19 +96,21 @@ const values = [
       <!-- Highlights Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 reveal reveal-delay-300">
         {highlights.map((item, index) => (
-          <div 
-            class="stagger-item group p-5 rounded-2xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 hover:border-brand-purple/30 hover:bg-white/80 dark:hover:bg-white/10 hover:scale-[1.02] hover:shadow-lg transition-all duration-500"
+          <div
+            class="reveal stagger-item"
             style={`transition-delay: ${index * 100}ms;`}
           >
-            <div class="w-10 h-10 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4 group-hover:bg-brand-purple/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-              <Icon name={item.icon} class="w-5 h-5 text-brand-purple" />
+            <div class="h-full group p-5 rounded-2xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 hover:border-brand-purple/30 hover:bg-white/80 dark:hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
+              <div class="w-10 h-10 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4 group-hover:bg-brand-purple/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                <Icon name={item.icon} class="w-5 h-5 text-brand-purple" />
+              </div>
+              <h3 class="font-bold text-base text-brand-dark dark:text-brand-light mb-2">
+                {item.title}
+              </h3>
+              <p class="text-sm text-brand-dark/60 dark:text-brand-light/60 leading-relaxed">
+                {item.desc}
+              </p>
             </div>
-            <h3 class="font-bold text-base text-brand-dark dark:text-brand-light mb-2">
-              {item.title}
-            </h3>
-            <p class="text-sm text-brand-dark/60 dark:text-brand-light/60 leading-relaxed">
-              {item.desc}
-            </p>
           </div>
         ))}
       </div>

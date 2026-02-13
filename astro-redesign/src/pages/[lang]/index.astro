@@ -1,14 +1,11 @@
 ---
+import { useTranslations } from '../../i18n/utils';
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
-import BentoGrid from '../../components/bento/BentoGrid.astro';
-import BentoItem from '../../components/bento/BentoItem.astro';
-import TechBadge from '../../components/ui/TechBadge.astro';
-import { Icon } from 'astro-icon/components';
-import { useTranslations } from '../../i18n/utils';
-import Experience from '../../components/Experience.astro';
+import Hero from '../../components/Hero.astro';
 import About from '../../components/About.astro';
 import Projects from '../../components/Projects.astro';
+import Experience from '../../components/Experience.astro';
 
 export async function getStaticPaths() {
   return [
@@ -20,170 +17,14 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.params;
 const t = useTranslations(lang as any);
-
-// Toolkit data for cleaner template
-const toolkitGroups = [
-  [
-    { icon: 'simple-icons:astro', label: 'astro' },
-    { icon: 'simple-icons:vite', label: 'vite' },
-    { icon: 'simple-icons:figma', label: 'figma' },
-  ],
-  [
-    { icon: 'simple-icons:html5', label: 'html' },
-    { icon: 'simple-icons:css3', label: 'css' },
-    { icon: 'simple-icons:javascript', label: 'js' },
-  ],
-  [
-    { icon: 'simple-icons:hubspot', label: 'hubspot' },
-    { icon: 'simple-icons:elementor', label: 'elementor' },
-  ],
-];
-
-const toolkitItems = toolkitGroups.flat();
 ---
 
-<Layout title={`vitor hugo cunha | ${t('role.title')}`}>
-  
+<Layout title={`vitor hugo cunha | design engineer`}>
   <Navbar currentLang={lang} />
-
   <main class="min-h-screen pt-32 md:pt-40 pb-20 flex flex-col items-center relative overflow-hidden">
-    <section id="home" class="w-full">
-    
-    <div class="fixed top-20 left-[-10%] w-125 h-125 bg-brand-purple/20 dark:bg-brand-terracotta/10 rounded-full blur-[120px] animate-blob mix-blend-multiply dark:mix-blend-screen pointer-events-none"></div>
-
-    <BentoGrid>
-      
-      <div class="col-span-2 md:col-span-4 mb-8 flex flex-col md:flex-row justify-between items-end gap-6 px-2 reveal">
-        <div>
-          <h1 class="font-display font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter text-brand-dark dark:text-brand-light leading-[0.9]">
-            ux/ui<br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-terracotta to-brand-purple">{t('hero.role')}</span>
-          </h1>
-        </div>
-        <div class="max-w-xs text-right">
-          <p class="text-brand-dark/70 dark:text-brand-light/60 font-medium text-lg leading-tight">
-            {t('hero.desc')}
-          </p>
-        </div>
-      </div>
-
-      <BentoItem 
-        variant="primary" 
-        delay="100"
-        class="col-span-2 md:col-span-2 md:row-span-2 justify-between min-h-[240px] md:min-h-[320px]" 
-      >
-        <div class="relative z-20">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold tracking-wider mb-6 backdrop-blur-md border border-white/20">
-            {t('riji.tag')}
-          </div>
-          <h3 class="font-display text-4xl md:text-5xl font-bold text-white mb-3">
-            <span class="opacity-60">日记 - </span>{t('riji.title')}
-          </h3>
-          <p class="text-white/80 max-w-sm text-lg leading-snug">
-            {t('riji.desc')}
-          </p>
-        </div>
-        <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-      </BentoItem>
-
-     
-
-      <BentoItem 
-        variant="card" 
-        delay="300"
-        class="col-span-1 md:col-span-1 md:row-span-1 p-4 md:p-8 flex flex-col justify-between items-start"
-      >
-        <div class="mb-4">
-          <span class="inline-flex items-center px-3 py-1 rounded-full border border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[10px] font-bold tracking-widest uppercase text-brand-dark/70 dark:text-brand-light/70 cursor-default">
-            {t('toolkit.label')}
-          </span>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 md:flex md:flex-col md:flex-1 md:justify-center md:gap-4 w-full">
-          {toolkitItems.map((tech) => (
-            <TechBadge 
-              icon={tech.icon} 
-              label={tech.label} 
-              class="text-[10px] md:text-xs px-2 md:px-3 py-1 md:py-1.5 gap-1 md:gap-1.5"
-            />
-          ))}
-        </div>
-      </BentoItem>
-
-      <BentoItem 
-        variant="card" 
-        delay="200"
-        class="col-span-1 md:col-span-1 md:row-span-1 p-4 md:p-6 flex flex-col justify-between group"
-      >
-        <div class="flex items-center gap-1.5 md:gap-2">
-          <span class="relative flex h-2 w-2 md:h-2.5 md:w-2.5 shrink-0">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-green-600 dark:bg-green-500"></span>
-          </span>
-          <span class="text-[8px] md:text-[10px] font-mono uppercase tracking-wide md:tracking-wider opacity-60 leading-tight">
-            <span class="hidden md:inline">{t('work.status')}</span>
-            <span class="md:hidden">{t('work.statusShort')}</span>
-          </span>
-        </div>
-        <div class="mt-auto">
-           <h2 class="font-sans font-medium text-sm md:text-xl leading-tight">
-             {t('work.title')}
-           </h2>
-           <p class="hidden md:block text-xs font-mono opacity-50 pt-1 mt-1 relative z-10">
-             {t('work.desc')}
-           </p>
-        </div>
-      </BentoItem>
-
-      <BentoItem 
-        href="https://github.com/rugo-cafe" 
-        delay="300"
-        class="col-span-1 md:col-span-1 md:row-span-1 p-5 md:p-8 flex flex-col justify-between group bg-[#F5F5F5] dark:bg-white/5 border border-black/5 dark:border-white/10 text-brand-dark dark:text-brand-light"
-      >
-        <div class="self-end w-8 h-8 rounded-full bg-brand-dark text-brand-light flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
-           <Icon name="ph:arrow-up-right-bold" class="w-4 h-4" />
-        </div>
-        <div class="flex items-center gap-2">
-           <Icon name="simple-icons:github" class="w-6 h-6 shrink-0" />
-           <span class="font-bold text-lg md:text-xl tracking-tight hidden sm:inline">{t('github.label')}</span>
-        </div>
-      </BentoItem>
-
-       <BentoItem 
-        variant="ghost" 
-        delay="200"
-        class="col-span-2 md:col-span-2 md:row-span-2 p-10 flex flex-col items-center justify-center text-center cursor-pointer min-h-[320px] relative overflow-hidden"
-      >
-        <div class="absolute inset-0 bg-gradient-to-tr from-brand-purple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        
-        <div class="relative z-10 flex flex-col items-center">
-            <Icon name="ph:star-four-fill" class="w-12 h-12 mb-6 text-brand-purple dark:text-brand-terracotta group-hover:rotate-90 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" />
-            <h3 class="font-bold text-3xl md:text-4xl leading-tight lowercase mb-4 tracking-tight">{t('coisas.title')}</h3>
-            <div class="flex flex-col gap-2 text-xs uppercase tracking-[0.2em] font-medium opacity-60 group-hover:opacity-100 transition-opacity">
-            <span>{t('coisas.tag1')}</span>
-            <span class="opacity-30 text-[10px]">+</span>
-            <span>{t('coisas.tag2')}</span>
-            <span class="opacity-30 text-[10px]">+</span>
-            <span>{t('coisas.tag3')}</span>
-            </div>
-        </div>
-      </BentoItem>
-
-    </BentoGrid>
-    </section>
-
-    <!-- About Section -->
+    <Hero lang={lang} />
     <About lang={lang} />
-
-    <!-- Projects Section -->
     <Projects lang={lang} />
-
-    <!-- Experience Section -->
     <Experience lang={lang} />
-     
   </main>
-
-</Layout>
-  </Modal>
-
 </Layout>
