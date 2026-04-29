@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 import { Icon } from 'astro-icon/components';
 import { useTranslations } from '../i18n/utils';
 
@@ -33,13 +34,17 @@ const values = [
   t('about.values.3'),
   t('about.values.4'),
 ];
+
+const avatarSrc = '/avatar/vitor-hugo-avatar.webp';
+const avatarAlt = 'retrato de vitor hugo cunha';
+const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url));
 ---
 
 <section id="about" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
   
   <!-- Section Header -->
   <div class="mb-10 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-4 reveal">
-    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase">
+    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase" data-section-title>
       {t('nav.about')}<span class="text-brand-purple">.</span>
     </h2>
     <div class="h-px bg-brand-dark/10 dark:bg-brand-light/10 flex-1 ml-6 mb-2 hidden md:block"></div>
@@ -52,19 +57,28 @@ const values = [
     <div class="lg:col-span-4 reveal reveal-delay-100">
       <div class="relative">
         <!-- Photo Container -->
-        <div class="aspect-square rounded-3xl overflow-hidden bg-linear-to-br from-brand-purple/10 via-brand-terracotta/10 to-brand-dark/5 dark:from-brand-purple/20 dark:via-brand-terracotta/20 dark:to-white/5 border border-brand-dark/10 dark:border-white/10 flex items-center justify-center">
-          <!-- Placeholder Icon -->
-          <div class="text-brand-dark/20 dark:text-white/10">
-            <Icon name="ph:user-circle-fill" class="w-32 h-32" />
-          </div>
+        <div class="aspect-square rounded-3xl overflow-hidden glass-strong flex items-center justify-center">
+          {hasAvatar ? (
+            <img
+              src={avatarSrc}
+              alt={avatarAlt}
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div class="text-brand-dark/20 dark:text-white/10">
+              <Icon name="ph:user-circle-fill" class="w-32 h-32" />
+            </div>
+          )}
         </div>
         
         <!-- Decorative Elements -->
-        <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-purple/20 rounded-full blur-2xl" data-parallax="0.3"></div>
-        <div class="absolute -top-4 -left-4 w-16 h-16 bg-brand-terracotta/20 rounded-full blur-xl" data-parallax="0.5"></div>
+        <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-brand-purple/10 rounded-full blur-2xl" data-parallax="0.3"></div>
+        <div class="absolute -top-4 -left-4 w-16 h-16 bg-brand-terracotta/10 rounded-full blur-xl" data-parallax="0.5"></div>
         
         <!-- Floating Badge -->
-        <div class="absolute -bottom-3 left-6 right-6 p-4 rounded-2xl bg-white/80 dark:bg-brand-dark/80 backdrop-blur-xl border border-white/50 dark:border-white/10 shadow-lg">
+        <div class="absolute -bottom-3 left-6 right-6 p-4 rounded-2xl glass-subtle shadow-[0_20px_40px_-28px_rgba(39,35,42,0.28)] dark:shadow-lg">
           <div class="flex items-center gap-3">
             <div class="relative">
               <span class="flex h-3 w-3">
@@ -100,7 +114,7 @@ const values = [
             class="reveal stagger-item"
             style={`transition-delay: ${index * 100}ms;`}
           >
-            <div class="h-full group p-5 rounded-2xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 hover:border-brand-purple/30 hover:bg-white/80 dark:hover:bg-white/10 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
+            <div class="h-full group p-5 rounded-2xl surface-muted hover:border-brand-purple/30 hover:-translate-y-2 hover:shadow-[0_24px_50px_-32px_rgba(39,35,42,0.24)] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
               <div class="w-10 h-10 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4 group-hover:bg-brand-purple/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                 <Icon name={item.icon} class="w-5 h-5 text-brand-purple" />
               </div>
@@ -123,7 +137,7 @@ const values = [
         <div class="flex flex-wrap gap-3">
           {values.map((value, index) => (
             <span 
-              class="stagger-item px-4 py-2 rounded-full border border-brand-dark/10 dark:border-brand-light/10 text-sm font-medium text-brand-dark/70 dark:text-brand-light/70 bg-white/50 dark:bg-black/20 hover:border-brand-purple/30 hover:text-brand-purple hover:scale-105 transition-all duration-300 cursor-default"
+              class="stagger-item inline-flex px-4 py-2 rounded-full surface-muted text-sm font-medium text-brand-dark/70 dark:text-brand-light/70 hover:border-brand-purple/30 hover:text-brand-purple hover:scale-105 transition-all duration-300 cursor-default"
               style={`transition-delay: ${index * 100}ms;`}
             >
               {value}
@@ -142,12 +156,13 @@ const values = [
           <span>{t('about.cta.contact')}</span>
         </a>
         <a 
-          href="/cv-vitor-hugo-cunha.pdf" 
+          href="https://www.linkedin.com/in/vitor-hugo-cunha/"
           target="_blank"
-          class="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-brand-dark/10 dark:border-brand-light/10 text-brand-dark dark:text-brand-light font-medium hover:bg-black/5 dark:hover:bg-white/5 hover:scale-105 hover:border-brand-purple/30 transition-all duration-300 lowercase"
+          rel="noreferrer"
+          class="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full surface-muted text-brand-dark dark:text-brand-light font-medium hover:scale-105 hover:border-brand-purple/30 transition-all duration-300"
         >
-          <Icon name="ph:file-pdf-bold" class="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-          <span>{t('about.cta.cv')}</span>
+          <Icon name="simple-icons:linkedin" class="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+          <span>{t('about.cta.linkedin')}</span>
         </a>
       </div>
 

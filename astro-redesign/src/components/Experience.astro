@@ -84,11 +84,11 @@ const education = [
         </div>
 
         <!-- Glow effect on hover -->
-        <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-brand-purple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+        <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-brand-purple/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start relative z-10">
             <div class="md:col-span-3">
-              <span class="inline-block py-1 px-2.5 rounded-full border border-brand-dark/10 dark:border-brand-light/10 text-xs font-mono font-medium text-brand-dark/60 dark:text-brand-light/60 bg-white/50 dark:bg-black/20 backdrop-blur-sm group-hover:border-brand-purple/30 group-hover:bg-brand-purple/5 transition-all duration-300">
+              <span class="inline-flex min-w-[7.5rem] justify-center py-1 px-2.5 rounded-full glass-subtle text-xs font-mono font-semibold text-brand-dark/75 dark:text-brand-light/85 group-hover:border-brand-purple/30 group-hover:text-brand-purple dark:group-hover:text-brand-light transition-all duration-300">
                 {job.period}
               </span>
             </div>
@@ -134,7 +134,7 @@ const education = [
   <!-- Lista Educação -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {education.map((edu) => (
-      <div class="relative p-6 rounded-2xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 hover:border-brand-purple/30 transition-colors">
+      <div class="relative p-6 rounded-2xl surface-muted hover:border-brand-purple/30 dark:hover:border-brand-purple/20 transition-colors">
         <div class="flex justify-between items-start mb-4">
            <div>
              <h4 class="font-bold text-lg text-brand-dark dark:text-brand-light leading-tight mb-1">
@@ -144,7 +144,7 @@ const education = [
                {edu.school}
              </p>
            </div>
-           <span class="text-xs font-mono py-1 px-2 rounded-md bg-brand-dark/5 dark:bg-white/10 text-brand-dark/60 dark:text-brand-light/60">
+           <span class="inline-flex text-xs font-mono font-semibold py-1 px-2 rounded-md glass-subtle text-brand-dark/75 dark:text-brand-light/85">
              {edu.period}
            </span>
         </div>

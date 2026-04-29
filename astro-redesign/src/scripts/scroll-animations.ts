@@ -18,9 +18,11 @@ interface ParallaxElement {
 class ScrollAnimationController {
   private observers: Map<string, IntersectionObserver> = new Map();
   private parallaxElements: ParallaxElement[] = [];
+  private cleanupFns: Array<() => void> = [];
   private rafId: number | null = null;
   private lastScrollY = 0;
   private ticking = false;
+  private isCleanedUp = false;
 
   constructor() {
     this.init();
@@ -36,7 +38,11 @@ class ScrollAnimationController {
     this.rafId = requestAnimationFrame(this.parallaxLoop.bind(this));
     
     // Cleanup on page unload
-    document.addEventListener('astro:before-swap', () => this.cleanup());
+    const handleBeforeSwap = () => this.cleanup();
+    document.addEventListener('astro:before-swap', handleBeforeSwap, { once: true });
+    this.cleanupFns.push(() => {
+      document.removeEventListener('astro:before-swap', handleBeforeSwap);
+    });
   }
 
   /**
@@ -156,9 +162,9 @@ class ScrollAnimationController {
    * Smooth scroll for anchor links
    */
   private setupSmoothScrollLinks() {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', (e) => {
-        const href = (anchor as HTMLAnchorElement).getAttribute('href');
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+      const handleAnchorClick = (e: MouseEvent) => {
+        const href = anchor.getAttribute('href');
         if (!href || href === '#') return;
 
         if (anchor.closest('#main-nav') || anchor.closest('#main-header')) return;
@@ -174,12 +180,23 @@ class ScrollAnimationController {
         if (!target) return;
 
         e.preventDefault();
-        
-        // Get navbar height for offset
-        const navbar = document.querySelector('.navbar');
-        const navbarHeight = navbar?.getBoundingClientRect().height || 0;
-        
-        const targetPosition = target.getBoundingClientRect().top + window.scrollY - navbarHeight - 32;
+
+        const scrollTarget = (target instanceof HTMLElement)
+          ? (target.querySelector('[data-section-title]') as HTMLElement | null) ?? target
+          : target;
+        const header = document.getElementById('main-header');
+        const headerBottom = header?.getBoundingClientRect().bottom ?? 0;
+        let navBottom = 0;
+
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          const navShell = document.querySelector('#main-nav .nav-shell') as HTMLElement | null;
+          navBottom = navShell?.getBoundingClientRect().bottom ?? 0;
+        }
+
+        const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize || '16');
+        const base = Number.isFinite(rootSize) ? rootSize : 16;
+        const offset = Math.max(headerBottom, navBottom) + base * 2;
+        const targetPosition = scrollTarget.getBoundingClientRect().top + window.scrollY - offset;
         
         window.scrollTo({
           top: targetPosition,
@@ -188,6 +205,11 @@ class ScrollAnimationController {
 
         // Update URL without jumping
         history.pushState(null, '', href);
+      };
+
+      anchor.addEventListener('click', handleAnchorClick);
+      this.cleanupFns.push(() => {
+        anchor.removeEventListener('click', handleAnchorClick);
       });
     });
   }
@@ -224,6 +246,9 @@ class ScrollAnimationController {
     };
 
     window.addEventListener('scroll', updateProgress, { passive: true });
+    this.cleanupFns.push(() => {
+      window.removeEventListener('scroll', updateProgress);
+    });
     updateProgress();
   }
 
@@ -231,20 +256,38 @@ class ScrollAnimationController {
    * Cleanup observers and RAF
    */
   private cleanup() {
+    if (this.isCleanedUp) return;
+    this.isCleanedUp = true;
+
+    this.cleanupFns.forEach((cleanup) => cleanup());
+    this.cleanupFns = [];
+
     this.observers.forEach((observer) => observer.disconnect());
     this.observers.clear();
     
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
+      this.rafId = null;
     }
     
     this.parallaxElements = [];
+    this.ticking = false;
+  }
+
+  public destroy() {
+    this.cleanup();
   }
 }
 
+let scrollAnimationController: ScrollAnimationController | null = null;
+
 // Initialize on page load and Astro navigation
 function initScrollAnimations() {
-  new ScrollAnimationController();
+  if (scrollAnimationController) {
+    scrollAnimationController.destroy();
+  }
+
+  scrollAnimationController = new ScrollAnimationController();
 }
 
 // Auto-initialize

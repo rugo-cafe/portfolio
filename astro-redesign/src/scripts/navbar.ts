@@ -10,30 +10,70 @@ declare global {
 }
 
 interface NavbarElements {
-  themeBtn: HTMLElement | null;
   header: HTMLElement | null;
   nav: HTMLElement | null;
   navLinks: NodeListOf<HTMLAnchorElement>;
 }
 
+const SECTION_IDS = ['home', 'about', 'projects'] as const;
+const PROGRAMMATIC_SCROLL_DURATION = 1400;
+
 let lastScrollY = 0;
-let elements: NavbarElements;
+let elements: NavbarElements | null = null;
 let isInitialized = false;
 let sectionObserver: IntersectionObserver | null = null;
+let cleanupFns: Array<() => void> = [];
+let suppressHideUntil = 0;
 
 function getElements(): NavbarElements {
   return {
-    themeBtn: document.getElementById('theme-toggle'),
     header: document.getElementById('main-header'),
     nav: document.getElementById('main-nav'),
     navLinks: document.querySelectorAll('#main-nav a[href^="#"]'),
   };
 }
 
+function getExtraOffset(): number {
+  const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize || '16');
+  const base = Number.isFinite(rootSize) ? rootSize : 16;
+  return base * 2;
+}
+
+function showNavbar(): void {
+  if (!elements) return;
+
+  elements.header?.classList.remove('-translate-y-full');
+  elements.nav?.classList.remove('translate-y-32', '-translate-y-32');
+}
+
+function getFixedOffset(): number {
+  if (!elements) return 0;
+
+  const headerBottom = elements.header?.getBoundingClientRect().bottom ?? 0;
+  let navBottom = 0;
+
+  if (window.matchMedia('(min-width: 768px)').matches) {
+    const navShell = elements.nav?.querySelector('.nav-shell') as HTMLElement | null;
+    navBottom = navShell?.getBoundingClientRect().bottom ?? 0;
+  }
+
+  const baseOffset = Math.max(headerBottom, navBottom);
+  const extraOffset = getExtraOffset();
+  return baseOffset + extraOffset;
+}
+
 function handleScroll(): void {
+  if (!elements) return;
+
   const { header, nav } = elements;
   const currentScrollY = window.scrollY;
   const isScrollingDown = currentScrollY > 50 && currentScrollY > lastScrollY;
+
+  if (Date.now() < suppressHideUntil) {
+    showNavbar();
+    lastScrollY = currentScrollY;
+    return;
+  }
   
   if (isScrollingDown) {
     header?.classList.add('-translate-y-full');
@@ -46,33 +86,27 @@ function handleScroll(): void {
 }
 
 function setActiveLink(sectionId: string): void {
+  if (!elements) return;
+
   const { navLinks } = elements;
   navLinks.forEach(link => {
     const href = link.getAttribute('href') || '';
     const linkSection = href.replace('#', '');
     const isActive = linkSection === sectionId;
 
-    const glow = link.querySelector('.nav-glow') as HTMLElement;
-    const span = link.querySelector('span');
-
-    if (glow && span) {
-      if (isActive) {
-        glow.classList.remove('opacity-0', 'scale-0');
-        glow.classList.add('opacity-20', 'md:opacity-60', 'dark:opacity-80', 'scale-100');
-        span.classList.add('font-bold', 'text-brand-dark', 'dark:text-brand-light');
-        span.classList.remove('text-brand-dark/60', 'dark:text-brand-light/60');
-      } else {
-        glow.classList.add('opacity-0', 'scale-0');
-        glow.classList.remove('opacity-20', 'md:opacity-60', 'dark:opacity-80', 'scale-100');
-        span.classList.remove('font-bold', 'text-brand-dark', 'dark:text-brand-light');
-        span.classList.add('text-brand-dark/60', 'dark:text-brand-light/60');
-      }
+    link.classList.toggle('is-active', isActive);
+    if (isActive) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
     }
   });
 }
 
 function updateActiveSection(): void {
-  const sections = ['home', 'about', 'projects'];
+  if (!elements) return;
+
+  const sections = SECTION_IDS;
   let currentSection = 'home';
 
   for (const sectionId of sections) {
@@ -94,95 +128,161 @@ function updateActiveSection(): void {
 function setupSectionObserver(): void {
   if (sectionObserver) sectionObserver.disconnect();
 
-  const sections = ['home', 'about', 'projects']
+  const sections = SECTION_IDS
     .map(id => document.getElementById(id))
     .filter((el): el is HTMLElement => Boolean(el));
 
   if (!sections.length) return;
 
+  const visibilityBySection = new Map<string, number>();
+  SECTION_IDS.forEach((id) => visibilityBySection.set(id, 0));
+
   sectionObserver = new IntersectionObserver(
     (entries) => {
-      const visible = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      entries.forEach((entry) => {
+        visibilityBySection.set(
+          entry.target.id,
+          entry.isIntersecting ? entry.intersectionRatio : 0
+        );
+      });
 
-      if (visible[0]) {
-        setActiveLink(visible[0].target.id);
+      let bestSection = 'home';
+      let bestRatio = 0;
+
+      SECTION_IDS.forEach((id) => {
+        const ratio = visibilityBySection.get(id) ?? 0;
+        if (ratio > bestRatio) {
+          bestRatio = ratio;
+          bestSection = id;
+        }
+      });
+
+      if (bestRatio > 0) {
+        setActiveLink(bestSection);
+      } else {
+        updateActiveSection();
       }
     },
-    { rootMargin: '-20% 0px -50% 0px', threshold: [0.2, 0.4, 0.6] }
+    { rootMargin: '-20% 0px -45% 0px', threshold: [0.15, 0.3, 0.45, 0.6, 0.75] }
   );
 
   sections.forEach(section => sectionObserver?.observe(section));
 }
 
-export function initNavbar(): void {
-  // Prevent multiple initializations
-  if (isInitialized) {
-    return;
-  }
-  
-  elements = getElements();
-  const { themeBtn, navLinks } = elements;
-  isInitialized = true;
+function attachNavLinkHandlers(): void {
+  if (!elements) return;
 
-  // Theme toggle
-  themeBtn?.addEventListener('click', () => {
-    if (window.toggleTheme) window.toggleTheme();
-  });
-
-  // Scroll hide/show and active section tracking
-  window.addEventListener('scroll', () => {
-    handleScroll();
-    updateActiveSection();
-  }, { passive: true });
-
-  window.addEventListener('resize', updateActiveSection, { passive: true });
-  
-  // Initial active section check
-  updateActiveSection();
-  setupSectionObserver();
-  
-  // Smooth scroll for nav links
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+  elements.navLinks.forEach((link) => {
+    const handler = (e: MouseEvent) => {
       e.preventDefault();
       const href = link.getAttribute('href') || '';
       if (href === '#home') {
+        suppressHideUntil = Date.now() + PROGRAMMATIC_SCROLL_DURATION;
+        showNavbar();
         window.scrollTo({ top: 0, behavior: 'smooth' });
         history.pushState(null, '', href);
-        setTimeout(() => updateActiveSection(), 100);
+        setActiveLink('home');
         return;
       }
 
       const target = document.querySelector(href);
-      
-      if (target) {
-        const headerHeight = elements.header?.getBoundingClientRect().height || 0;
-        const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerHeight - 32;
-        
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth',
-        });
-        
-        // Update URL
-        history.pushState(null, '', href);
-        
-        // Immediate update of active state
-        setTimeout(() => updateActiveSection(), 100);
-      }
-    });
+
+      if (!target) return;
+
+      const scrollTarget = (target instanceof HTMLElement)
+        ? (target.querySelector('[data-section-title]') as HTMLElement | null) ?? target
+        : target;
+      const sectionId = href.replace('#', '') || 'home';
+      suppressHideUntil = Date.now() + PROGRAMMATIC_SCROLL_DURATION;
+      showNavbar();
+
+      const offset = getFixedOffset();
+      const targetPosition = Math.max(
+        0,
+        scrollTarget.getBoundingClientRect().top + window.scrollY - offset
+      );
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth',
+      });
+
+      history.pushState(null, '', href);
+      setActiveLink(sectionId);
+    };
+
+    link.addEventListener('click', handler);
+    cleanupFns.push(() => link.removeEventListener('click', handler));
   });
 }
 
-// Auto-init on page load
+function cleanupNavbar(): void {
+  cleanupFns.forEach((cleanup) => cleanup());
+  cleanupFns = [];
+
+  if (sectionObserver) {
+    sectionObserver.disconnect();
+    sectionObserver = null;
+  }
+
+  elements = null;
+  isInitialized = false;
+}
+
+export function initNavbar(): void {
+  if (isInitialized) {
+    return;
+  }
+  
+  const nextElements = getElements();
+  if (!nextElements.header || !nextElements.nav || !nextElements.navLinks.length) {
+    return;
+  }
+
+  elements = nextElements;
+  lastScrollY = window.scrollY;
+  isInitialized = true;
+
+  const onScroll = () => {
+    handleScroll();
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  cleanupFns.push(() => window.removeEventListener('scroll', onScroll));
+
+  const onResize = () => updateActiveSection();
+  window.addEventListener('resize', onResize, { passive: true });
+  cleanupFns.push(() => window.removeEventListener('resize', onResize));
+
+  attachNavLinkHandlers();
+  setupSectionObserver();
+
+  const hashSection = window.location.hash.replace('#', '');
+  if (SECTION_IDS.includes(hashSection as (typeof SECTION_IDS)[number])) {
+    setActiveLink(hashSection);
+    suppressHideUntil = Date.now() + PROGRAMMATIC_SCROLL_DURATION;
+    showNavbar();
+
+    const target = document.getElementById(hashSection);
+    if (target && hashSection !== 'home') {
+      const offset = getFixedOffset();
+      const scrollTarget = (target.querySelector('[data-section-title]') as HTMLElement | null) ?? target;
+      const targetPosition = Math.max(
+        0,
+        scrollTarget.getBoundingClientRect().top + window.scrollY - offset
+      );
+      window.scrollTo({ top: targetPosition });
+    }
+  } else {
+    updateActiveSection();
+  }
+}
+
+document.addEventListener('astro:before-swap', cleanupNavbar);
 document.addEventListener('astro:page-load', () => {
-  isInitialized = false; // Reset for new page
+  cleanupNavbar();
   initNavbar();
 });
 
-// Initial load (non-Astro navigation)
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initNavbar);
 } else {

@@ -15,73 +15,177 @@ const t = useTranslations(lang as any);
 
 const toolkit = [
   { icon: 'simple-icons:astro', brand: 'Astro', color: '#BC52EE' },
-  { icon: 'simple-icons:react', brand: 'React', color: '#61DAFB' },
-  { icon: 'simple-icons:tailwindcss', brand: 'Tailwind', color: '#38BDF8' },
-  { icon: 'simple-icons:figma', brand: 'Figma', color: '#F24E1E' },
+  { icon: 'simple-icons:react', brand: 'React', color: '#61DAFB', iconClass: 'scale-[0.96]' },
+  { icon: 'simple-icons:tailwindcss', brand: 'Tailwind', color: '#38BDF8', iconClass: 'scale-[1.05]' },
+  { icon: 'simple-icons:figma', brand: 'Figma', color: '#F24E1E', iconClass: 'scale-[0.95]' },
   { icon: 'simple-icons:typescript', brand: 'TypeScript', color: '#3178C6' },
-  { icon: 'simple-icons:supabase', brand: 'Supabase', color: '#3ECF8E' },
+  { icon: 'simple-icons:supabase', brand: 'Supabase', color: '#3ECF8E', iconClass: 'scale-[0.96]' },
+  { icon: 'simple-icons:hubspot', brand: 'HubSpot', color: '#FF7A59', iconClass: 'scale-[0.93]' },
+  { icon: 'simple-icons:wordpress', brand: 'WordPress', title: 'WordPress + Elementor', color: '#21759B', iconClass: 'scale-[0.9]' },
+  { icon: 'simple-icons:framer', brand: 'Framer', color: '#0055FF', iconClass: 'scale-[0.88]' },
 ];
+
+const featuredProject = {
+  href: 'https://rijiapp.site',
+  title: '日记 - riji',
+  desc: t('projects.riji.desc'),
+};
+
+const heroTitle = {
+  primary: t('hero.title.primary'),
+  secondary: t('hero.title.secondary'),
+};
 ---
 
 
-<section class="w-full max-w-[1400px] mx-auto pt-32 pb-16 px-6 md:px-12">
-  <div class="mb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end reveal">
-    <div class="lg:col-span-9">
-      <span class="font-mono text-xs uppercase tracking-widest text-brand-purple mb-4 block">
-        {lang === 'pt' ? 'Portfólio 2026' : 'Portfolio 2026'}
+<section id="home" class="w-full max-w-[1400px] mx-auto pt-8 md:pt-10 pb-10 md:pb-12 px-6 md:px-12 min-h-[calc(100svh-6rem)] md:min-h-[calc(100svh-7rem)] flex flex-col justify-center">
+  <div class="md:hidden w-full space-y-5 reveal">
+    <div class="space-y-4">
+      <span class="font-mono text-[11px] uppercase tracking-[0.28em] text-brand-purple block">
+        {t('hero.kicker')}
       </span>
-      <h1 class="font-display font-bold text-6xl md:text-8xl tracking-tighter text-brand-dark dark:text-brand-light leading-[0.9]">
-        design
-        <span class="text-brand-purple block md:inline">engineer.</span>
+      <h1 class="font-display font-bold text-[3.2rem] tracking-[-0.05em] text-brand-dark dark:text-brand-light leading-[0.88]">
+        {heroTitle.primary}
+        <span class="text-brand-purple block">{heroTitle.secondary}</span>
+      </h1>
+      <p class="text-base text-brand-dark/72 dark:text-brand-light/72 leading-relaxed max-w-[30ch]">
+        {t('hero.desc')}
+      </p>
+    </div>
+
+    <a
+      href={featuredProject.href}
+      target="_blank"
+      rel="nofollow"
+      class="group block rounded-[2rem] overflow-hidden bg-brand-purple/95 backdrop-blur-md border border-brand-purple/70 p-5 text-white shadow-[0_24px_60px_-34px_rgba(176,102,255,0.45)]"
+    >
+      <div class="flex items-center justify-between mb-10">
+        <span class="bg-black/15 dark:bg-white/18 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-[10px] font-bold uppercase tracking-[0.22em] text-white">
+          2026
+        </span>
+      </div>
+      <div class="space-y-2">
+        <h3 class="font-display font-bold text-3xl tracking-tight">{featuredProject.title}</h3>
+        <p class="text-sm leading-relaxed text-white/82 max-w-[26ch]">
+          {featuredProject.desc}
+        </p>
+      </div>
+    </a>
+
+    <div class="rounded-[1.8rem] surface p-5">
+      <div class="flex items-start justify-between gap-4 mb-5">
+        <div class="flex items-center gap-3">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+          </span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.24em] text-brand-dark/55 dark:text-brand-light/55">
+            {t('work.statusShort')}
+          </span>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-brand-purple/10 text-brand-purple flex items-center justify-center">
+          <Icon name="ph:briefcase-bold" class="w-5 h-5" />
+        </div>
+      </div>
+      <div class="space-y-3">
+        <p class="text-lg font-medium text-brand-dark dark:text-brand-light leading-tight max-w-[18ch]">
+          {t('work.status')}
+        </p>
+        <p class="text-sm leading-relaxed text-brand-dark/65 dark:text-brand-light/65">
+          {t('work.desc')}
+        </p>
+        <a
+          href="mailto:contato@vitorhugocunha.com"
+          class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple hover:text-brand-terracotta dark:hover:text-brand-light transition-colors duration-300"
+        >
+          <span>{t('work.title')}</span>
+          <Icon name="ph:arrow-up-right-bold" class="w-4 h-4" />
+        </a>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-mono uppercase tracking-[0.26em] text-brand-dark/45 dark:text-brand-light/45">
+          {t('toolkit.label')}
+        </span>
+        <span class="text-[11px] text-brand-dark/45 dark:text-brand-light/45">
+          {t('hero.swipe')}
+        </span>
+      </div>
+      <div class="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] mobile-tech-strip">
+        {toolkit.map((tool) => (
+          <div class="snap-start shrink-0 w-[106px] min-h-[126px] rounded-[1.45rem] surface-muted px-3 py-4 flex flex-col items-center justify-center text-center">
+            <div class="w-12 h-12 rounded-2xl bg-black/[0.055] dark:bg-white/5 border border-black/8 dark:border-white/8 grid place-items-center mb-3 overflow-hidden">
+              <Icon
+                name={tool.icon}
+                class={`w-[22px] h-[22px] shrink-0 ${tool.iconClass ?? ''}`}
+                style={`color: ${tool.color}`}
+              />
+            </div>
+            <p class="min-h-[2.35rem] flex items-center justify-center text-[11px] font-medium text-brand-dark/72 dark:text-brand-light/72 leading-[1.15] [text-wrap:balance]">
+              {tool.brand}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden md:grid mb-10 md:mb-12 grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-end reveal">
+    <div class="lg:col-span-8">
+      <span class="font-mono text-xs uppercase tracking-widest text-brand-purple mb-4 block">
+        {t('hero.kicker')}
+      </span>
+      <h1 class="font-display font-bold text-6xl md:text-7xl xl:text-8xl tracking-tighter text-brand-dark dark:text-brand-light leading-[0.88]">
+        {heroTitle.primary}
+        <span class="text-brand-purple block md:inline">{heroTitle.secondary}</span>
       </h1>
     </div>
-    <div class="lg:col-span-3 pb-2">
-      <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed max-w-[300px]">
+    <div class="lg:col-span-4 lg:pb-3 lg:justify-self-end">
+      <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed max-w-[320px] lg:text-right">
         {t('hero.desc')}
       </p>
     </div>
   </div>
 
-  <BentoGrid class="reveal">
+  <BentoGrid class="hidden md:grid reveal">
     {/* Riji App - Featured Project */}
     <BentoItem
       variant="primary"
-      class="col-span-2 md:col-span-2 row-span-1 md:row-span-1 flex flex-row min-h-[180px] md:min-h-[160px] overflow-hidden group cursor-pointer relative"
-      href="https://rijiapp.site"
+      class="col-span-2 md:col-span-2 row-span-1 md:row-span-1 flex flex-row min-h-[170px] md:min-h-[150px] overflow-hidden group cursor-pointer relative"
+      href={featuredProject.href}
       delay="100"
     >
       <div class="flex flex-col justify-between h-full w-full z-10">
         <div class="flex items-center justify-between mb-2">
-          <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-wider text-white">
+          <span class="bg-black/15 dark:bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-[10px] font-bold uppercase tracking-wider text-white">
             2026
           </span>
-          <Icon name="simple-icons:astro" class="w-5 h-5 text-white opacity-60 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
         </div>
         <div class="flex-1 flex flex-col justify-center">
-          <h3 class="font-display font-bold text-2xl md:text-3xl text-white mb-1">日记 - riji</h3>
+          <h3 class="font-display font-bold text-2xl md:text-3xl text-white mb-1">{featuredProject.title}</h3>
           <p class="text-white/80 text-sm md:text-base max-w-[80%] leading-relaxed">
-            {t('projects.riji.desc')}
+            {featuredProject.desc}
           </p>
         </div>
       </div>
-      {/* Ícone translúcido decorativo */}
-      <Icon name="simple-icons:supabase" class="absolute right-4 bottom-2 md:right-8 md:bottom-4 w-32 h-32 md:w-40 md:h-40 text-white/10 opacity-60 pointer-events-none select-none -z-0 group-hover:scale-110 group-hover:opacity-80 transition-all duration-500" />
     </BentoItem>
 
-    {/* Toolkit - Stack Tecnológica */}
-    <BentoItem variant="card" class="col-span-1 row-span-1 flex flex-col justify-center items-center" delay="200">
-      <span class="text-xs font-mono uppercase tracking-widest opacity-40 mb-3">Toolkit</span>
-      <div class="grid grid-cols-3 grid-rows-2 gap-3 md:gap-4 w-full max-w-[180px] mx-auto">
+    <BentoItem variant="card" class="col-span-1 row-span-1 min-h-[220px] md:min-h-[232px] flex flex-col justify-center items-center" delay="200">
+      <span class="text-xs font-mono uppercase tracking-[0.28em] text-brand-dark/45 dark:text-brand-light/45 mb-4">
+        {t('toolkit.label')}
+      </span>
+      <div class="grid grid-cols-3 grid-rows-3 gap-3 md:gap-4 w-full max-w-[220px] mx-auto">
         {toolkit.map((tool) => (
           <div class="flex items-center justify-center">
             <div
-              class="transition-all duration-200 rounded-xl p-2 md:p-2.5 bg-brand-dark/5 dark:bg-white/5 hover:opacity-90 hover:scale-105 cursor-pointer"
-              style={`box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.03)`}
-              title={tool.brand}
+              class="rounded-2xl p-2.5 md:p-3 bg-black/[0.035] dark:bg-white/5 border border-black/5 dark:border-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] dark:shadow-none hover:opacity-95 hover:scale-105 transition-all duration-200 cursor-pointer"
+              title={tool.title ?? tool.brand}
             >
               <Icon
                 name={tool.icon}
-                class="w-7 h-7 md:w-8 md:h-8"
+                class={`w-7 h-7 md:w-8 md:h-8 ${tool.iconClass ?? ''}`}
                 style={`color: ${tool.color}`}
               />
             </div>
@@ -90,25 +194,43 @@ const toolkit = [
       </div>
     </BentoItem>
 
-    {/* Status/Availability */}
-    <BentoItem variant="card" class="col-span-1 row-span-1 flex flex-col justify-between" delay="300">
-      <div class="flex items-center gap-3 mb-2">
-        <span class="relative flex h-3 w-3">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-        </span>
-        <span class="text-xs font-bold uppercase tracking-wide text-brand-dark/60 dark:text-brand-light/60">
-          {t('work.statusShort')}
-        </span>
+    <BentoItem variant="card" class="col-span-1 row-span-1 min-h-[220px] md:min-h-[232px] flex flex-col justify-between" delay="300">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="relative flex h-3 w-3 mt-1">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+          </span>
+          <span class="text-xs font-bold uppercase tracking-[0.22em] text-brand-dark/55 dark:text-brand-light/55">
+            {t('work.statusShort')}
+          </span>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-brand-purple/10 text-brand-purple flex items-center justify-center">
+          <Icon name="ph:briefcase-bold" class="w-5 h-5" />
+        </div>
       </div>
-      <div class="mt-auto">
-        <p class="text-sm font-medium text-brand-dark dark:text-brand-light leading-tight">
+
+      <div class="mt-auto space-y-4">
+        <p class="text-lg md:text-xl font-medium text-brand-dark dark:text-brand-light leading-tight max-w-[16ch]">
           {t('work.status')}
         </p>
-        <a href="mailto:contato@vitorhugocunha.com" class="text-xs text-brand-purple hover:underline mt-2 block">
-          {t('work.title')}
+        <p class="text-sm leading-relaxed text-brand-dark/65 dark:text-brand-light/65 max-w-[28ch]">
+          {t('work.desc')}
+        </p>
+        <a
+          href="mailto:contato@vitorhugocunha.com"
+          class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple hover:text-brand-terracotta dark:hover:text-brand-light transition-colors duration-300"
+        >
+          <span>{t('work.title')}</span>
+          <Icon name="ph:arrow-up-right-bold" class="w-4 h-4" />
         </a>
       </div>
     </BentoItem>
   </BentoGrid>
 </section>
+
+<style is:global>
+  .mobile-tech-strip::-webkit-scrollbar {
+    display: none;
+  }
+</style>

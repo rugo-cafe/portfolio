@@ -17,11 +17,12 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.params;
 const t = useTranslations(lang as any);
+const htmlLang = lang === 'pt' ? 'pt-br' : lang === 'jp' ? 'ja' : 'en';
 ---
 
-<Layout title={`vitor hugo cunha | design engineer`}>
+<Layout title={t('meta.title')} description={t('meta.description')} lang={htmlLang}>
   <Navbar currentLang={lang} />
-  <main class="min-h-screen pt-32 md:pt-40 pb-20 flex flex-col items-center relative overflow-hidden">
+  <main class="min-h-screen pt-24 md:pt-28 pb-20 flex flex-col items-center relative overflow-hidden">
     <Hero lang={lang} />
     <About lang={lang} />
     <Projects lang={lang} />

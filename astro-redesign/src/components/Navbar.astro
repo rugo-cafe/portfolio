@@ -30,7 +30,7 @@ const navItems = [
 const languages = [
   { code: 'pt', label: 'pt', href: getRoute('pt') },
   { code: 'en', label: 'en', href: getRoute('en') },
-  // { code: 'jp', label: 'jp', href: getRoute('jp') },
+  { code: 'jp', label: 'jp', href: getRoute('jp') },
 ];
 ---
 
@@ -41,7 +41,7 @@ const languages = [
   <div class="max-w-[1400px] mx-auto px-6 py-6 md:px-12 md:py-8 flex items-start justify-between">
 
     <!-- Logo -->
-    <a href={`/${currentLang}`} class="flex items-center gap-3 md:gap-4 pointer-events-auto select-none bg-white/10 dark:bg-black/10 backdrop-blur-md py-2 px-4 rounded-full border border-white/10 shadow-sm shadow-black/5 transition-all cursor-pointer hover:bg-white/20 dark:hover:bg-white/5">
+    <a href={`/${currentLang}`} class="flex items-center gap-3 md:gap-4 pointer-events-auto select-none glass glass-hover py-2 px-4 rounded-full transition-all cursor-pointer">
       <div class="relative w-8 h-8 md:w-9 md:h-9">
         <div class="grid grid-cols-1 grid-rows-1 items-center">
           <img src="/logo-dark.svg" alt="Logo" class="col-start-1 row-start-1 h-full w-auto transition-all duration-500 ease-in-out opacity-0 rotate-12 scale-90 dark:opacity-100 dark:rotate-0 dark:scale-100" />
@@ -65,17 +65,13 @@ const languages = [
             rounded-t-[1.25rem] md:rounded-t-[1.5rem]
             rounded-b-[1.25rem] md:rounded-b-[1.5rem]
             group-open:rounded-b-none group-open:border-b-transparent
-            bg-white/40 dark:bg-black/20 
-            backdrop-blur-2xl 
-            border border-white/50 dark:border-white/10 
-            shadow-sm shadow-black/5 
+            glass glass-hover
             text-brand-dark dark:text-brand-light 
-            hover:bg-white/50 dark:hover:bg-white/10 
             transition-all duration-150 ease-out
             cursor-pointer
             relative z-20
           "
-          aria-label="selecionar idioma"
+          aria-label={t('nav.aria.language')}
         >
           <Icon name="ph:translate-bold" class="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70 shrink-0" />
           <span class="text-xs md:text-sm font-medium lowercase opacity-90 -ml-1">
@@ -96,11 +92,8 @@ const languages = [
             -mt-[1px]
             rounded-t-none
             rounded-b-[1.25rem] md:rounded-b-[1.5rem] 
-            bg-white/40 dark:bg-black/20 
-            backdrop-blur-2xl 
-            border border-white/50 dark:border-white/10 
+            glass-strong
             border-t-0
-            shadow-xl shadow-black/5 
             origin-top
             invisible opacity-0 scale-y-0
             group-open:visible group-open:opacity-100 group-open:scale-y-100
@@ -119,7 +112,7 @@ const languages = [
                   pl-9 pr-2 py-3
                   rounded-none
                   text-xs md:text-sm font-sans font-medium 
-                  hover:bg-white/40 dark:hover:bg-white/10 
+                  hover:bg-black/[0.035] dark:hover:bg-white/10 
                   transition-all duration-200 
                   text-left group/item cursor-pointer
                   ${currentLang === lang.code ? 'text-brand-dark dark:text-brand-light font-bold' : 'text-brand-dark/70 dark:text-brand-light/70'}
@@ -147,17 +140,15 @@ const languages = [
   <div class="pointer-events-auto">
     <div class="
       relative flex items-center gap-1 p-1.5 px-2
-      bg-white/60 dark:bg-black/40 md:bg-white/40 md:dark:bg-black/20
-      backdrop-blur-xl md:backdrop-blur-2xl
-      border border-white/50 dark:border-white/10
-      rounded-full shadow-lg md:shadow-sm shadow-black/10
+      glass glass-hover nav-shell
+      rounded-full
       transition-all duration-500
     ">
       
       {navItems.map((item) => (
-        <a href={item.path} class="relative px-4 py-2 md:px-6 group transition-transform duration-300">
-          <div class="nav-glow absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full w-full h-full md:w-12 md:h-6 bg-brand-purple dark:bg-brand-terracotta blur-md md:blur-xl opacity-0 scale-0 transition-all duration-500"></div>
-          <span class="relative z-10 font-sans text-sm md:text-[15px] font-medium transition-all duration-300 lowercase block text-brand-dark/60 dark:text-brand-light/60 group-hover:text-brand-dark dark:group-hover:text-brand-light">
+        <a href={item.path} class="nav-link relative px-4 py-2 md:px-6 group transition-transform duration-300">
+          <div class="nav-glow"></div>
+          <span class="relative z-10 font-sans text-sm md:text-[15px] font-medium transition-all duration-300 lowercase block text-brand-dark/70 dark:text-brand-light/70 group-hover:text-brand-dark dark:group-hover:text-brand-light">
             {item.name}
           </span>
         </a>
@@ -165,10 +156,14 @@ const languages = [
 
       <div class="w-px h-4 bg-brand-dark/10 dark:bg-brand-light/10 mx-1"></div>
 
-      <button id="theme-toggle" class="group w-9 h-9 flex items-center justify-center rounded-full bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-300 cursor-pointer relative z-50" aria-label="alternar tema">
+      <button id="theme-toggle" class="group w-9 h-9 flex items-center justify-center rounded-full bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-300 cursor-pointer relative z-50" aria-label={t('nav.aria.theme')}>
         <div class="relative w-5 h-5 transition-transform duration-300 group-hover:scale-110">
-          <Icon name="ph:sun-bold" class="absolute inset-0 m-auto w-5 h-5 text-orange-500 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-100 rotate-0 scale-100 dark:opacity-0 dark:rotate-90 dark:scale-0"/>
-          <Icon name="ph:moon-bold" class="absolute inset-0 m-auto w-5 h-5 text-purple-400 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-0 -rotate-90 scale-0 dark:opacity-100 dark:rotate-0 dark:scale-100"/>
+          <span class="theme-icon theme-sun">
+            <Icon name="ph:sun-bold" class="w-5 h-5 text-orange-500 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-100 rotate-0 scale-100 dark:opacity-0 dark:rotate-90 dark:scale-0"/>
+          </span>
+          <span class="theme-icon theme-moon">
+            <Icon name="ph:moon-bold" class="w-5 h-5 text-purple-400 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-0 -rotate-90 scale-0 dark:opacity-100 dark:rotate-0 dark:scale-100"/>
+          </span>
         </div>
       </button>
     </div>

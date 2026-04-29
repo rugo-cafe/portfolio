@@ -1,4 +1,5 @@
 ---
+import { existsSync } from 'node:fs';
 import { Icon } from 'astro-icon/components';
 import { useTranslations } from '../i18n/utils';
 
@@ -19,9 +20,10 @@ interface Project {
   desc: string;
   tags: string[];
   status: ProjectStatus;
-  icon: string;
   color: string;
-  image?: string;
+  image: string;
+  fallbackImage: string;
+  imageAlt: string;
 }
 
 const projects: Project[] = [
@@ -32,8 +34,10 @@ const projects: Project[] = [
     desc: t('projects.riji.desc'),
     tags: ['Vite', 'TypeScript', 'Tailwind', 'Supabase', 'localStorage'],
     status: 'in-progress',
-    icon: 'ph:notebook-bold',
     color: 'purple',
+    image: '/projects/riji-thumb.webp',
+    fallbackImage: '/projects/riji-placeholder.svg',
+    imageAlt: 'captura da interface do riji',
   },
   {
     id: 'coisas-bonitas',
@@ -41,19 +45,23 @@ const projects: Project[] = [
     tagline: t('projects.coisas.tagline'),
     desc: t('projects.coisas.desc'),
     tags: ['HTML', 'CSS', 'JavaScript', 'Neocities'],
-    status: 'planned',
-    icon: 'ph:radio-bold',
+    status: 'live',
     color: 'terracotta',
+    image: '/projects/coisas-bonitas-thumb.webp',
+    fallbackImage: '/projects/coisas-bonitas-placeholder.svg',
+    imageAlt: 'captura do site coisas bonitas',
   },
   {
-    id: 'giu-kits',
-    title: 'Giu Kits',
-    tagline: 'Astro E-commerce & Admin',
-    desc: 'Loja completa com checkout Mercado Pago, cálculo de frete via Melhor Envio e painel administrativo.',
-    tags: ['Astro', 'TypeScript', 'Supabase', 'Mercado Pago'],
+    id: 'ambi-mixer',
+    title: 'Ambi Mixer',
+    tagline: t('projects.ambi.tagline'),
+    desc: t('projects.ambi.desc'),
+    tags: ['Astro', 'TypeScript', 'Vercel', 'Audio UI'],
     status: 'in-progress',
-    icon: 'ph:shopping-bag-bold',
     color: 'terracotta',
+    image: '/projects/ambi-mixer-thumb.webp',
+    fallbackImage: '/projects/ambi-studio-placeholder.svg',
+    imageAlt: 'captura do ambi mixer em funcionamento',
   },
   {
     id: 'dither-tool',
@@ -61,11 +69,30 @@ const projects: Project[] = [
     tagline: t('projects.dither.tagline'),
     desc: t('projects.dither.desc'),
     tags: ['Rust', 'WebAssembly', 'Canvas'],
-    status: 'planned',
-    icon: 'ph:image-bold',
+    status: 'live',
     color: 'purple',
+    image: '/projects/dither-studio-thumb.webp',
+    fallbackImage: '/projects/dither-studio-placeholder.svg',
+    imageAlt: 'captura do dither studio',
   },
 ];
+
+function resolvePublicAsset(assetPath: string, fallbackPath: string): string | null {
+  if (existsSync(new URL(`../../public${assetPath}`, import.meta.url))) {
+    return assetPath;
+  }
+
+  if (existsSync(new URL(`../../public${fallbackPath}`, import.meta.url))) {
+    return fallbackPath;
+  }
+
+  return null;
+}
+
+const projectsWithAssets = projects.map((project) => ({
+  ...project,
+  resolvedImage: resolvePublicAsset(project.image, project.fallbackImage),
+}));
 
 const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
   'live': { label: t('projects.status.live'), class: 'bg-green-500/20 text-green-600 dark:text-green-400' },
@@ -74,12 +101,16 @@ const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
 };
 
 const colorConfig: Record<string, string> = {
-  purple: 'from-brand-purple/20 to-brand-purple/5',
-  terracotta: 'from-brand-terracotta/20 to-brand-terracotta/5',
-  green: 'from-brand-green/20 to-brand-green/5',
+  purple: 'from-brand-purple/12 to-transparent',
+  terracotta: 'from-brand-terracotta/12 to-transparent',
+  green: 'from-brand-green/12 to-transparent',
 };
 
+const CARD_TAG_LIMIT = 3;
+const MOBILE_TAG_LIMIT = 2;
+
 const rijiStack = ['Vite', 'TypeScript', 'Tailwind', 'Supabase', 'Vercel'];
+const ambiStack = ['Astro', 'TypeScript', 'Vercel', 'Audio UI'];
 const projectModals: Record<string, { title: string; content: string }> = {
   'riji': {
     title: '日记 Riji',
@@ -132,18 +163,18 @@ const projectModals: Record<string, { title: string; content: string }> = {
           ${t('projects.coisas.modal.intro')}
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a href="https://coisasbonitas.neocities.org" target="_blank" class="p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-brand-dark/5 dark:border-brand-light/5 hover:border-brand-purple/30 transition-colors">
+          <a href="https://coisasbonitas.neocities.org" target="_blank" class="p-4 rounded-2xl glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors">
             <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.site')}</span>
           </a>
-          <a href="https://soundcloud.com/coisasbonitas" target="_blank" class="p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-brand-dark/5 dark:border-brand-light/5 hover:border-brand-purple/30 transition-colors">
+          <a href="https://soundcloud.com/coisasbonitas" target="_blank" class="p-4 rounded-2xl glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors">
             <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.soundcloud')}</span>
           </a>
-          <a href="https://hkcr.live" target="_blank" class="p-4 rounded-2xl bg-white/60 dark:bg-white/5 border border-brand-dark/5 dark:border-brand-light/5 hover:border-brand-purple/30 transition-colors">
+          <a href="https://hkcr.live" target="_blank" class="p-4 rounded-2xl glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors">
             <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.hkcr')}</span>
           </a>
         </div>
         <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
-          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+          <span class="text-brand-dark/40 dark:text-brand-light/40">${t('projects.modal.published')}</span>
         </div>
         <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.coisas.modal.structureTitle')}</h3>
         <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
@@ -154,31 +185,30 @@ const projectModals: Record<string, { title: string; content: string }> = {
       </div>
     `
   },
-  'giu-kits': {
-    title: 'Giu Kits - E-commerce',
+  'ambi-mixer': {
+    title: 'Ambi Mixer',
     content: `
       <div class="space-y-6">
         <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
-          Plataforma de e-commerce fullstack focada em performance, conversão e gestão fácil.
+          ${t('projects.ambi.modal.intro')}
         </p>
         <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
-          <a href="https://giu-kits.vercel.app" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-brand-terracotta hover:text-brand-purple transition-colors duration-300 lowercase">
-            giu-kits.vercel.app <span aria-hidden="true">↗</span>
+          <a href="https://ambi-mixer.vercel.app/" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 text-sm font-medium text-brand-terracotta hover:text-brand-purple transition-colors duration-300 lowercase">
+            ${t('projects.ambi.linkLabel')} <span aria-hidden="true">↗</span>
           </a>
         </div>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">Principais funções</h3>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.ambi.modal.featuresTitle')}</h3>
         <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
-          <li>Checkout Pro (Mercado Pago)</li>
-          <li>Cotação de Frete (Melhor Envio)</li>
-          <li>Painel Admin com Magic Link (Supabase)</li>
-          <li>Carrinho de compras persistente</li>
+          <li>${t('projects.ambi.feature.1')}</li>
+          <li>${t('projects.ambi.feature.2')}</li>
+          <li>${t('projects.ambi.feature.3')}</li>
+          <li>${t('projects.ambi.feature.4')}</li>
         </ul>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">Stack</h3>
+        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.ambi.modal.stackTitle')}</h3>
         <div class="flex flex-wrap gap-2">
-          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">Astro</span>
-          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">TypeScript</span>
-          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">Supabase</span>
-          <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">Tailwind</span>
+          ${ambiStack.map((tag) => `
+            <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">${tag}</span>
+          `).join('')}
         </div>
       </div>
     `
@@ -191,7 +221,7 @@ const projectModals: Record<string, { title: string; content: string }> = {
           ${t('projects.dither.modal.intro')}
         </p>
         <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
-          <span class="text-brand-dark/30 dark:text-brand-light/30">${t('projects.modal.preview')}</span>
+          <span class="text-brand-dark/40 dark:text-brand-light/40">${t('projects.modal.completed')}</span>
         </div>
       </div>
     `
@@ -203,75 +233,157 @@ const projectModals: Record<string, { title: string; content: string }> = {
   
   <!-- Section Header -->
   <div class="mb-10 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-4 reveal">
-    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase">
+    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase" data-section-title>
       {t('nav.projects')}<span class="text-brand-purple">.</span>
     </h2>
     <div class="h-px bg-brand-dark/10 dark:bg-brand-light/10 flex-1 ml-6 mb-2 hidden md:block"></div>
     <span class="text-xs font-mono uppercase tracking-widest text-brand-dark/50 dark:text-brand-light/50 mb-1.5 hidden md:block">
-      side projects
+      {t('projects.sectionLabel')}
     </span>
   </div>
 
+  <div class="md:hidden -mx-6 pl-6 pr-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] mobile-projects-strip">
+    <div class="flex gap-4 snap-x snap-mandatory pb-2">
+      {projectsWithAssets.map((project) => (
+        <button
+          type="button"
+          data-project={project.id}
+          aria-haspopup="dialog"
+          aria-controls="project-modal"
+          aria-label={`${t('projects.details')}: ${project.title}`}
+          class="project-card group snap-start shrink-0 w-[82vw] max-w-[340px] rounded-[2rem] surface overflow-hidden text-left"
+        >
+          <div class={`h-44 relative overflow-hidden bg-gradient-to-br ${colorConfig[project.color]}`}>
+            {project.resolvedImage ? (
+              <img
+                src={project.resolvedImage}
+                alt={project.imageAlt}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : null}
+            <div class="absolute inset-0 bg-linear-to-t from-black/18 via-transparent to-transparent"></div>
+          </div>
+
+          <div class="p-5 space-y-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <h3 class="font-display font-bold text-2xl tracking-tight text-brand-dark dark:text-brand-light lowercase">
+                  {project.title}
+                </h3>
+                <p class="text-sm text-brand-dark/52 dark:text-brand-light/52 lowercase truncate">
+                  {project.tagline}
+                </p>
+              </div>
+              <span class={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${statusConfig[project.status].class}`}>
+                {statusConfig[project.status].label}
+              </span>
+            </div>
+
+            <p class="text-sm leading-relaxed text-brand-dark/72 dark:text-brand-light/72 line-clamp-2">
+              {project.desc}
+            </p>
+
+            <div class="flex flex-nowrap items-center gap-2 overflow-hidden whitespace-nowrap min-w-0">
+              {project.tags.slice(0, MOBILE_TAG_LIMIT).map((tag) => (
+              <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
+                  {tag}
+                </span>
+              ))}
+              {project.tags.length > MOBILE_TAG_LIMIT && (
+                <span class="shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-purple bg-brand-purple/10 px-2.5 py-1 rounded-lg">
+                  +{project.tags.length - MOBILE_TAG_LIMIT}
+                </span>
+              )}
+            </div>
+
+            <div class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple">
+              <span>{t('projects.details')}</span>
+              <Icon name="ph:arrow-right-bold" class="w-4 h-4" />
+            </div>
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+
   <!-- Projects Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {projects.map((project, index) => (
+  <div class="hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
+    {projectsWithAssets.map((project, index) => (
       <button 
         type="button"
         data-project={project.id}
-        class={`project-card group relative p-8 rounded-3xl border border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-white/5 text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer`}
+        aria-haspopup="dialog"
+        aria-controls="project-modal"
+        aria-label={`${t('projects.details')}: ${project.title}`}
+        class={`project-card group relative p-0 rounded-3xl surface text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50 md:h-[240px]`}
         style="transition: transform 800ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 800ms cubic-bezier(0.19, 1, 0.22, 1), border-color 600ms ease;"
         onmouseenter="this.style.transform = 'translateY(-4px)'; this.style.borderColor = 'rgba(176, 102, 255, 0.3)';"
         onmouseleave="this.style.transform = 'translateY(0)'; this.style.borderColor = '';"
       >
         <!-- Gradient Background on Hover -->
-        <div class={`absolute inset-0 bg-gradient-to-br ${colorConfig[project.color]} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}></div>
+        <div class={`absolute inset-0 bg-gradient-to-br ${colorConfig[project.color]} opacity-0 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none`}></div>
         
         <!-- Content -->
-        <div class="relative z-10">
-          <!-- Header -->
-          <div class="flex items-start justify-between mb-6">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-brand-dark/5 dark:bg-white/10 flex items-center justify-center group-hover:bg-brand-purple/10 transition-colors duration-500">
-                <Icon name={project.icon} class="w-6 h-6 text-brand-dark/60 dark:text-brand-light/60 group-hover:text-brand-purple transition-colors duration-500" />
-              </div>
+        <div class="relative z-10 flex flex-col md:grid md:grid-cols-[240px_minmax(0,1fr)] h-full">
+          <div class="w-full md:w-[240px] shrink-0 overflow-hidden bg-black/[0.04] dark:bg-white/5 aspect-square md:aspect-square md:h-full border-b md:border-b-0 md:border-r border-black/8 dark:border-brand-light/10">
+            <div class="w-full h-full">
+              {project.resolvedImage ? (
+                <img
+                  src={project.resolvedImage}
+                  alt={project.imageAlt}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-xs uppercase tracking-wider text-brand-dark/40 dark:text-brand-light/40 font-mono">
+                  {t('projects.modal.preview')}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div class="min-w-0 h-full grid grid-rows-[auto_auto_1fr_auto] p-5 md:px-5 md:py-4">
+            <div class="flex items-start justify-between gap-4 mb-3">
               <div>
-                <h3 class="font-display font-bold text-xl text-brand-dark dark:text-brand-light group-hover:text-brand-purple transition-colors duration-300 lowercase">
+                <h3 class="font-display font-bold text-xl md:text-2xl text-brand-dark dark:text-brand-light group-hover:text-brand-purple transition-colors duration-300 lowercase">
                   {project.title}
                 </h3>
                 <span class="text-sm text-brand-dark/50 dark:text-brand-light/50 lowercase">
                   {project.tagline}
                 </span>
               </div>
-            </div>
-            
-            <span class={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${statusConfig[project.status].class}`}>
-              {statusConfig[project.status].label}
-            </span>
-          </div>
-          
-          <!-- Description -->
-          <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed mb-6">
-            {project.desc}
-          </p>
-          
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            {project.tags.map((tag) => (
-              <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">
-                {tag}
+              <span class={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${statusConfig[project.status].class}`}>
+                {statusConfig[project.status].label}
               </span>
-            ))}
-          </div>
-          
-          <!-- CTA -->
-          <div class="flex items-center gap-2 text-sm font-medium text-brand-purple opacity-0 group-hover:opacity-100 transition-opacity duration-500 lowercase">
-            <span>ver detalhes</span>
-            <Icon name="ph:arrow-right-bold" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
+
+            <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed mb-4 max-w-[40ch]">
+              {project.desc}
+            </p>
+
+            <div class="flex flex-nowrap items-center gap-2 overflow-hidden whitespace-nowrap min-w-0">
+              {project.tags.slice(0, CARD_TAG_LIMIT).map((tag) => (
+                <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
+                  {tag}
+                </span>
+              ))}
+              {project.tags.length > CARD_TAG_LIMIT && (
+                <span class="shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-purple bg-brand-purple/10 px-2.5 py-1 rounded-lg">
+                  +{project.tags.length - CARD_TAG_LIMIT}
+                </span>
+              )}
+            </div>
+
+            <div class="pt-4 flex items-center gap-2 text-sm font-medium text-brand-purple opacity-70 md:opacity-0 translate-y-1 transition-all duration-300 lowercase group-hover:opacity-100 group-hover:translate-y-0">
+              <span>{t('projects.details')}</span>
+              <Icon name="ph:arrow-right-bold" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
           </div>
         </div>
         
         <!-- Corner Decoration -->
-        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-brand-purple/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-brand-purple/5 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700"></div>
       </button>
     ))}
   </div>
@@ -284,24 +396,35 @@ const projectModals: Record<string, { title: string; content: string }> = {
       class="inline-flex items-center gap-2 text-sm text-brand-dark/50 dark:text-brand-light/50 hover:text-brand-purple transition-colors duration-300 lowercase"
     >
       <Icon name="simple-icons:github" class="w-4 h-4" />
-      <span>mais projetos no github</span>
+      <span>{t('projects.github.more')}</span>
       <Icon name="ph:arrow-up-right-bold" class="w-3 h-3" />
     </a>
   </div>
 
 </section>
 
+<style is:global>
+  .mobile-projects-strip::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
 <!-- Project Detail Modal -->
 <dialog 
   id="project-modal"
-  class="fixed inset-0 m-auto p-0 w-[90vw] max-w-4xl max-h-[85vh] overflow-hidden bg-white/90 dark:bg-brand-dark/95 backdrop-blur-2xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl opacity-0 scale-95 translate-y-4 transition-all duration-300 open:opacity-100 open:scale-100 open:translate-y-0"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-content"
+  class="fixed inset-0 m-auto p-0 w-[90vw] max-w-4xl max-h-[85vh] overflow-hidden glass-strong rounded-3xl shadow-[0_30px_80px_-42px_rgba(39,35,42,0.34)] opacity-0 scale-95 translate-y-4 transition-all duration-300 open:opacity-100 open:scale-100 open:translate-y-0"
 >
-  <div class="sticky top-0 z-10 flex items-center justify-between px-8 py-5 border-b border-brand-dark/5 dark:border-brand-light/5 bg-white/50 dark:bg-black/20 backdrop-blur-xl">
+  <div class="sticky top-0 z-10 flex items-center justify-between px-8 py-5 border-b border-black/8 dark:border-brand-light/5 glass-subtle">
     <h2 id="modal-title" class="font-display font-bold text-2xl text-brand-dark dark:text-brand-light"></h2>
     <button 
       type="button"
       id="modal-close"
-      class="flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors cursor-pointer"
+      aria-label={t('projects.modal.close')}
+      class="flex items-center justify-center w-10 h-10 rounded-full glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors cursor-pointer"
     >
       <Icon name="ph:x-bold" class="w-5 h-5 text-brand-dark/60 dark:text-brand-light/60" />
     </button>
@@ -312,7 +435,7 @@ const projectModals: Record<string, { title: string; content: string }> = {
   </div>
 </dialog>
 
-<div id="project-modal-backdrop" class="fixed inset-0 z-40 bg-brand-dark/40 dark:bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+<div id="project-modal-backdrop" class="fixed inset-0 z-40 glass-backdrop opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
 <script is:inline define:vars={{ projectModals }}>
   document.addEventListener('astro:page-load', () => {
@@ -324,53 +447,128 @@ const projectModals: Record<string, { title: string; content: string }> = {
 
     if (!modal || !backdrop || !modalTitle || !modalContent) return;
 
-    const projects = projectModals;
+    if (modal.dataset.controllerBound === 'true') return;
+    modal.dataset.controllerBound = 'true';
+    modal.setAttribute('aria-hidden', 'true');
 
-    function openModal(projectId) {
+    const abortController = new AbortController();
+    const { signal } = abortController;
+
+    const projects = projectModals;
+    let activeTrigger = null;
+    let isOpen = false;
+
+    function getFocusableElements() {
+      const selector = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      return Array.from(modal.querySelectorAll(selector)).filter((el) => {
+        return !(el.hasAttribute('hidden') || el.getAttribute('aria-hidden') === 'true');
+      });
+    }
+
+    function openModal(projectId, triggerEl) {
       const project = projects[projectId];
       if (!project) return;
+
+      activeTrigger = triggerEl || null;
       
       modalTitle.textContent = project.title;
       modalContent.innerHTML = project.content;
-      
+
+      if (modal.open && typeof modal.close === 'function') {
+        modal.close();
+      }
+
       if (typeof modal.showModal === 'function') {
-        modal.showModal();
+        try {
+          modal.showModal();
+        } catch {
+          modal.setAttribute('open', '');
+        }
       } else {
         modal.setAttribute('open', '');
       }
+
+      isOpen = true;
+      modal.removeAttribute('aria-hidden');
       backdrop.classList.remove('opacity-0', 'pointer-events-none');
       backdrop.classList.add('opacity-100', 'pointer-events-auto');
       document.body.style.overflow = 'hidden';
+
+      requestAnimationFrame(() => {
+        const focusables = getFocusableElements();
+        const first = focusables[0] || closeBtn || modal;
+        if (first && typeof first.focus === 'function') {
+          first.focus();
+        }
+      });
     }
 
-    function closeModal() {
+    function closeModal(restoreFocus = true) {
+      if (!isOpen) return;
+
       if (typeof modal.close === 'function') {
         modal.close();
       } else {
         modal.removeAttribute('open');
       }
+
+      isOpen = false;
+      modal.setAttribute('aria-hidden', 'true');
       backdrop.classList.add('opacity-0', 'pointer-events-none');
       backdrop.classList.remove('opacity-100', 'pointer-events-auto');
       document.body.style.overflow = '';
+
+      if (restoreFocus && activeTrigger && typeof activeTrigger.focus === 'function') {
+        requestAnimationFrame(() => activeTrigger.focus());
+      }
+      activeTrigger = null;
     }
 
-    document.addEventListener('click', (e) => {
-      const target = e.target;
-      const card = target && target.closest ? target.closest('.project-card') : null;
-      if (!card) return;
+    const cards = document.querySelectorAll('.project-card[data-project]');
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
       const projectId = card.dataset.project;
-      if (projectId) openModal(projectId);
+      if (projectId) openModal(projectId, card);
+      }, { signal });
     });
 
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true), { signal });
+    if (backdrop) backdrop.addEventListener('click', () => closeModal(true), { signal });
     
     modal.addEventListener('keydown', (e) => {
+      if (!isOpen) return;
+
       if (e.key === 'Escape') {
         e.preventDefault();
-        closeModal();
+        closeModal(true);
       }
-    });
+
+      if (e.key === 'Tab') {
+        const focusables = getFocusableElements();
+        if (!focusables.length) {
+          e.preventDefault();
+          return;
+        }
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement;
+
+        if (e.shiftKey && active === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }, { signal });
+
+    document.addEventListener('astro:before-swap', () => {
+      closeModal(false);
+      abortController.abort();
+      delete modal.dataset.controllerBound;
+    }, { once: true, signal });
   });
 </script>
 

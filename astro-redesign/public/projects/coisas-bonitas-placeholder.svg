@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" fill="none">
+  <rect width="960" height="720" fill="#F8FAFC"/>
+  <rect x="64" y="64" width="832" height="592" rx="32" fill="#EEF2F7"/>
+  <circle cx="208" cy="218" r="76" fill="#D8DEE8"/>
+  <circle cx="392" cy="218" r="76" fill="#D8DEE8"/>
+  <circle cx="576" cy="218" r="76" fill="#D8DEE8"/>
+  <rect x="120" y="360" width="720" height="12" rx="6" fill="#CDD5E1"/>
+  <rect x="120" y="392" width="660" height="12" rx="6" fill="#CDD5E1"/>
+  <rect x="120" y="424" width="700" height="12" rx="6" fill="#CDD5E1"/>
+  <rect x="120" y="480" width="220" height="52" rx="12" fill="#D8DEE8"/>
+  <text x="120" y="598" fill="#A3AFBF" font-size="42" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif">preview</text>
+</svg>

@@ -1,34 +1,87 @@
 # Portfolio | Vitor Hugo Cunha
 
-![Role](https://img.shields.io/badge/Role-UX%2FUI_Developer-blueviolet)
-![Stack](https://img.shields.io/badge/Stack-Astro_%7C_Tailwind-black)
-![Status](https://img.shields.io/badge/Status-Open_to_Work-green)
+Portfolio pessoal construído com Astro e Tailwind, com foco em interface, frontend e apresentação de projetos autorais.
 
-> **UI Engineer** focado em interfaces de alta fidelidade e experiências únicas do usuário.
+## Stack
 
-Este repositório contém o código-fonte do meu portfolio pessoal. O projeto foi desenvolvido para demonstrar proficiência em arquitetura frontend moderna, performance e design de interação.
+- Astro
+- Tailwind CSS
+- TypeScript / JavaScript
+- Astro Icon
 
----
+## Rodando localmente
 
-## 🛠 Tech Stack
+```bash
+npm install
+npm run dev
+```
 
-As principais tecnologias e ferramentas utilizadas na construção deste projeto:
+Build de produção:
 
-* **Core:** [Astro](https://astro.build/) (Arquitetura de Ilhas)
-* **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
-* **Linguagem:** TypeScript / JavaScript
-* **Design & Prototipagem:** Figma
+```bash
+npm run build
+```
 
----
+## Convenção de assets reais
 
-## 📂 Estrutura do Projeto
+O projeto agora está preparado para receber assets finais sem quebrar o layout atual.
 
-O projeto segue uma estrutura de componentes modular, focada em reaproveitamento e fácil manutenção.
+### Avatar
 
-* `src/components`: Componentes de UI isolados (Bento Grid cards, Navbar, etc).
-* `src/layouts`: Estruturas de página globais (SEO, fontes, temas).
-* `src/pages`: Rotas da aplicação.
+- Caminho esperado: `public/avatar/vitor-hugo-avatar.webp`
+- Uso atual: [`src/components/About.astro`](src/components/About.astro)
+- Comportamento:
+  - se o arquivo existir, o About renderiza a foto real;
+  - se não existir, o placeholder atual continua aparecendo.
 
----
+### Thumbnails de projeto
 
-Desenvolvido por **Vitor Hugo Cunha**.
+- Pasta: `public/projects`
+- Formato padrão: `webp`
+- Largura-alvo de export: `1200px`
+- Direção visual: screenshot real do projeto, limpa, sem texto extra embutido
+
+Arquivos esperados:
+
+- `public/projects/riji-thumb.webp`
+- `public/projects/coisas-bonitas-thumb.webp`
+- `public/projects/ambi-mixer-thumb.webp`
+- `public/projects/dither-studio-thumb.webp`
+
+Fallbacks atuais:
+
+- `public/projects/riji-placeholder.svg`
+- `public/projects/coisas-bonitas-placeholder.svg`
+- `public/projects/ambi-studio-placeholder.svg`
+- `public/projects/dither-studio-placeholder.svg`
+
+Uso atual: [`src/components/Projects.astro`](src/components/Projects.astro)
+
+Comportamento:
+
+- o componente tenta usar a thumbnail final primeiro;
+- se ela ainda não existir, cai automaticamente para o placeholder correspondente.
+
+## Estrutura principal
+
+- `src/components`: blocos visuais principais do site
+- `src/layouts`: layout global e metadata
+- `src/pages`: rotas
+- `src/i18n`: textos e traduções
+- `public`: arquivos estáticos e assets
+
+## Inventário técnico leve
+
+Pontos que valem uma rodada futura de estabilização, mas que não foram refatorados agora:
+
+1. Navegação e tema ainda têm bootstrapping distribuído entre `Layout`, `Navbar`, `src/scripts/navbar.ts` e `src/scripts/theme.ts`.
+2. A seção de projetos usa um modal local; a consolidação com um utilitário comum pode voltar numa rodada futura se fizer sentido.
+3. Ainda há alguns pontos legados fora do fluxo principal que podem ser consolidados em uma limpeza separada, sem mexer no site atual.
+
+Esses itens hoje entram como mapa de riscos e ruído de manutenção, não como bloqueio do site.
+
+## Próximos passos naturais
+
+1. Adicionar o avatar real.
+2. Exportar e plugar as quatro thumbnails finais.
+3. Fazer uma passada focada em console/runtime errors e unificação leve dos scripts de navegação, tema e modal.

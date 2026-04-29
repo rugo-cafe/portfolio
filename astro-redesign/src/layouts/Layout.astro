@@ -10,16 +10,18 @@ import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
+  description: string;
+  lang?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, lang = 'pt-br' } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="pt-br" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="portfolio vitor hugo cunha - creative technologist" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/logo-light.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -27,23 +29,23 @@ const { title } = Astro.props;
     <ClientRouter />
     
     <script is:inline>
-      // Theme initialization (inline for FOUC prevention)
       (function() {
-        const theme = localStorage.getItem('theme') || 
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (theme === 'dark') document.documentElement.classList.add('dark');
-        
-        window.toggleTheme = function() {
-          document.documentElement.classList.toggle('dark');
-          localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        };
+        try {
+          document.documentElement.classList.add('js');
+          const stored = localStorage.getItem('theme');
+          const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = stored === 'dark' || stored === 'light' ? stored : (systemDark ? 'dark' : 'light');
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          // no-op
+        }
       })();
     </script>
   </head>
   <body class="
     lowercase 
-    bg-[#EBEBEB] text-[#27232A] 
-    dark:bg-[#27232A] dark:text-[#EBEBEB] 
+    theme-body 
     transition-colors duration-500 
     font-sans antialiased overflow-x-hidden 
     selection:bg-[#B066FF] selection:text-white
@@ -54,6 +56,7 @@ const { title } = Astro.props;
 
     <script>
       import '../scripts/theme';
+      import '../scripts/navbar';
       import '../scripts/scroll-animations';
     </script>
   </body>
