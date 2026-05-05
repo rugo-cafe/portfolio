@@ -107,7 +107,13 @@ function updateActiveSection(): void {
   if (!elements) return;
 
   const sections = SECTION_IDS;
+  
+  // Default to the currently active link if no section intersects the middle
   let currentSection = 'home';
+  const activeLink = document.querySelector('#main-nav a.is-active');
+  if (activeLink) {
+    currentSection = activeLink.getAttribute('href')?.replace('#', '') || 'home';
+  }
 
   for (const sectionId of sections) {
     const section = document.getElementById(sectionId);

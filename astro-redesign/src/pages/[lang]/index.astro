@@ -9,15 +9,13 @@ import Experience from '../../components/Experience.astro';
 
 export async function getStaticPaths() {
   return [
-    { params: { lang: 'pt' } },
     { params: { lang: 'en' } },
-    { params: { lang: 'jp' } },
   ];
 }
 
 const { lang } = Astro.params;
 const t = useTranslations(lang as any);
-const htmlLang = lang === 'pt' ? 'pt-br' : lang === 'jp' ? 'ja' : 'en';
+const htmlLang = lang === 'pt' ? 'pt-br' : 'en';
 ---
 
 <Layout title={t('meta.title')} description={t('meta.description')} lang={htmlLang}>

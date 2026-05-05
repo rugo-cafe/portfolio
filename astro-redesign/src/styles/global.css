@@ -51,9 +51,9 @@ body::before {
   --accent: #b066ff;
   --shadow: 0 22px 48px -34px rgba(39, 35, 42, 0.22);
 
-  --glass-bg: rgba(255, 255, 255, 0.075);
-  --glass-strong-bg: rgba(255, 255, 255, 0.12);
-  --glass-subtle-bg: rgba(255, 255, 255, 0.055);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-strong-bg: rgba(255, 255, 255, 0.85);
+  --glass-subtle-bg: rgba(255, 255, 255, 0.4);
   --glass-backdrop: rgba(32, 28, 36, 0.3);
   --glass-blur: 18px;
   --glass-strong-blur: 26px;
@@ -81,9 +81,9 @@ body::before {
   --accent: #b066ff;
   --shadow: 0 24px 56px -34px rgba(0, 0, 0, 0.5);
 
-  --glass-bg: rgba(18, 15, 23, 0.18);
-  --glass-strong-bg: rgba(18, 15, 23, 0.28);
-  --glass-subtle-bg: rgba(18, 15, 23, 0.12);
+  --glass-bg: rgba(24, 20, 28, 0.65);
+  --glass-strong-bg: rgba(24, 20, 28, 0.85);
+  --glass-subtle-bg: rgba(24, 20, 28, 0.45);
   --glass-backdrop: rgba(0, 0, 0, 0.62);
   --glass-blur: 18px;
   --glass-strong-blur: 26px;
@@ -241,7 +241,6 @@ body::before {
 
 .glass-hover:hover::after {
   opacity: 0.48;
-  transform: rotate(8deg);
 }
 
 :root.dark .glass-hover:hover {
@@ -462,15 +461,6 @@ img {
 /* Hide default summary marker */
 summary::-webkit-details-marker {
   display: none;
-}
-
-img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-img[loading="lazy"].loaded {
-  opacity: 1;
 }
 
 /* Custom cursor effects */

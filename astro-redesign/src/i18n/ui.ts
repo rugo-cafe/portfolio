@@ -1,7 +1,6 @@
 export const languages = {
   pt: 'Português',
   en: 'English',
-  jp: '日本語',
 };
 
 export const defaultLang = 'pt';
@@ -111,6 +110,7 @@ export const ui = {
     'projects.ambi.modal.stackTitle': 'stack atual',
     'projects.noise.modal.intro': 'ferramenta para mixar sons ambiente e manter foco no trabalho.',
     'projects.dither.modal.intro': 'dither studio é uma ferramenta para testar processamento de imagem com dithering em wasm.',
+    'projects.dither.linkLabel': 'abrir dither studio',
     'github.label': 'github',
     
     // --- EXPERIÊNCIA ---
@@ -243,6 +243,7 @@ export const ui = {
     'projects.ambi.modal.stackTitle': 'current stack',
     'projects.noise.modal.intro': 'tool for mixing ambient sounds to stay focused.',
     'projects.dither.modal.intro': 'image processing with dithering algorithms in wasm.',
+    'projects.dither.linkLabel': 'open dither studio',
     'github.label': 'github',
 
     // --- EXPERIENCE (UPDATED) ---
