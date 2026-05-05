@@ -8,6 +8,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: read
   pages: write
@@ -28,23 +31,25 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: astro-redesign/package-lock.json
 
       - name: Install dependencies
+        working-directory: astro-redesign
         run: npm ci
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Build with Astro
+        working-directory: astro-redesign
         run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: astro-redesign/dist
 
   deploy:
     environment:
