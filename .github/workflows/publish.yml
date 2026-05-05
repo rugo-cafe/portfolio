@@ -46,6 +46,15 @@ jobs:
         working-directory: astro-redesign
         run: npm run build
 
+      - name: Debug build output
+        run: |
+          pwd
+          node -v
+          npm -v
+          ls -la
+          ls -la astro-redesign
+          ls -la astro-redesign/dist
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
