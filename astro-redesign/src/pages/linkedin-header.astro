@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+import { useTranslations } from '../i18n/utils';
+
+const title = 'LinkedIn Header';
+const description = 'LinkedIn header banner based on the Astro redesign.';
+const t = useTranslations('pt' as any);
+
+const toolkit = [
+  { icon: 'simple-icons:astro', color: '#BC52EE' },
+  { icon: 'simple-icons:react', color: '#61DAFB' },
+  { icon: 'simple-icons:tailwindcss', color: '#38BDF8' },
+  { icon: 'simple-icons:figma', color: '#F24E1E' },
+  { icon: 'simple-icons:typescript', color: '#3178C6' },
+  { icon: 'simple-icons:supabase', color: '#3ECF8E' },
+];
+
+const pillars = ['ui / ux', 'web design', 'product design'];
+---
+
+<Layout title={title} description={description} lang="pt-br">
+  <main class="relative w-[1584px] h-[396px] overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_58%_at_8%_8%,rgba(176,102,255,0.18)_0%,rgba(176,102,255,0)_52%),radial-gradient(ellipse_54%_46%_at_92%_14%,rgba(192,72,72,0.12)_0%,rgba(192,72,72,0)_46%),radial-gradient(ellipse_44%_40%_at_38%_92%,rgba(90,126,77,0.08)_0%,rgba(90,126,77,0)_48%),linear-gradient(135deg,#1f1b23_0%,#27232a_52%,#201c24_100%)]"></div>
+    <div class="absolute -left-28 top-[-5rem] h-80 w-80 rounded-full bg-brand-purple/18 blur-[120px]"></div>
+    <div class="absolute right-[-6rem] top-[-4rem] h-96 w-96 rounded-full bg-brand-terracotta/10 blur-[130px]"></div>
+    <div class="absolute left-[40%] top-[30%] h-72 w-72 rounded-full bg-brand-green/10 blur-[140px]"></div>
+
+    <div class="relative flex h-full w-full items-center justify-center">
+      <section
+        class="relative h-full w-full overflow-hidden"
+        aria-label="LinkedIn header banner"
+      >
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_36%,rgba(0,0,0,0.2)_100%)]"></div>
+        <div class="relative grid h-full grid-rows-[42px_1fr_116px] gap-4 px-14 pt-10 pb-16">
+          <div class="flex justify-end items-center gap-6">
+            <div class="flex items-center">
+              <div class="inline-flex items-center gap-3 rounded-full glass px-4 py-2.5 text-white shadow-[0_20px_45px_-30px_rgba(0,0,0,0.75)] whitespace-nowrap">
+                <span class="relative h-3.5 w-3.5">
+                  <span class="absolute left-0 top-0 h-3.5 w-3.5 rounded-full bg-brand-dark/95"></span>
+                  <span class="absolute left-2 top-0 h-3.5 w-3.5 rounded-full bg-brand-terracotta"></span>
+                  <span class="absolute left-1 top-1 h-3.5 w-3.5 rounded-full bg-brand-green"></span>
+                </span>
+                <span class="font-display text-sm font-bold lowercase tracking-tight md:text-base">vitor hugo cunha</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 gap-6 items-center">
+            <div class="col-span-7 col-start-6 space-y-5 text-right pr-6">
+              <span class="block font-mono text-[14px] uppercase tracking-[0.38em] text-brand-purple/90 font-bold">
+                UI/UX <span class="text-brand-light/40 mx-2">•</span> 2026
+              </span>
+              <h1 class="ml-auto flex flex-col items-end font-display text-[5.25rem] font-bold leading-[0.92] tracking-[-0.04em] text-brand-light">
+                <span>designer +</span>
+                <span class="text-brand-purple">frontend.</span>
+              </h1>
+              <p class="ml-auto max-w-[34ch] text-[1.4rem] leading-[1.55] text-brand-light/86 font-medium">
+                {t('hero.desc')}
+              </p>
+            </div>
+
+          </div>
+
+          <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-4 relative">
+              <!-- Empty space for LinkedIn profile picture -->
+            </div>
+
+            <div class="col-span-3 surface-muted rounded-[2rem] p-4 flex flex-col justify-between">
+              <div class="mb-3 flex items-center justify-between">
+                <span class="text-[10px] font-mono uppercase tracking-[0.38em] text-brand-light/48">
+                  {t('toolkit.label')}
+                </span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                {toolkit.map((tool) => (
+                  <div class="flex aspect-square items-center justify-center rounded-2xl border border-white/5 bg-black/10">
+                    <Icon name={tool.icon} class="h-5 w-5" style={`color: ${tool.color}`} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <article class="col-span-5 overflow-hidden rounded-[2rem] bg-brand-purple px-6 py-5 text-white shadow-[0_30px_70px_-44px_rgba(176,102,255,0.62)]">
+              <div class="relative flex h-full flex-col justify-between gap-4">
+                <div class="flex justify-between items-start">
+                  <span class="inline-flex w-fit rounded-full bg-white/12 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/86">
+                    riji
+                  </span>
+                  <div class="flex items-center gap-2.5 rounded-full border border-white/10 bg-black/20 px-3 py-1.5">
+                    <span class="relative flex h-2 w-2">
+                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60"></span>
+                      <span class="relative inline-flex h-2 w-2 rounded-full bg-green-400"></span>
+                    </span>
+                    <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-white/90">
+                      {t('work.statusShort')}
+                    </span>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <h2 class="font-display text-[2.2rem] font-bold leading-[0.96] tracking-tight">
+                    {t('projects.riji.tagline')}
+                  </h2>
+                  <p class="max-w-[40ch] text-[1rem] leading-[1.45] text-white/84">
+                    {t('projects.riji.desc')}
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>

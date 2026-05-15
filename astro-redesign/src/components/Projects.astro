@@ -1,7 +1,7 @@
 ---
-import { existsSync } from 'node:fs';
 import { Icon } from 'astro-icon/components';
 import { useTranslations } from '../i18n/utils';
+import { projectEntries, ProjectStatus } from '../data/projects';
 
 interface Props {
   lang: string;
@@ -10,114 +10,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
 
-// Project data
-type ProjectStatus = 'live' | 'in-progress' | 'planned';
-
-interface Project {
-  id: string;
-  title: string;
-  tagline: string;
-  desc: string;
-  tags: string[];
-  status: ProjectStatus;
-  color: string;
-  image: string;
-  fallbackImage: string;
-  imageAlt: string;
-}
-
-const projects: Project[] = [
-  {
-    id: 'riji',
-    title: '日记 Riji',
-    tagline: t('projects.riji.tagline'),
-    desc: t('projects.riji.desc'),
-    tags: ['Vite', 'TypeScript', 'Tailwind', 'Supabase', 'localStorage'],
-    status: 'in-progress',
-    color: 'purple',
-    image: '/projects/riji-thumb.webp',
-    fallbackImage: '/projects/riji-placeholder.svg',
-    imageAlt: 'captura da interface do riji',
-  },
-  {
-    id: 'coisas-bonitas',
-    title: 'Coisas Bonitas',
-    tagline: t('projects.coisas.tagline'),
-    desc: t('projects.coisas.desc'),
-    tags: ['HTML', 'CSS', 'JavaScript', 'Neocities'],
-    status: 'live',
-    color: 'terracotta',
-    image: '/projects/coisas-bonitas-thumb.webp',
-    fallbackImage: '/projects/coisas-bonitas-placeholder.svg',
-    imageAlt: 'captura do site coisas bonitas',
-  },
-  {
-    id: 'ambi-mixer',
-    title: 'Ambi Mixer',
-    tagline: t('projects.ambi.tagline'),
-    desc: t('projects.ambi.desc'),
-    tags: ['Astro', 'TypeScript', 'Vercel', 'Audio UI'],
-    status: 'in-progress',
-    color: 'terracotta',
-    image: '/projects/ambi-mixer-thumb.webp',
-    fallbackImage: '/projects/ambi-studio-placeholder.svg',
-    imageAlt: 'captura do ambi mixer em funcionamento',
-  },
-  {
-    id: 'dither-tool',
-    title: 'Dither Studio',
-    tagline: t('projects.dither.tagline'),
-    desc: t('projects.dither.desc'),
-    tags: ['Rust', 'WebAssembly', 'Canvas'],
-    status: 'live',
-    color: 'purple',
-    image: '/projects/dither-studio-thumb.webp',
-    fallbackImage: '/projects/dither-studio-placeholder.svg',
-    imageAlt: 'captura do dither studio',
-  },
-];
-
-function resolvePublicAsset(assetPath: string, fallbackPath: string): string | null {
-  if (existsSync(new URL(`../../public${assetPath}`, import.meta.url))) {
-    return assetPath;
-  }
-
-  if (existsSync(new URL(`../../public${fallbackPath}`, import.meta.url))) {
-    return fallbackPath;
-  }
-
-  return null;
-}
-
-const projectsWithAssets = projects.map((project) => ({
-  ...project,
-  resolvedImage: resolvePublicAsset(project.image, project.fallbackImage),
-}));
-
-const projectsById = Object.fromEntries(projectsWithAssets.map((project) => [project.id, project]));
-
-function projectPreview(projectId: string, label: string): string {
-  const project = projectsById[projectId];
-
-  if (!project?.resolvedImage) {
-    return `
-      <div class="aspect-video rounded-2xl bg-brand-dark/5 dark:bg-white/5 flex items-center justify-center">
-        <span class="text-brand-dark/30 dark:text-brand-light/30">${label}</span>
-      </div>
-    `;
-  }
-
-  return `
-    <figure class="overflow-hidden rounded-2xl bg-brand-dark/5 dark:bg-white/5 border border-black/8 dark:border-brand-light/10">
-      <img
-        src="${project.resolvedImage}"
-        alt="${project.imageAlt}"
-        class="w-full aspect-video object-cover"
-        loading="lazy"
-      />
-    </figure>
-  `;
-}
+const projects = projectEntries;
 
 const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
   'live': { label: t('projects.status.live'), class: 'bg-green-500/20 text-green-600 dark:text-green-400' },
@@ -134,120 +27,6 @@ const colorConfig: Record<string, string> = {
 const CARD_TAG_LIMIT = 3;
 const MOBILE_TAG_LIMIT = 2;
 
-const rijiStack = ['Vite', 'TypeScript', 'Tailwind', 'Supabase', 'Vercel'];
-const ambiStack = ['Astro', 'TypeScript', 'Vercel', 'Audio UI'];
-const projectModals: Record<string, { title: string; content: string }> = {
-  'riji': {
-    title: '日记 Riji',
-    content: `
-      <div class="space-y-6">
-        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
-          ${t('projects.riji.modal.intro')}
-        </p>
-        ${projectPreview('riji', t('projects.modal.preview'))}
-        <a
-          href="https://rijiapp.site"
-          target="_blank"
-          class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple hover:text-brand-terracotta transition-colors duration-300 lowercase"
-        >
-          ${t('projects.riji.linkLabel')}
-          <span aria-hidden="true">↗</span>
-        </a>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.riji.modal.featuresTitle')}</h3>
-        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
-          <li>${t('projects.riji.feature.1')}</li>
-          <li>${t('projects.riji.feature.2')}</li>
-          <li>${t('projects.riji.feature.3')}</li>
-          <li>${t('projects.riji.feature.4')}</li>
-          <li>${t('projects.riji.feature.5')}</li>
-          <li>${t('projects.riji.feature.6')}</li>
-        </ul>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.riji.modal.stackTitle')}</h3>
-        <div class="flex flex-wrap gap-2">
-          ${rijiStack.map((tag) => `
-            <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">${tag}</span>
-          `).join('')}
-        </div>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.riji.modal.archTitle')}</h3>
-        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
-          <li>${t('projects.riji.arch.1')}</li>
-          <li>${t('projects.riji.arch.2')}</li>
-          <li>${t('projects.riji.arch.3')}</li>
-          <li>${t('projects.riji.arch.4')}</li>
-        </ul>
-      </div>
-    `
-  },
-  'coisas-bonitas': {
-    title: 'Coisas Bonitas',
-    content: `
-      <div class="space-y-6">
-        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
-          ${t('projects.coisas.modal.intro')}
-        </p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <a href="https://coisasbonitas.neocities.org" target="_blank" class="p-4 rounded-2xl glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors">
-            <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.site')}</span>
-          </a>
-          <a href="https://soundcloud.com/coisasbonitas" target="_blank" class="p-4 rounded-2xl glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors">
-            <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.soundcloud')}</span>
-          </a>
-          <a href="https://hkcr.live" target="_blank" class="p-4 rounded-2xl glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors">
-            <span class="text-sm text-brand-dark/70 dark:text-brand-light/70">${t('projects.coisas.link.hkcr')}</span>
-          </a>
-        </div>
-        ${projectPreview('coisas-bonitas', t('projects.modal.published'))}
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.coisas.modal.structureTitle')}</h3>
-        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
-          <li>${t('projects.coisas.structure.1')}</li>
-          <li>${t('projects.coisas.structure.2')}</li>
-          <li>${t('projects.coisas.structure.3')}</li>
-        </ul>
-      </div>
-    `
-  },
-  'ambi-mixer': {
-    title: 'Ambi Mixer',
-    content: `
-      <div class="space-y-6">
-        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
-          ${t('projects.ambi.modal.intro')}
-        </p>
-        ${projectPreview('ambi-mixer', t('projects.modal.preview'))}
-        <a href="https://ambi-mixer.vercel.app/" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 text-sm font-medium text-brand-terracotta hover:text-brand-purple transition-colors duration-300 lowercase">
-          ${t('projects.ambi.linkLabel')} <span aria-hidden="true">↗</span>
-        </a>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.ambi.modal.featuresTitle')}</h3>
-        <ul class="list-disc list-inside space-y-2 text-brand-dark/70 dark:text-brand-light/70">
-          <li>${t('projects.ambi.feature.1')}</li>
-          <li>${t('projects.ambi.feature.2')}</li>
-          <li>${t('projects.ambi.feature.3')}</li>
-          <li>${t('projects.ambi.feature.4')}</li>
-        </ul>
-        <h3 class="font-bold text-lg text-brand-dark dark:text-brand-light">${t('projects.ambi.modal.stackTitle')}</h3>
-        <div class="flex flex-wrap gap-2">
-          ${ambiStack.map((tag) => `
-            <span class="text-[11px] uppercase tracking-wider font-mono text-brand-dark/40 dark:text-brand-light/40 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-lg">${tag}</span>
-          `).join('')}
-        </div>
-      </div>
-    `
-  },
-  'dither-tool': {
-    title: 'Dither Studio',
-    content: `
-      <div class="space-y-6">
-        <p class="text-lg text-brand-dark/80 dark:text-brand-light/80">
-          ${t('projects.dither.modal.intro')}
-        </p>
-        ${projectPreview('dither-tool', t('projects.modal.completed'))}
-        <a href="https://dither-studio-sable.vercel.app/" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple hover:text-brand-terracotta transition-colors duration-300 lowercase">
-          ${t('projects.dither.linkLabel')} <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-    `
-  }
-};
 ---
 
 <section id="projects" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
@@ -265,12 +44,10 @@ const projectModals: Record<string, { title: string; content: string }> = {
 
   <div class="md:hidden -mx-6 pl-6 pr-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] mobile-projects-strip">
     <div class="flex gap-4 snap-x snap-mandatory pb-2">
-      {projectsWithAssets.map((project) => (
-        <button
-          type="button"
-          data-project={project.id}
-          aria-haspopup="dialog"
-          aria-controls="project-modal"
+      {projects.map((project) => (
+        <a
+          href={`/projects/${project.slug}`}
+          data-astro-prefetch="viewport"
           aria-label={`${t('projects.details')}: ${project.title}`}
           class="project-card group snap-start shrink-0 w-[82vw] max-w-[340px] rounded-[2rem] surface overflow-hidden text-left"
         >
@@ -279,7 +56,7 @@ const projectModals: Record<string, { title: string; content: string }> = {
               <img
                 src={project.resolvedImage}
                 alt={project.imageAlt}
-                class="w-full h-full object-cover"
+                class="project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 loading="lazy"
               />
             ) : null}
@@ -293,27 +70,27 @@ const projectModals: Record<string, { title: string; content: string }> = {
                   {project.title}
                 </h3>
                 <p class="text-sm text-brand-dark/52 dark:text-brand-light/52 lowercase truncate">
-                  {project.tagline}
+                  {project.subtitle}
                 </p>
               </div>
-              <span class={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${statusConfig[project.status].class}`}>
+              <span class={`shrink-0 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.18em] leading-none whitespace-nowrap ${statusConfig[project.status].class}`}>
                 {statusConfig[project.status].label}
               </span>
             </div>
 
             <p class="text-sm leading-relaxed text-brand-dark/72 dark:text-brand-light/72 line-clamp-2">
-              {project.desc}
+              {project.overview}
             </p>
 
-            <div class="flex flex-nowrap items-center gap-2 overflow-hidden whitespace-nowrap min-w-0">
-              {project.tags.slice(0, MOBILE_TAG_LIMIT).map((tag) => (
-              <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
+            <div class="flex flex-wrap items-center gap-2 min-w-0">
+              {project.stack.slice(0, MOBILE_TAG_LIMIT).map((tag) => (
+              <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono leading-none text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
                   {tag}
                 </span>
               ))}
-              {project.tags.length > MOBILE_TAG_LIMIT && (
+              {project.stack.length > MOBILE_TAG_LIMIT && (
                 <span class="shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-purple bg-brand-purple/10 px-2.5 py-1 rounded-lg">
-                  +{project.tags.length - MOBILE_TAG_LIMIT}
+                  +{project.stack.length - MOBILE_TAG_LIMIT}
                 </span>
               )}
             </div>
@@ -323,37 +100,32 @@ const projectModals: Record<string, { title: string; content: string }> = {
               <Icon name="ph:arrow-right-bold" class="w-4 h-4" />
             </div>
           </div>
-        </button>
+        </a>
       ))}
     </div>
   </div>
 
   <!-- Projects Grid -->
   <div class="hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
-    {projectsWithAssets.map((project, index) => (
-      <button 
-        type="button"
-        data-project={project.id}
-        aria-haspopup="dialog"
-        aria-controls="project-modal"
+    {projects.map((project, index) => (
+      <a 
+        href={`/projects/${project.slug}`}
+        data-astro-prefetch="viewport"
         aria-label={`${t('projects.details')}: ${project.title}`}
-        class={`project-card group relative p-0 rounded-3xl surface text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50 md:h-[240px]`}
-        style="transition: transform 800ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 800ms cubic-bezier(0.19, 1, 0.22, 1), border-color 600ms ease;"
-        onmouseenter="this.style.transform = 'translateY(-4px)'; this.style.borderColor = 'rgba(176, 102, 255, 0.3)';"
-        onmouseleave="this.style.transform = 'translateY(0)'; this.style.borderColor = '';"
+        class={`project-card group relative p-0 rounded-3xl surface text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50 md:min-h-[240px] motion-reduce:transform-none motion-reduce:transition-none`}
       >
         <!-- Gradient Background on Hover -->
         <div class={`absolute inset-0 bg-gradient-to-br ${colorConfig[project.color]} opacity-0 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none`}></div>
         
         <!-- Content -->
-        <div class="relative z-10 flex flex-col md:grid md:grid-cols-[240px_minmax(0,1fr)] h-full">
-          <div class="w-full md:w-[240px] shrink-0 overflow-hidden bg-black/[0.04] dark:bg-white/5 aspect-square md:aspect-square md:h-full border-b md:border-b-0 md:border-r border-black/8 dark:border-brand-light/10">
+        <div class="relative z-10 flex flex-col md:grid md:grid-cols-[minmax(190px,32%)_minmax(0,1fr)] h-full">
+          <div class="w-full shrink-0 overflow-hidden bg-black/[0.04] dark:bg-white/5 md:h-full border-b md:border-b-0 md:border-r border-black/8 dark:border-brand-light/10">
             <div class="w-full h-full">
               {project.resolvedImage ? (
                 <img
                   src={project.resolvedImage}
                   alt={project.imageAlt}
-                  class="w-full h-full object-cover"
+                  class="project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
                   loading="lazy"
                 />
               ) : (
@@ -364,34 +136,34 @@ const projectModals: Record<string, { title: string; content: string }> = {
             </div>
           </div>
 
-          <div class="min-w-0 h-full grid grid-rows-[auto_auto_1fr_auto] p-5 md:px-5 md:py-4">
+          <div class="min-w-0 grid grid-rows-[auto_auto_1fr_auto] p-5 md:px-5 md:py-4">
             <div class="flex items-start justify-between gap-4 mb-3">
-              <div>
+              <div class="min-w-0">
                 <h3 class="font-display font-bold text-xl md:text-2xl text-brand-dark dark:text-brand-light group-hover:text-brand-purple transition-colors duration-300 lowercase">
                   {project.title}
                 </h3>
                 <span class="text-sm text-brand-dark/50 dark:text-brand-light/50 lowercase">
-                  {project.tagline}
+                  {project.subtitle}
                 </span>
               </div>
-              <span class={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${statusConfig[project.status].class}`}>
+              <span class={`shrink-0 px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-[0.18em] leading-none whitespace-nowrap ${statusConfig[project.status].class}`}>
                 {statusConfig[project.status].label}
               </span>
             </div>
 
             <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed mb-4 max-w-[40ch]">
-              {project.desc}
+              {project.overview}
             </p>
 
-            <div class="flex flex-nowrap items-center gap-2 overflow-hidden whitespace-nowrap min-w-0">
-              {project.tags.slice(0, CARD_TAG_LIMIT).map((tag) => (
-                <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
+            <div class="flex flex-wrap items-center gap-2 min-w-0">
+              {project.stack.slice(0, CARD_TAG_LIMIT).map((tag) => (
+                <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono leading-none text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
                   {tag}
                 </span>
               ))}
-              {project.tags.length > CARD_TAG_LIMIT && (
+              {project.stack.length > CARD_TAG_LIMIT && (
                 <span class="shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-purple bg-brand-purple/10 px-2.5 py-1 rounded-lg">
-                  +{project.tags.length - CARD_TAG_LIMIT}
+                  +{project.stack.length - CARD_TAG_LIMIT}
                 </span>
               )}
             </div>
@@ -405,7 +177,7 @@ const projectModals: Record<string, { title: string; content: string }> = {
         
         <!-- Corner Decoration -->
         <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-brand-purple/5 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700"></div>
-      </button>
+      </a>
     ))}
   </div>
 
@@ -428,309 +200,36 @@ const projectModals: Record<string, { title: string; content: string }> = {
   .mobile-projects-strip::-webkit-scrollbar {
     display: none;
   }
-</style>
 
-<!-- Project Detail Modal -->
-<dialog 
-  id="project-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="modal-title"
-  aria-describedby="modal-content"
-  class="fixed inset-0 m-auto p-0 w-[90vw] max-w-4xl max-h-[85vh] overflow-hidden glass-strong rounded-3xl shadow-[0_30px_80px_-42px_rgba(39,35,42,0.34)]"
->
-  <div class="sticky top-0 z-10 flex items-center justify-between px-8 py-5 border-b border-black/8 dark:border-brand-light/5 glass-subtle">
-    <h2 id="modal-title" class="font-display font-bold text-2xl text-brand-dark dark:text-brand-light"></h2>
-    <button 
-      type="button"
-      id="modal-close"
-      aria-label={t('projects.modal.close')}
-      class="flex items-center justify-center w-10 h-10 rounded-full glass-subtle hover:border-white/45 dark:hover:border-white/18 transition-colors cursor-pointer"
-    >
-      <Icon name="ph:x-bold" class="w-5 h-5 text-brand-dark/60 dark:text-brand-light/60" />
-    </button>
-  </div>
-  
-  <div id="modal-content" class="p-8 overflow-y-auto" style="max-height: calc(85vh - 80px);">
-    <!-- Content injected via JS -->
-  </div>
-</dialog>
-
-<div id="project-modal-backdrop" class="fixed inset-0 z-40 glass-backdrop pointer-events-none"></div>
-
-<script is:inline define:vars={{ projectModals }}>
-  document.addEventListener('astro:page-load', () => {
-    const modal = document.getElementById('project-modal');
-    const backdrop = document.getElementById('project-modal-backdrop');
-    const closeBtn = document.getElementById('modal-close');
-    const modalTitle = document.getElementById('modal-title');
-    const modalContent = document.getElementById('modal-content');
-
-    if (!modal || !backdrop || !modalTitle || !modalContent) return;
-
-    if (modal.dataset.controllerBound === 'true') return;
-    modal.dataset.controllerBound = 'true';
-    modal.setAttribute('aria-hidden', 'true');
-
-    const abortController = new AbortController();
-    const { signal } = abortController;
-
-    const projects = projectModals;
-    let activeTrigger = null;
-    let isOpen = false;
-    let closeTimer = null;
-    let lockedScrollY = 0;
-    const animationMs = 320;
-
-    function getFocusableElements() {
-      const selector = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-      return Array.from(modal.querySelectorAll(selector)).filter((el) => {
-        return !(el.hasAttribute('hidden') || el.getAttribute('aria-hidden') === 'true');
-      });
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+    .project-card {
+      transform-origin: center;
+      will-change: transform;
+      transition:
+        transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 360ms ease;
     }
 
-    function lockPageScroll() {
-      lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${lockedScrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
-      document.body.style.overflow = 'hidden';
-
-      if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-      }
+    .project-card:hover {
+      transform: translateY(-10px) scale(1.06);
+      border-color: rgba(176, 102, 255, 0.35);
+      box-shadow:
+        0 42px 90px -56px rgba(176, 102, 255, 0.65),
+        0 20px 50px -30px rgba(0, 0, 0, 0.45);
+      z-index: 10;
     }
 
-    function unlockPageScroll() {
-      const root = document.documentElement;
-      const previousScrollBehavior = root.style.scrollBehavior;
-
-      root.style.scrollBehavior = 'auto';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-
-      window.scrollTo(0, lockedScrollY);
-      root.style.scrollBehavior = previousScrollBehavior;
+    .project-card:hover .project-card-image {
+      transform: scale(1.08);
     }
-
-    function setModalState(state) {
-      modal.dataset.state = state;
-      backdrop.dataset.state = state;
-    }
-
-    function openModal(projectId, triggerEl) {
-      const project = projects[projectId];
-      if (!project) return;
-
-      if (closeTimer) {
-        window.clearTimeout(closeTimer);
-        closeTimer = null;
-      }
-
-      activeTrigger = triggerEl || null;
-      
-      modalTitle.textContent = project.title;
-      modalContent.innerHTML = project.content;
-      modalContent.scrollTop = 0;
-
-      if (modal.open && typeof modal.close === 'function') {
-        modal.close();
-      }
-
-      lockPageScroll();
-
-      if (typeof modal.showModal === 'function') {
-        try {
-          modal.showModal();
-        } catch {
-          modal.setAttribute('open', '');
-        }
-      } else {
-        modal.setAttribute('open', '');
-      }
-
-      isOpen = true;
-      modal.removeAttribute('aria-hidden');
-      setModalState('opening');
-
-      requestAnimationFrame(() => {
-        setModalState('open');
-        const focusables = getFocusableElements();
-        const first = focusables[0] || closeBtn || modal;
-        if (first && typeof first.focus === 'function') {
-          first.focus({ preventScroll: true });
-        }
-      });
-    }
-
-    function closeModal(restoreFocus = true, immediate = false) {
-      if (!isOpen) return;
-
-      isOpen = false;
-      modal.setAttribute('aria-hidden', 'true');
-      setModalState('closing');
-
-      const finishClose = () => {
-        if (typeof modal.close === 'function') {
-          modal.close();
-        } else {
-          modal.removeAttribute('open');
-        }
-
-        setModalState('closed');
-        unlockPageScroll();
-
-        if (restoreFocus && activeTrigger && typeof activeTrigger.focus === 'function') {
-          requestAnimationFrame(() => activeTrigger.focus({ preventScroll: true }));
-        }
-        activeTrigger = null;
-        closeTimer = null;
-      };
-
-      if (immediate) {
-        finishClose();
-        return;
-      }
-
-      closeTimer = window.setTimeout(finishClose, animationMs);
-    }
-
-    const cards = document.querySelectorAll('.project-card[data-project]');
-    cards.forEach((card) => {
-      card.addEventListener('click', () => {
-      const projectId = card.dataset.project;
-      if (projectId) openModal(projectId, card);
-      }, { signal });
-    });
-
-    if (closeBtn) closeBtn.addEventListener('click', () => closeModal(true), { signal });
-    if (backdrop) backdrop.addEventListener('click', () => closeModal(true), { signal });
-
-    modal.addEventListener('cancel', (e) => {
-      e.preventDefault();
-      closeModal(true);
-    }, { signal });
-    
-    modal.addEventListener('keydown', (e) => {
-      if (!isOpen) return;
-
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        closeModal(true);
-      }
-
-      if (e.key === 'Tab') {
-        const focusables = getFocusableElements();
-        if (!focusables.length) {
-          e.preventDefault();
-          return;
-        }
-
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement;
-
-        if (e.shiftKey && active === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && active === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    }, { signal });
-
-    document.addEventListener('astro:before-swap', () => {
-      closeModal(false, true);
-      abortController.abort();
-      delete modal.dataset.controllerBound;
-    }, { once: true, signal });
-  });
-</script>
-
-<style>
-  dialog::backdrop {
-    display: none;
-  }
-
-  #project-modal {
-    opacity: 0;
-    transform: translate3d(0, 18px, 0) scale(0.97);
-    transition:
-      opacity 240ms ease,
-      transform 320ms cubic-bezier(0.19, 1, 0.22, 1);
-    will-change: opacity, transform;
-  }
-
-  #project-modal[data-state="open"] {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  #project-modal[data-state="closing"] {
-    opacity: 0;
-    transform: translate3d(0, 10px, 0) scale(0.985);
-  }
-
-  #project-modal-backdrop {
-    opacity: 0;
-    transition:
-      opacity 260ms ease,
-      backdrop-filter 260ms ease;
-    will-change: opacity;
-  }
-
-  #project-modal-backdrop[data-state="open"] {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  #project-modal-backdrop[data-state="closing"] {
-    opacity: 0;
-    pointer-events: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #project-modal,
-    #project-modal-backdrop {
-      transition-duration: 1ms;
+    .project-card,
+    .project-card-image {
+      transition-duration: 1ms !important;
+      transform: none !important;
     }
-  }
-
-  #modal-content {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(176, 102, 255, 0.6) rgba(255, 255, 255, 0.08);
-  }
-
-  #modal-content::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  #modal-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 999px;
-  }
-
-  #modal-content::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(176, 102, 255, 0.7), rgba(192, 72, 72, 0.7));
-    border-radius: 999px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-  }
-
-  :root.dark #modal-content::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.25);
-  }
-
-  :root.dark #modal-content::-webkit-scrollbar-thumb {
-    border-color: rgba(255, 255, 255, 0.08);
   }
 </style>
