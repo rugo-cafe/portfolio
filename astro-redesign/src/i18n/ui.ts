@@ -121,7 +121,7 @@ export const ui = {
     'exp.camerge.desc': 'desenho e prototipagem de interfaces para sistemas internos e landing pages. implementação com hubspot e elementor.',
     'exp.camerge.period': '2024 — presente',
     'exp.bioma.role': 'estágio em desenvolvimento de produto',
-    'exp.bioma.company': 'fazer das letras',
+    'exp.bioma.company': 'Fazendas Bioma',
     'exp.bioma.desc': 'apoio no desenvolvimento do site com figma e wordpress, além de prototipagem em hardware para modelos de luz.',
     'exp.bioma.period': '2023 — 2024',
     
