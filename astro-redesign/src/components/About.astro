@@ -1,5 +1,4 @@
 ---
-import { existsSync } from 'node:fs';
 import { Icon } from 'astro-icon/components';
 import { useTranslations } from '../i18n/utils';
 
@@ -37,7 +36,6 @@ const values = [
 
 const avatarSrc = '/avatar/vitor-hugo-avatar.webp';
 const avatarAlt = 'retrato de vitor hugo cunha';
-const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url));
 ---
 
 <section id="about" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
@@ -58,19 +56,13 @@ const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url
       <div class="relative">
         <!-- Photo Container -->
         <div class="aspect-square rounded-3xl overflow-hidden glass-strong flex items-center justify-center">
-          {hasAvatar ? (
-            <img
-              src={avatarSrc}
-              alt={avatarAlt}
-              class="w-full h-full object-cover object-top origin-top scale-[1.08]"
-              loading="lazy"
-              decoding="async"
-            />
-          ) : (
-            <div class="text-brand-dark/20 dark:text-white/10">
-              <Icon name="ph:user-circle-fill" class="w-32 h-32" />
-            </div>
-          )}
+          <img
+            src={avatarSrc}
+            alt={avatarAlt}
+            class="w-full h-full object-cover object-top origin-top scale-[1.08]"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         
         <!-- Decorative Elements -->

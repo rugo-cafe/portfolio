@@ -56,7 +56,7 @@ const MOBILE_TAG_LIMIT = 2;
               <img
                 src={project.resolvedImage}
                 alt={project.imageAlt}
-                class="project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                class={`project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${project.slug === 'riji' ? '' : 'object-left'}`}
                 loading="lazy"
               />
             ) : null}
@@ -125,7 +125,7 @@ const MOBILE_TAG_LIMIT = 2;
                 <img
                   src={project.resolvedImage}
                   alt={project.imageAlt}
-                  class="project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                  class={`project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${project.slug === 'riji' ? '' : 'object-left'}`}
                   loading="lazy"
                 />
               ) : (

@@ -1,5 +1,3 @@
-import { existsSync } from 'node:fs';
-
 export type ProjectStatus = 'live' | 'in-progress' | 'planned';
 export type ProjectSlug = 'riji' | 'coisas-bonitas' | 'dither-studio' | 'ambi-mixer';
 
@@ -136,22 +134,10 @@ const baseProjects: Array<Omit<ProjectEntry, keyof ProjectContent | 'resolvedIma
   },
 ];
 
-function resolvePublicAsset(assetPath: string, fallbackPath: string): string | null {
-  if (existsSync(new URL(`../../public${assetPath}`, import.meta.url))) {
-    return assetPath;
-  }
-
-  if (existsSync(new URL(`../../public${fallbackPath}`, import.meta.url))) {
-    return fallbackPath;
-  }
-
-  return null;
-}
-
 export const projectEntries: ProjectEntry[] = baseProjects.map((project) => ({
   ...project,
   ...projectContent[project.slug],
-  resolvedImage: resolvePublicAsset(project.image, project.fallbackImage),
+  resolvedImage: project.image,
 }));
 
 export function getProjectBySlug(slug: string): ProjectEntry | undefined {

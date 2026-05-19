@@ -51,7 +51,7 @@ const description = project.overview;
             <img
               src={project.resolvedImage}
               alt={project.imageAlt}
-              class="w-full h-full object-cover"
+              class={`w-full h-full object-cover ${project.slug === 'riji' ? '' : 'object-left'}`}
               loading="lazy"
             />
           </figure>
