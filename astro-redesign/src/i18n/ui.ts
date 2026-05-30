@@ -38,8 +38,9 @@ export const ui = {
     'work.desc': 'se tiver um freela, posso ajudar com design de interface (ui) e frontend.',
 
     // --- ABOUT ---
-    'about.intro.1': 'sou vitor. estudo design de produto na ufsc e trabalho entre interface e frontend, do layout ao código.',
-    'about.intro.2': 'gosto de desenhar sistemas visuais simples e elegantes, e cuidar da interação até ficar natural. no tempo livre, fico entre música, games e teclados mecânicos.',
+    'about.intro.1': 'sou vitor hugo. desenho e desenvolvo interfaces digitais entre o figma e o front-end.',
+    'about.intro.2': 'atualmente trabalho na camerge aplicando ui/ux, código e dados. cuido de páginas de conversão, sistemas internos e regras de negócio no crm.',
+    'about.intro.3': 'no tempo livre, fico entre música, games e teclados mecânicos.',
     'about.highlights.ui.title': 'interface',
     'about.highlights.ui.desc': 'hierarquia limpa, tipografia bem resolvida e ritmo sem excesso.',
     'about.highlights.frontend.title': 'frontend',
@@ -171,8 +172,9 @@ export const ui = {
     'work.desc': 'if you have a freelance gig, i can help with ui design and frontend.',
     
     // --- ABOUT ---
-    'about.intro.1': "i'm vitor. i study product design at ufsc and work between interface and frontend, from layout to code.",
-    'about.intro.2': "i like designing simple, elegant visual systems and caring for the interaction until it feels natural. in my free time, i'm usually between music, games, and mechanical keyboards.",
+    'about.intro.1': "i'm vitor. i work as a design engineer, blending ui/ux, frontend, and data.",
+    'about.intro.2': 'i design interfaces focused on conversion and performance, caring for the flow end-to-end—from crm structure to code in the browser.',
+    'about.intro.3': 'currently focused on digital products and business intelligence at camerge.',
     'about.highlights.ui.title': 'interface',
     'about.highlights.ui.desc': 'clean hierarchy, well-resolved type, and rhythm without excess.',
     'about.highlights.frontend.title': 'frontend',

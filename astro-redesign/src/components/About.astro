@@ -9,31 +9,6 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
 
-const highlights = [
-  {
-    icon: 'ph:paint-brush-bold',
-    title: t('about.highlights.ui.title'),
-    desc: t('about.highlights.ui.desc'),
-  },
-  {
-    icon: 'ph:code-bold',
-    title: t('about.highlights.frontend.title'),
-    desc: t('about.highlights.frontend.desc'),
-  },
-  {
-    icon: 'ph:lightning-bold',
-    title: t('about.highlights.product.title'),
-    desc: t('about.highlights.product.desc'),
-  },
-];
-
-const values = [
-  t('about.values.1'),
-  t('about.values.2'),
-  t('about.values.3'),
-  t('about.values.4'),
-];
-
 const avatarSrc = '/avatar/vitor-hugo-avatar.webp';
 const avatarAlt = 'retrato de vitor hugo cunha';
 ---
@@ -90,57 +65,20 @@ const avatarAlt = 'retrato de vitor hugo cunha';
     <div class="lg:col-span-8 space-y-10">
       
       <!-- Intro -->
-      <div class="space-y-4 reveal reveal-delay-200">
-        <p class="text-xl md:text-2xl leading-relaxed text-brand-dark/90 dark:text-brand-light/90 font-medium">
+      <div class="space-y-6 max-w-xl reveal reveal-delay-200">
+        <p class="text-xl md:text-2xl leading-relaxed text-white font-semibold">
           {t('about.intro.1')}
         </p>
-        <p class="text-base md:text-lg leading-relaxed text-brand-dark/60 dark:text-brand-light/60">
+        <p class="text-base md:text-lg leading-relaxed text-zinc-400">
           {t('about.intro.2')}
         </p>
-      </div>
-
-      <!-- Highlights Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 reveal reveal-delay-300">
-        {highlights.map((item, index) => (
-          <div
-            class="reveal stagger-item"
-            style={`transition-delay: ${index * 100}ms;`}
-          >
-            <div class="h-full group p-5 rounded-2xl surface-muted hover:border-brand-purple/30 hover:-translate-y-2 hover:shadow-[0_24px_50px_-32px_rgba(39,35,42,0.24)] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
-              <div class="w-10 h-10 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4 group-hover:bg-brand-purple/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                <Icon name={item.icon} class="w-5 h-5 text-brand-purple" />
-              </div>
-              <h3 class="font-bold text-base text-brand-dark dark:text-brand-light mb-2">
-                {item.title}
-              </h3>
-              <p class="text-sm text-brand-dark/60 dark:text-brand-light/60 leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <!-- Values -->
-      <div class="pt-6 border-t border-brand-dark/5 dark:border-brand-light/5 reveal reveal-delay-400">
-        <h3 class="text-xs font-mono uppercase tracking-widest text-brand-dark/40 dark:text-brand-light/40 mb-4">
-          {t('about.values.label')}
-        </h3>
-        <div class="grid grid-cols-1 gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
-          {values.map((value, index) => (
-            <div
-              class="stagger-item w-full sm:w-auto flex items-center gap-3 rounded-2xl sm:rounded-full surface-muted px-4 py-3 sm:py-2 text-sm font-medium text-brand-dark/70 dark:text-brand-light/70 hover:border-brand-purple/30 hover:text-brand-purple transition-all duration-300 cursor-default sm:hover:scale-105"
-              style={`transition-delay: ${index * 100}ms;`}
-            >
-              <span class="h-1.5 w-1.5 rounded-full bg-brand-purple/70"></span>
-              <span class="leading-snug">{value}</span>
-            </div>
-          ))}
-        </div>
+        <p class="text-base md:text-lg leading-relaxed text-zinc-400">
+          {t('about.intro.3')}
+        </p>
       </div>
 
       <!-- CTA -->
-      <div class="flex flex-col sm:flex-row gap-4 reveal reveal-delay-500">
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 reveal reveal-delay-500">
         <a 
           href="mailto:contato@vitorhugocunha.com" 
           class="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-purple text-white font-medium hover:bg-brand-purple/90 hover:scale-105 hover:shadow-lg hover:shadow-brand-purple/30 transition-all duration-300 lowercase"
