@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import { useTranslations } from '../i18n/utils';
-import { projectEntries, ProjectStatus } from '../data/projects';
+import { getProjectEntries, ProjectStatus } from '../data/projects';
 
 interface Props {
   lang: string;
@@ -10,7 +10,8 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
 
-const projects = projectEntries;
+const projects = getProjectEntries(lang as any);
+const projectHref = (slug: string) => (lang === 'pt' ? `/projects/${slug}` : `/${lang}/projects/${slug}`);
 
 const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
   'live': { label: t('projects.status.live'), class: 'bg-green-500/20 text-green-600 dark:text-green-400' },
@@ -46,7 +47,7 @@ const MOBILE_TAG_LIMIT = 2;
     <div class="flex gap-4 snap-x snap-mandatory pb-2">
       {projects.map((project) => (
         <a
-          href={`/projects/${project.slug}`}
+          href={projectHref(project.slug)}
           data-astro-prefetch="viewport"
           aria-label={`${t('projects.details')}: ${project.title}`}
           class="project-card group snap-start shrink-0 w-[82vw] max-w-[340px] rounded-[2rem] surface overflow-hidden text-left"
@@ -109,7 +110,7 @@ const MOBILE_TAG_LIMIT = 2;
   <div class="hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
     {projects.map((project, index) => (
       <a 
-        href={`/projects/${project.slug}`}
+        href={projectHref(project.slug)}
         data-astro-prefetch="viewport"
         aria-label={`${t('projects.details')}: ${project.title}`}
         class={`project-card group relative p-0 rounded-3xl surface text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50 md:min-h-[240px] motion-reduce:transform-none motion-reduce:transition-none`}

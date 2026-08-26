@@ -2,7 +2,7 @@
 // ...existing code...
 
 import { useTranslations } from '../i18n/utils';
-import { projectEntries } from '../data/projects';
+import { getProjectEntries } from '../data/projects';
 import BentoGrid from './bento/BentoGrid.astro';
 import BentoItem from './bento/BentoItem.astro';
 import { Icon } from 'astro-icon/components';
@@ -26,15 +26,17 @@ const toolkit = [
   { icon: 'simple-icons:framer', brand: 'Framer', color: '#0055FF', iconClass: 'scale-[0.88]' },
 ];
 
-const featuredProjectData = projectEntries.find((project) => project.slug === 'riji');
+const projectHref = (slug: string) => (lang === 'pt' ? `/projects/${slug}` : `/${lang}/projects/${slug}`);
+
+const featuredProjectData = getProjectEntries(lang as any).find((project) => project.slug === 'riji');
 const featuredProject = featuredProjectData
   ? {
-      href: `/projects/${featuredProjectData.slug}`,
+      href: projectHref(featuredProjectData.slug),
       title: featuredProjectData.title,
       desc: featuredProjectData.subtitle,
     }
   : {
-      href: '/projects/riji',
+      href: projectHref('riji'),
       title: '日记 riji',
       desc: t('projects.riji.desc'),
     };

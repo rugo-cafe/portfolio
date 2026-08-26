@@ -113,7 +113,17 @@ export const ui = {
     'projects.dither.modal.intro': 'dither studio é uma ferramenta para testar processamento de imagem com dithering em wasm.',
     'projects.dither.linkLabel': 'abrir dither studio',
     'github.label': 'github',
-    
+
+    // --- PROJECT DETAIL PAGE ---
+    'project.back': 'voltar',
+    'project.back.aria': 'voltar para a página anterior',
+    'project.eyebrow': 'projeto',
+    'project.overview.title': 'visão geral',
+    'project.challenge.title': 'desafio e solução',
+    'project.links.title': 'links',
+    'project.role.title': 'papel',
+    'project.stack.title': 'stack',
+
     // --- EXPERIÊNCIA ---
     'exp.title': 'experiência',
     'exp.path': 'trajetória',
@@ -251,6 +261,16 @@ export const ui = {
     'projects.dither.modal.intro': 'image processing with dithering algorithms in wasm.',
     'projects.dither.linkLabel': 'open dither studio',
     'github.label': 'github',
+
+    // --- PROJECT DETAIL PAGE ---
+    'project.back': 'back',
+    'project.back.aria': 'back to the previous page',
+    'project.eyebrow': 'project',
+    'project.overview.title': 'overview',
+    'project.challenge.title': 'challenge & solution',
+    'project.links.title': 'links',
+    'project.role.title': 'role',
+    'project.stack.title': 'stack',
 
     // --- EXPERIENCE (UPDATED) ---
     'exp.title': 'experience',

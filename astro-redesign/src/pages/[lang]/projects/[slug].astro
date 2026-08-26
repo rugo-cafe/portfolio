@@ -1,0 +1,19 @@
+---
+import ProjectDetail from '../../../components/ProjectDetail.astro';
+import { getProjectEntries, getProjectBySlug } from '../../../data/projects';
+
+export async function getStaticPaths() {
+  return getProjectEntries('en').map((project) => ({
+    params: { lang: 'en', slug: project.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const project = getProjectBySlug(slug, 'en');
+
+if (!project) {
+  throw new Error(`project not found: ${slug}`);
+}
+---
+
+<ProjectDetail lang="en" project={project} />
