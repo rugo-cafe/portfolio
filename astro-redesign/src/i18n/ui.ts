@@ -116,10 +116,14 @@ export const ui = {
     // --- EXPERIÊNCIA ---
     'exp.title': 'experiência',
     'exp.path': 'trajetória',
+    'exp.camerge2.role': 'assistente de automação e tráfego',
+    'exp.camerge2.company': 'CAMERGE',
+    'exp.camerge2.desc': 'infraestrutura técnica de marketing e vendas: automações e crm no hubspot, lead scoring, tráfego pago (meta e google ads) e otimização de landing pages e conversão.',
+    'exp.camerge2.period': 'jun 2026 — presente',
     'exp.camerge.role': 'estágio em design de interface',
     'exp.camerge.company': 'CAMERGE',
-    'exp.camerge.desc': 'desenho e prototipagem de interfaces para sistemas internos e landing pages. implementação com hubspot e elementor.',
-    'exp.camerge.period': '2024 — presente',
+    'exp.camerge.desc': 'design e prototipagem de interfaces para sistemas internos e landing pages. e-mails, formulários e automações no hubspot (hubl + html), além de peças em wordpress e elementor.',
+    'exp.camerge.period': 'jun 2024 — jun 2026',
     'exp.bioma.role': 'estágio em desenvolvimento de produto',
     'exp.bioma.company': 'Fazendas Bioma',
     'exp.bioma.desc': 'apoio no desenvolvimento do site com figma e wordpress, além de prototipagem e hardware para projetos de iot.',
@@ -249,12 +253,18 @@ export const ui = {
     // --- EXPERIENCE (UPDATED) ---
     'exp.title': 'experience',
     'exp.path': 'career path',
-    
-    // Camerge
+
+    // Camerge (current)
+    'exp.camerge2.role': 'Marketing Operations Assistant',
+    'exp.camerge2.company': 'CAMERGE',
+    'exp.camerge2.desc': 'Technical marketing & sales infrastructure: HubSpot CRM automations, lead scoring, paid traffic (Meta & Google Ads), and landing page/CRO optimization.',
+    'exp.camerge2.period': 'Jun 2026 — Present',
+
+    // Camerge (internship)
     'exp.camerge.role': 'UI Design Intern',
     'exp.camerge.company': 'CAMERGE',
-    'exp.camerge.desc': 'Design and prototyping of internal system interfaces and landing pages. Implementation via HubSpot (HUBL + HTML) and Elementor.',
-    'exp.camerge.period': '2024 — Present',
+    'exp.camerge.desc': 'Designed and prototyped interfaces for internal systems and landing pages. Built emails, forms, and automations in HubSpot (HubL + HTML), plus assets in WordPress and Elementor.',
+    'exp.camerge.period': 'Jun 2024 — Jun 2026',
     
     // Bioma
     'exp.bioma.role': 'Product Development Intern',
