@@ -452,12 +452,6 @@ a[href] {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Smooth image loading */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
 /* Hide default summary marker */
 summary::-webkit-details-marker {
   display: none;

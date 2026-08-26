@@ -2,6 +2,7 @@
 // ...existing code...
 
 import { useTranslations } from '../i18n/utils';
+import { projectEntries } from '../data/projects';
 import BentoGrid from './bento/BentoGrid.astro';
 import BentoItem from './bento/BentoItem.astro';
 import { Icon } from 'astro-icon/components';
@@ -25,11 +26,18 @@ const toolkit = [
   { icon: 'simple-icons:framer', brand: 'Framer', color: '#0055FF', iconClass: 'scale-[0.88]' },
 ];
 
-const featuredProject = {
-  href: 'https://rijiapp.site',
-  title: '日记 - riji',
-  desc: t('projects.riji.desc'),
-};
+const featuredProjectData = projectEntries.find((project) => project.slug === 'riji');
+const featuredProject = featuredProjectData
+  ? {
+      href: `/projects/${featuredProjectData.slug}`,
+      title: featuredProjectData.title,
+      desc: featuredProjectData.subtitle,
+    }
+  : {
+      href: '/projects/riji',
+      title: '日记 riji',
+      desc: t('projects.riji.desc'),
+    };
 
 const heroTitle = {
   primary: t('hero.title.primary'),
@@ -55,8 +63,7 @@ const heroTitle = {
 
     <a
       href={featuredProject.href}
-      target="_blank"
-      rel="nofollow"
+      data-astro-prefetch="viewport"
       class="group block rounded-[2rem] overflow-hidden bg-brand-purple/95 backdrop-blur-md border border-brand-purple/70 p-5 text-white shadow-[0_24px_60px_-34px_rgba(176,102,255,0.45)]"
     >
       <div class="flex items-center justify-between mb-10">
@@ -113,9 +120,9 @@ const heroTitle = {
           {t('hero.swipe')}
         </span>
       </div>
-      <div class="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] mobile-tech-strip">
+      <div class="flex gap-3 overflow-x-auto pb-3 -mx-6 px-6 snap-x snap-mandatory scroll-pl-6 scroll-pr-6 [scrollbar-width:none] [-ms-overflow-style:none] mobile-tech-strip">
         {toolkit.map((tool) => (
-          <div class="snap-start shrink-0 w-[106px] min-h-[126px] rounded-[1.45rem] surface-muted px-3 py-4 flex flex-col items-center justify-center text-center">
+          <div class="snap-start shrink-0 w-[96px] min-h-[118px] sm:w-[106px] sm:min-h-[126px] rounded-[1.45rem] surface-muted px-3 py-4 flex flex-col items-center justify-center text-center">
             <div class="w-12 h-12 rounded-2xl bg-black/[0.055] dark:bg-white/5 border border-black/8 dark:border-white/8 grid place-items-center mb-3 overflow-hidden">
               <Icon
                 name={tool.icon}

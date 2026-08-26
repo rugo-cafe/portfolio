@@ -1,5 +1,4 @@
 ---
-import { existsSync } from 'node:fs';
 import { Icon } from 'astro-icon/components';
 import { useTranslations } from '../i18n/utils';
 
@@ -10,34 +9,8 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
 
-const highlights = [
-  {
-    icon: 'ph:paint-brush-bold',
-    title: t('about.highlights.ui.title'),
-    desc: t('about.highlights.ui.desc'),
-  },
-  {
-    icon: 'ph:code-bold',
-    title: t('about.highlights.frontend.title'),
-    desc: t('about.highlights.frontend.desc'),
-  },
-  {
-    icon: 'ph:lightning-bold',
-    title: t('about.highlights.product.title'),
-    desc: t('about.highlights.product.desc'),
-  },
-];
-
-const values = [
-  t('about.values.1'),
-  t('about.values.2'),
-  t('about.values.3'),
-  t('about.values.4'),
-];
-
 const avatarSrc = '/avatar/vitor-hugo-avatar.webp';
 const avatarAlt = 'retrato de vitor hugo cunha';
-const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url));
 ---
 
 <section id="about" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
@@ -54,23 +27,17 @@ const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
     
     <!-- Photo Column -->
-    <div class="lg:col-span-4 reveal reveal-delay-100">
+    <div class="lg:col-span-4 reveal reveal-delay-100 pb-10 md:pb-0">
       <div class="relative">
         <!-- Photo Container -->
         <div class="aspect-square rounded-3xl overflow-hidden glass-strong flex items-center justify-center">
-          {hasAvatar ? (
-            <img
-              src={avatarSrc}
-              alt={avatarAlt}
-              class="w-full h-full object-cover object-top origin-top scale-[1.08]"
-              loading="lazy"
-              decoding="async"
-            />
-          ) : (
-            <div class="text-brand-dark/20 dark:text-white/10">
-              <Icon name="ph:user-circle-fill" class="w-32 h-32" />
-            </div>
-          )}
+          <img
+            src={avatarSrc}
+            alt={avatarAlt}
+            class="w-full h-full object-cover object-top origin-top scale-[1.08]"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         
         <!-- Decorative Elements -->
@@ -78,15 +45,15 @@ const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url
         <div class="absolute -top-4 -left-4 w-16 h-16 bg-brand-terracotta/10 rounded-full blur-xl" data-parallax="0.5"></div>
         
         <!-- Floating Badge -->
-        <div class="absolute -bottom-3 left-6 right-6 p-4 rounded-2xl glass-subtle shadow-[0_20px_40px_-28px_rgba(39,35,42,0.28)] dark:shadow-lg">
-          <div class="flex items-center gap-3">
+        <div class="absolute bottom-4 md:-bottom-3 left-4 right-4 md:left-6 md:right-6 p-3 md:p-4 rounded-2xl glass-subtle shadow-[0_20px_40px_-28px_rgba(39,35,42,0.28)] dark:shadow-lg">
+          <div class="flex w-full md:w-auto items-center justify-center md:justify-start gap-3 text-center md:text-left">
             <div class="relative">
               <span class="flex h-3 w-3">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
               </span>
             </div>
-            <span class="text-sm font-medium text-brand-dark dark:text-brand-light">
+            <span class="text-[13px] md:text-sm font-medium text-brand-dark dark:text-brand-light">
               {t('work.status')}
             </span>
           </div>
@@ -98,56 +65,20 @@ const hasAvatar = existsSync(new URL(`../../public${avatarSrc}`, import.meta.url
     <div class="lg:col-span-8 space-y-10">
       
       <!-- Intro -->
-      <div class="space-y-4 reveal reveal-delay-200">
-        <p class="text-xl md:text-2xl leading-relaxed text-brand-dark/90 dark:text-brand-light/90 font-medium">
+      <div class="space-y-6 max-w-xl reveal reveal-delay-200">
+        <p class="text-xl md:text-2xl leading-relaxed text-white font-semibold">
           {t('about.intro.1')}
         </p>
-        <p class="text-base md:text-lg leading-relaxed text-brand-dark/60 dark:text-brand-light/60">
+        <p class="text-base md:text-lg leading-relaxed text-zinc-400">
           {t('about.intro.2')}
         </p>
-      </div>
-
-      <!-- Highlights Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 reveal reveal-delay-300">
-        {highlights.map((item, index) => (
-          <div
-            class="reveal stagger-item"
-            style={`transition-delay: ${index * 100}ms;`}
-          >
-            <div class="h-full group p-5 rounded-2xl surface-muted hover:border-brand-purple/30 hover:-translate-y-2 hover:shadow-[0_24px_50px_-32px_rgba(39,35,42,0.24)] transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform">
-              <div class="w-10 h-10 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4 group-hover:bg-brand-purple/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                <Icon name={item.icon} class="w-5 h-5 text-brand-purple" />
-              </div>
-              <h3 class="font-bold text-base text-brand-dark dark:text-brand-light mb-2">
-                {item.title}
-              </h3>
-              <p class="text-sm text-brand-dark/60 dark:text-brand-light/60 leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <!-- Values -->
-      <div class="pt-6 border-t border-brand-dark/5 dark:border-brand-light/5 reveal reveal-delay-400">
-        <h3 class="text-xs font-mono uppercase tracking-widest text-brand-dark/40 dark:text-brand-light/40 mb-4">
-          {t('about.values.label')}
-        </h3>
-        <div class="flex flex-wrap gap-3">
-          {values.map((value, index) => (
-            <span 
-              class="stagger-item inline-flex px-4 py-2 rounded-full surface-muted text-sm font-medium text-brand-dark/70 dark:text-brand-light/70 hover:border-brand-purple/30 hover:text-brand-purple hover:scale-105 transition-all duration-300 cursor-default"
-              style={`transition-delay: ${index * 100}ms;`}
-            >
-              {value}
-            </span>
-          ))}
-        </div>
+        <p class="text-base md:text-lg leading-relaxed text-zinc-400">
+          {t('about.intro.3')}
+        </p>
       </div>
 
       <!-- CTA -->
-      <div class="flex flex-col sm:flex-row gap-4 reveal reveal-delay-500">
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 reveal reveal-delay-500">
         <a 
           href="mailto:contato@vitorhugocunha.com" 
           class="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-purple text-white font-medium hover:bg-brand-purple/90 hover:scale-105 hover:shadow-lg hover:shadow-brand-purple/30 transition-all duration-300 lowercase"

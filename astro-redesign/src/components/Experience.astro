@@ -138,19 +138,19 @@ const education = [
   </div>
 
   <!-- Lista Educação -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
     {education.map((edu) => (
-      <div class="relative p-6 rounded-2xl surface-muted hover:border-brand-purple/30 dark:hover:border-brand-purple/20 transition-colors">
-        <div class="flex justify-between items-start mb-4">
+      <div class="relative p-5 sm:p-6 rounded-2xl surface-muted hover:border-brand-purple/30 dark:hover:border-brand-purple/20 transition-colors">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-4">
            <div>
-             <h4 class="font-bold text-lg text-brand-dark dark:text-brand-light leading-tight mb-1">
+             <h4 class="font-bold text-base sm:text-lg text-brand-dark dark:text-brand-light leading-tight mb-1">
                {edu.degree}
              </h4>
              <p class="text-sm text-brand-dark/60 dark:text-brand-light/60 font-medium">
                {edu.school}
              </p>
            </div>
-           <span class="inline-flex text-xs font-mono font-semibold py-1 px-2 rounded-md glass-subtle text-brand-dark/75 dark:text-brand-light/85">
+           <span class="inline-flex self-start sm:self-auto whitespace-nowrap text-[11px] sm:text-xs font-mono font-semibold py-1 px-2 rounded-md glass-subtle text-brand-dark/75 dark:text-brand-light/85">
              {edu.period}
            </span>
         </div>
