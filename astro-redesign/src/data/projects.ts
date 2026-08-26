@@ -32,7 +32,7 @@ const projectContent: Record<ProjectSlug, ProjectContent> = {
     subtitle: 'registro diário minimalista e seguro.',
     overview: 'um espaço focado em privacidade e fluidez para anotações do dia a dia. a ideia principal foi criar um diário digital sem distrações visuais.',
     challengeAndSolution: 'o maior foco foi garantir a privacidade de quem escreve. o app utiliza criptografia local para assegurar que as notas sejam lidas apenas pelo próprio usuário, unindo uma interface extremamente limpa com uma arquitetura segura por baixo dos panos.',
-    role: ['ui design', 'frontend'],
+    role: ['product design', 'frontend', 'arquitetura de dados'],
     stack: [
       'typescript',
       'vite',
@@ -58,7 +58,7 @@ const projectContent: Record<ProjectSlug, ProjectContent> = {
     subtitle: 'rádio, arquivo e identidade visual.',
     overview: 'o hub central para o programa de rádio coisas bonitas. um espaço para reunir os mixes, as entrevistas e as colaborações musicais transmitidas na hkcr.',
     challengeAndSolution: 'o desafio aqui foi traduzir a atmosfera sonora do projeto para o navegador. desenvolvi uma identidade visual interativa que funciona não apenas como um portfólio de áudio, mas como uma extensão imersiva da experiência da rádio.',
-    role: ['visual design', 'frontend', 'curadoria'],
+    role: ['identidade visual', 'frontend', 'curadoria'],
     stack: ['html', 'css', 'javascript'],
     links: [
       {
@@ -80,7 +80,7 @@ const projectContent: Record<ProjectSlug, ProjectContent> = {
     subtitle: 'processamento de imagens em real-time.',
     overview: 'uma ferramenta web experimental focada em aplicar algoritmos de dithering em imagens direto no navegador.',
     challengeAndSolution: 'o objetivo foi criar uma interface responsiva que permitisse o ajuste fino dos parâmetros do filtro visual com feedback imediato. o projeto une exploração estética com manipulação eficiente de canvas no front-end.',
-    role: ['ui design', 'desenvolvimento web'],
+    role: ['creative coding', 'canvas & shaders', 'frontend'],
     stack: ['svelte', 'canvas api'],
   },
   'ambi-mixer': {
@@ -88,7 +88,7 @@ const projectContent: Record<ProjectSlug, ProjectContent> = {
     subtitle: 'gerador de ambiências para foco.',
     overview: 'um web app desenhado para ajudar na concentração, combinando diferentes texturas sonoras para criar a atmosfera perfeita para trabalhar ou estudar.',
     challengeAndSolution: 'atualmente em desenvolvimento, o foco está na criação de uma interface limpa onde a manipulação dos canais de áudio seja tátil e intuitiva, rodando de forma leve em segundo plano.',
-    role: ['ui design', 'frontend'],
+    role: ['frontend', 'web audio api', 'design de interação'],
     stack: ['svelte', 'web audio api'],
     links: [
       {
