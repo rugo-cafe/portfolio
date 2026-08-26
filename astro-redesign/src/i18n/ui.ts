@@ -8,19 +8,19 @@ export const defaultLang = 'pt';
 export const ui = {
   pt: {
     // --- NAV & HERO ---
-    'role.title': 'designer + frontend',
-    'meta.title': 'vitor hugo cunha | designer + frontend',
-    'meta.description': 'portfólio de vitor hugo cunha, com foco em interfaces, frontend e projetos autorais.',
+    'role.title': 'frontend + crm',
+    'meta.title': 'vitor hugo cunha | frontend + crm',
+    'meta.description': 'portfólio de vitor hugo cunha, com foco em frontend, automação de crm e projetos autorais.',
     'nav.home': 'início',
     'nav.about': 'sobre',
     'nav.projects': 'projetos',
     'nav.aria.language': 'selecionar idioma',
     'nav.aria.theme': 'alternar tema',
-    'hero.role': 'designer + frontend',
+    'hero.role': 'frontend + crm',
     'hero.kicker': 'portfólio 2026',
-    'hero.title.primary': 'designer +',
-    'hero.title.secondary': 'frontend.',
-    'hero.desc': 'desenho e desenvolvo interfaces simples, com atenção aos detalhes e implementação limpa.',
+    'hero.title.primary': 'frontend +',
+    'hero.title.secondary': 'crm.',
+    'hero.desc': 'desenvolvo interfaces e automações, com atenção aos detalhes e implementação limpa.',
     'hero.swipe': 'arraste',
     
     // --- PROJECTS ---
@@ -35,11 +35,11 @@ export const ui = {
     'work.status': 'disponível para projetos e parcerias',
     'work.statusShort': 'disponível',
     'work.title': 'falar comigo ->',
-    'work.desc': 'se tiver um freela, posso ajudar com design de interface (ui) e frontend.',
+    'work.desc': 'se tiver um freela, posso ajudar com frontend, automação de crm e web design.',
 
     // --- ABOUT ---
-    'about.intro.1': 'sou vitor hugo. desenho e desenvolvo interfaces digitais entre o figma e o front-end.',
-    'about.intro.2': 'atualmente trabalho na camerge aplicando ui/ux, código e dados. cuido de páginas de conversão, sistemas internos e regras de negócio no crm.',
+    'about.intro.1': 'sou vitor hugo. trabalho entre frontend e automação de marketing, unindo código e crm.',
+    'about.intro.2': 'atualmente na camerge cuido de automações no hubspot, tráfego pago e páginas de conversão. comecei em design de interface, e ainda é uma área que amo — só que aos poucos venho migrando mais pro código e pros dados.',
     'about.intro.3': 'no tempo livre, fico entre música, games e teclados mecânicos.',
     'about.highlights.ui.title': 'interface',
     'about.highlights.ui.desc': 'hierarquia limpa, tipografia bem resolvida e ritmo sem excesso.',
@@ -144,19 +144,19 @@ export const ui = {
   
   en: {
     // --- NAV & HERO ---
-    'role.title': 'designer + frontend',
-    'meta.title': 'vitor hugo cunha | designer + frontend',
-    'meta.description': 'portfolio of vitor hugo cunha, focused on interfaces, frontend, and personal projects.',
+    'role.title': 'frontend + crm',
+    'meta.title': 'vitor hugo cunha | frontend + crm',
+    'meta.description': 'portfolio of vitor hugo cunha, focused on frontend, crm automation, and personal projects.',
     'nav.home': 'home',
     'nav.about': 'about',
     'nav.projects': 'projects',
     'nav.aria.language': 'select language',
     'nav.aria.theme': 'toggle theme',
-    'hero.role': 'designer + frontend',
+    'hero.role': 'frontend + crm',
     'hero.kicker': 'portfolio 2026',
-    'hero.title.primary': 'designer +',
-    'hero.title.secondary': 'frontend.',
-    'hero.desc': 'i design and build simple interfaces, with attention to detail and clean implementation.',
+    'hero.title.primary': 'frontend +',
+    'hero.title.secondary': 'crm.',
+    'hero.desc': 'i build interfaces and automations, with attention to detail and clean implementation.',
     'hero.swipe': 'swipe',
     
     // --- PROJECTS ---
@@ -173,12 +173,12 @@ export const ui = {
     'work.status': 'open to projects & collaborations',
     'work.statusShort': 'available',
     'work.title': 'talk to me ->',
-    'work.desc': 'if you have a freelance gig, i can help with ui design and frontend.',
+    'work.desc': 'if you have a freelance gig, i can help with frontend, crm automation, and web design.',
     
     // --- ABOUT ---
-    'about.intro.1': "i'm vitor. i work as a design engineer, blending ui/ux, frontend, and data.",
-    'about.intro.2': 'i design interfaces focused on conversion and performance, caring for the flow end-to-end—from crm structure to code in the browser.',
-    'about.intro.3': 'currently focused on digital products and business intelligence at camerge.',
+    'about.intro.1': "i'm vitor. i work between frontend and marketing automation, blending code and crm.",
+    'about.intro.2': "at camerge, i handle hubspot automations, paid traffic, and conversion pages. i started out in interface design—still love it—but i've been steadily moving more into code and data.",
+    'about.intro.3': "in my free time, i'm usually between music, games, and mechanical keyboards.",
     'about.highlights.ui.title': 'interface',
     'about.highlights.ui.desc': 'clean hierarchy, well-resolved type, and rhythm without excess.',
     'about.highlights.frontend.title': 'frontend',
@@ -292,18 +292,18 @@ export const ui = {
 
   jp: {
     // Mantendo placeholders para evitar erros
-    'role.title': 'デザイン + フロントエンド',
-    'meta.title': 'vitor hugo cunha | デザイン + フロントエンド',
-    'meta.description': 'vitor hugo cunha のポートフォリオ。インターフェース、フロントエンド、個人プロジェクト。',
+    'role.title': 'フロントエンド + CRM',
+    'meta.title': 'vitor hugo cunha | フロントエンド + CRM',
+    'meta.description': 'vitor hugo cunha のポートフォリオ。フロントエンド、CRM自動化、個人プロジェクト。',
     'nav.home': 'ホーム',
     'nav.about': '約',
     'nav.projects': 'プロジェクト',
     'nav.aria.language': '言語を選択',
     'nav.aria.theme': 'テーマを切り替え',
-    'hero.role': 'デザイン + フロントエンド',
+    'hero.role': 'フロントエンド + CRM',
     'hero.kicker': 'ポートフォリオ 2026',
-    'hero.title.primary': 'デザイン +',
-    'hero.title.secondary': 'フロントエンド.',
+    'hero.title.primary': 'フロントエンド +',
+    'hero.title.secondary': 'CRM.',
     'hero.desc': '細部にまでこだわった流動的なインターフェースの作成に注力しています。',
     'hero.swipe': 'スワイプ',
     'riji.tag': '毎日のミニマル日記 · 2026',
