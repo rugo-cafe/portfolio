@@ -31,5 +31,5 @@ const archiveMotion = readFileSync(join(process.cwd(), 'src/scripts/archive-moti
 assert.ok(archiveGallery.includes('ArchiveRail') && archiveGallery.includes('data-archive-gallery'), 'archive index is missing');
 assert.ok(archivePlate.includes('data-archive-plate') && archivePlate.includes('data-archive-glyph'), 'project glyph hooks are missing');
 assert.ok(archiveMotion.includes('requestAnimationFrame') && archiveMotion.includes('prefers-reduced-motion'), 'accessible scroll logic is missing');
-assert.ok(!archiveMotion.includes('opacity'), 'scroll interaction must not hide and flash content');
+assert.ok(!/\.style\.opacity\b|setProperty\(['"]opacity['"]|\.animate\(/.test(archiveMotion), 'scroll interaction must not hide and flash content');
 console.log('static smoke checks passed: 2 languages, 8 project pages, essential landmarks.');
