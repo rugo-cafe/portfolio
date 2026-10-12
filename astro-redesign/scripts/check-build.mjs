@@ -32,4 +32,16 @@ assert.ok(archiveGallery.includes('ArchiveRail') && archiveGallery.includes('dat
 assert.ok(archivePlate.includes('data-archive-plate') && archivePlate.includes('data-archive-glyph'), 'project glyph hooks are missing');
 assert.ok(archiveMotion.includes('requestAnimationFrame') && archiveMotion.includes('prefers-reduced-motion'), 'accessible scroll logic is missing');
 assert.ok(!/\.style\.opacity\b|setProperty\(['"]opacity['"]|\.animate\(/.test(archiveMotion), 'scroll interaction must not hide and flash content');
+const detail = readFileSync(join(process.cwd(), 'src/components/ProjectDetail.astro'), 'utf8');
+const identity = readFileSync(join(process.cwd(), 'src/components/ArtifactIdentity.astro'), 'utf8');
+const hero = readFileSync(join(process.cwd(), 'src/components/Hero.astro'), 'utf8');
+assert.ok(detail.includes('ArtifactIdentity') && identity.includes('data-identity'), 'project-specific identity should appear in detail pages');
+assert.ok(!detail.includes('.tiny,.eyebrow,.case-path,.identity-wrapper {'), 'case metadata styling regression');
+assert.ok(hero.includes('sou vitor') && hero.includes('i’m vitor'), 'both languages need a personal introduction');
+for (const lang of ['', 'en']) {
+  const html = readFileSync(join(dist, lang, 'index.html'), 'utf8');
+  for (const slug of slugs) {
+    assert.ok(html.includes('id="artifact-' + slug + '"'), 'missing in-page artifact anchor: ' + slug);
+  }
+}
 console.log('static smoke checks passed: 2 languages, 8 project pages, essential landmarks.');

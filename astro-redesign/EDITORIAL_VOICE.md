@@ -45,3 +45,9 @@ poetry by **precision, juxtaposition and silence**, not by adjectives. The reade
 
 ## workflow for future revisions
 For each passage, write two alternative versions: a literal one and a slightly elliptical one. Mark verifiable facts separately. Keep only the version that reads like something the author would actually say.
+
+## passagens revisadas na versão experimental final
+- Abertura: “entre páginas, sons e pequenos programas.” Mantém-se informação profissional concreta no parágrafo seguinte.
+- Sobre: “um pé no design, outro no som.” Referência a duas práticas reais, sem sugerir que uma substitui a outra.
+- A descrição do coisas bonitas usa o programa de rádio, a HKCR e o arquivo como fatos verificáveis, em vez de “experiência imersiva”.
+- Cabe ao autor revisar as imagens verbais antes de tratá-las como copy autoral definitiva.

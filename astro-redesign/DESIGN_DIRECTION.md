@@ -70,3 +70,10 @@ Referências usadas como **princípios**, não como templates:
 - movimento não deve impor performance, atrasar leitura ou exigir JavaScript para navegar.
 - medir FPS/CLS e conferir clique, foco, toque e navegação em aparelhos reais **antes do merge**.
 - evitar slogans de portfólio, inclusive metáforas ambiciosas demais.
+
+## acabamento v0.4 / revisão de implementação
+- Reescrita do hero com afirmações mais específicas e menos grandiosas: design e desenvolvimento de interfaces, rádio, arquivo HKCR.
+- Tipografia deliberadamente distinta apenas onde serve à personalidade do projeto: registro com nota serifada no coisas bonitas, mono no dither studio, sem sacrificar legibilidade.
+- Metadados de case detail corrigidos após detectar seletor CSS indevido.
+- Âncoras da galeria, espaçamento de toque no índice mobile e no-JS progressivo reforçados pelos testes estáticos.
+- Compilação não equivale a teste visual em navegador. A fotografia permanece fora do site até escolha do proprietário.
