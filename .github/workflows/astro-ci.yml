@@ -34,5 +34,7 @@ jobs:
       # Regenerate and commit the lockfile before changing this back to npm ci.
       - name: Install (diagnostic)
         run: npm install --no-audit --no-fund
+      - name: Show lockfile changes (temporary)
+        run: git diff -- package-lock.json
       - name: Build static site
         run: npm run build
