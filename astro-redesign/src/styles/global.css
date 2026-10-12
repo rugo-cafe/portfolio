@@ -4,14 +4,14 @@
 /* The system has one source of truth: semantic tokens, not component-specific colors. */
 :root {
   color-scheme: light;
-  --bg: #f0efea;
+  --bg: #f2f0e9;
   --text: #222321;
   --muted: #646660;
   --border: #cfcec7;
-  --accent: #5146c7;
-  --surface: #e7e6e0;
-  --surface-muted: #e7e6e0;
-  --focus: #5146c7;
+  --accent: #aa3d31;
+  --surface: #e4e0d7;
+  --surface-muted: #e4e0d7;
+  --focus: #aa3d31;
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-display: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -28,16 +28,16 @@
   --text: #e9eae4;
   --muted: #a4a69e;
   --border: #41443c;
-  --accent: #b8afff;
+  --accent: #ff9b83;
   --surface: #252722;
   --surface-muted: #252722;
-  --focus: #b8afff;
+  --focus: #ff9b83;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--bg); scroll-padding-top: 6rem; }
 body { margin: 0; min-width: 320px; background: var(--bg); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
 body, a, button { -webkit-tap-highlight-color: transparent; }
-body { transition: background-color var(--speed-medium) var(--ease-standard), color var(--speed-medium) var(--ease-standard); }
+/* No full-page opacity/color transitions: content should never flash on navigation. */
 ::selection { background: var(--accent); color: var(--bg); }
 img { display: block; max-width: 100%; }
 a { color: inherit; }
