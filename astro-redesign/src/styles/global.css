@@ -12,6 +12,8 @@
   --surface: #e4e0d7;
   --surface-muted: #e4e0d7;
   --focus: #aa3d31;
+  --accent-signal: #e0ec72;
+  --signal-ink: #24271a;
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-display: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -32,6 +34,8 @@
   --surface: #252722;
   --surface-muted: #252722;
   --focus: #ff9b83;
+  --accent-signal: #c5df6a;
+  --signal-ink: #24271a;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--bg); scroll-padding-top: 6rem; }

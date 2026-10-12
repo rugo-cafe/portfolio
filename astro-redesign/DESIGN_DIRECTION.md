@@ -42,3 +42,13 @@ a foto anterior foi retirada do layout da home, mas o arquivo permanece salvo. u
 - validar visualmente 320–390px, tablet, desktop, dark mode, foco/teclado, mobile touch.
 - nenhuma transição de opacidade de seções, nenhum piscar entre rotas.
 - sempre manter rotas e conteúdo PT/EN.
+
+
+## proposta experimental v0.3: movimento com significado (não publicada)
+- pequenos glifos relacionados ao projeto respondem à passagem do scroll; o conteúdo e as capturas permanecem visíveis e imóveis.
+- o índice lateral atualiza a posição da leitura e oferece âncoras reais, inclusive sem JavaScript.
+- barra de percurso com escala transformada por requestAnimationFrame sob demanda, sem loops de renderização permanentes.
+- nenhuma animação de entrada de seções, mudança de opacidade do texto ou roteamento em crossfade.
+- uma cor-sinal cítrica (`--accent-signal`) experimentada nos glifos, não como fundo indiscriminado.
+- começar a reescrita conforme `EDITORIAL_VOICE.md`; textos da v0.3 são propostas revisáveis.
+- NÃO fazer merge antes de ver a composição e as interações no navegador.

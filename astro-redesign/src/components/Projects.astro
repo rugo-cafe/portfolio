@@ -2,39 +2,47 @@
 import { getProjectEntries } from '../data/projects';
 import { useTranslations } from '../i18n/utils';
 import ProjectPlate from './ProjectPlate.astro';
+import ArchiveRail from './ArchiveRail.astro';
+
 interface Props { lang: string }
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
 const projects = getProjectEntries(lang as any);
 const pt = lang === 'pt';
 ---
-<section id="projects" class="container projects" aria-labelledby="projects-heading">
+<section id="projects" class="container projects" aria-labelledby="projects-heading" data-archive-section>
   <header class="work-intro">
     <div>
-      <p class="work-small">{pt ? 'o que ando fazendo' : 'things i’ve been making'}</p>
-      <h2 id="projects-heading">{pt ? 'algumas coisas que vivem na web' : 'a few things that live on the web'}<span aria-hidden="true"> ↘</span></h2>
+      <p class="work-small">{pt ? 'pequeno arquivo / 01—04' : 'small archive / 01—04'}</p>
+      <h2 id="projects-heading">{pt ? 'coisas que ganharam endereço' : 'things that found an address'}<span aria-hidden="true"> ↘</span></h2>
     </div>
-    <p class="work-margin">{pt ? 'escrita, rádio, som, imagem. cada um nasceu de uma vontade diferente.' : 'writing, radio, sound, images. each came from a different curiosity.'}</p>
+    <p class="work-margin">{pt ? 'um diário, uma rádio, um mixer, uma imagem desfeita em pontos.' : 'a journal, a radio show, a mixer, an image rebuilt from dots.'}</p>
   </header>
-  <ol class="gallery">
-    {projects.map((project, index) => <ProjectPlate project={project} index={index} lang={lang} />)}
-  </ol>
+  <div class="gallery-frame">
+    <ArchiveRail projects={projects} lang={lang} />
+    <ol class="gallery" data-archive-gallery>
+      {projects.map((project, index) => <ProjectPlate project={project} index={index} lang={lang} />)}
+    </ol>
+  </div>
   <div class="gallery-end">
-    <span>{pt ? 'mais coisas estão espalhadas por aí.' : 'more things are scattered around.'}</span>
+    <span>{pt ? 'o arquivo não termina aqui.' : 'the archive doesn’t end here.'}</span>
     <a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">{t('projects.github.more')} ↗</a>
   </div>
 </section>
+<script>import '../scripts/archive-motion';</script>
 <style>
   .projects { padding-top: clamp(2rem, 4vw, 4rem); padding-bottom: clamp(5rem, 9vw, 9rem); }
   .work-intro { display: flex; align-items: end; justify-content: space-between; gap: clamp(2rem, 6vw, 6rem); margin-bottom: clamp(3rem, 6vw, 6rem); }
   .work-small { color: var(--accent); font: .73rem/1.4 var(--font-mono); margin-bottom: 1.1rem; }
   h2 { font: 400 clamp(1.75rem, 2.8vw, 2.8rem)/1.18 var(--font-display); letter-spacing: -.05em; max-width: 24ch; }
   h2 span { color: var(--accent); white-space: nowrap; }
-  .work-margin { font: .79rem/1.65 var(--font-mono); color: var(--muted); max-width: 25ch; }
-  .gallery { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1.25rem, 4.7vw, 5rem); row-gap: clamp(3rem, 7vw, 7rem); align-items: start; }
+  .work-margin { font: .79rem/1.65 var(--font-mono); color: var(--muted); max-width: 27ch; }
+  .gallery-frame { display: grid; grid-template-columns: minmax(7.5rem,1.15fr) minmax(0,9fr); gap: clamp(1.25rem, 4vw, 4.5rem); align-items: start; }
+  .gallery { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1.25rem, 3.8vw, 4rem); row-gap: clamp(3rem, 7vw, 7rem); align-items: start; }
   .gallery-end { border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.2rem; padding-top: 1.3rem; margin-top: clamp(3rem, 7vw, 7rem); font: .76rem/1.55 var(--font-mono); color: var(--muted); }
   .gallery-end a { color: var(--text); text-underline-offset: .2rem; }
   .gallery-end a:hover { color: var(--accent); }
+  @media(max-width:900px) { .gallery-frame { display: block; } }
   @media(max-width:780px) {
     .work-intro { align-items: start; flex-direction: column; gap: 1rem; }
     .gallery { grid-template-columns: minmax(0,1fr); row-gap: 3.5rem; }

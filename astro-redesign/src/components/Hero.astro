@@ -3,25 +3,25 @@ interface Props { lang: string }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
 const copy = pt ? {
-  marker: 'um canto da internet, feito à mão',
-  title: 'construo coisas para a web. algumas começam com um problema; outras, com uma curiosidade.',
-  intro: 'sou vitor, de florianópolis. trabalho entre design e código. fora disso, faço rádio, experimento com som e crio ferramentas que eu gostaria de usar.',
-  explore: 'ver o que ando fazendo',
-  elsewhere: 'e também estou por aqui',
-  note: 'em constante construção'
+  marker: 'florianópolis → qualquer navegador',
+  title: 'escrevo código para coisas que se usam, se escutam ou se guardam.',
+  intro: 'sou vitor. trabalho com interfaces e desenvolvimento web. como rugo, faço rádio e reúno transmissões no coisas bonitas, na hkcr. aqui essas linhas acabam se cruzando.',
+  explore: 'abrir o arquivo',
+  elsewhere: 'outros endereços',
+  note: 'entre tela e transmissão'
 } : {
-  marker: 'a small corner of the internet, made by hand',
-  title: 'i build things for the web. some start with a problem; others with curiosity.',
-  intro: 'i’m vitor, from florianópolis. i work between design and code. outside of that, i make radio, experiment with sound and build tools i want to use.',
-  explore: 'see what i’ve been making',
-  elsewhere: 'you can also find me here',
-  note: 'a work in progress'
+  marker: 'florianópolis → any browser',
+  title: 'i write code for things you use, listen to, or keep.',
+  intro: 'i’m vitor. i work with interfaces and web development. as rugo, i make radio and collect broadcasts through coisas bonitas on hkcr. this is where those lines cross.',
+  explore: 'open the archive',
+  elsewhere: 'other addresses',
+  note: 'between screen and transmission'
 };
 ---
 <section id="home" class="hero container" aria-labelledby="hero-title">
   <div class="hero-top">
     <span class="micro">{copy.marker}</span>
-    <span class="micro">florianópolis / br</span>
+    <span class="micro">vitor hugo cunha / 2026</span>
   </div>
   <div class="hero-grid">
     <div class="hero-left">
@@ -42,7 +42,7 @@ const copy = pt ? {
     </div>
   </div>
   <div class="hero-bottomline" aria-hidden="true">
-    <span>um arquivo em movimento</span><span>✳</span><span>2026</span>
+    <span>{pt ? 'tela / som / arquivo' : 'screen / sound / archive'}</span><span>✳</span><span>{pt ? 'em aberto' : 'open-ended'}</span>
   </div>
 </section>
 <style>
@@ -51,7 +51,8 @@ const copy = pt ? {
   .hero-top { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
   .hero-grid { display: grid; grid-template-columns: minmax(6rem, 3fr) minmax(0, 9fr); gap: clamp(1rem, 5vw, 5rem); padding-block: clamp(4rem, 9vw, 8.5rem); }
   .hero-left { display: flex; flex-direction: column; justify-content: space-between; align-items: start; gap: 3rem; }
-  .asterisk { font-size: clamp(2.25rem, 5vw, 5rem); line-height: 1; color: var(--accent); display: block; transform: rotate(-12deg); }
+  .asterisk { font-size: clamp(2.25rem, 5vw, 5rem); line-height: 1; color: var(--accent); display: block; transform: rotate(-12deg); transition: transform 850ms var(--ease-out); }
+  .hero-grid:hover .asterisk { transform: rotate(32deg); }
   .hero-aside { max-width: 18ch; }
   h1 { max-width: 26ch; font: 400 clamp(2.15rem, 3.65vw, 3.9rem)/1.13 var(--font-display); letter-spacing: -.055em; }
   .intro { max-width: 53ch; margin-top: clamp(2rem, 4vw, 3.5rem); font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.66; }
@@ -72,4 +73,5 @@ const copy = pt ? {
     .elsewhere { text-align: left; }
   }
   @media(max-width:440px) { .hero-top { font-size: .7rem; } .hero-bottomline { font-size: .62rem; } }
+  @media(prefers-reduced-motion:reduce){.asterisk{transition:none}.hero-grid:hover .asterisk{transform:none}}
 </style>
