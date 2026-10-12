@@ -1,236 +1,108 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { getProjectEntries } from '../data/projects';
 import { useTranslations } from '../i18n/utils';
-import { getProjectEntries, ProjectStatus } from '../data/projects';
 
-interface Props {
-  lang: string;
-}
-
+interface Props { lang: string }
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
-
 const projects = getProjectEntries(lang as any);
-const projectHref = (slug: string) => (lang === 'pt' ? `/projects/${slug}` : `/${lang}/projects/${slug}`);
-
-const statusConfig: Record<ProjectStatus, { label: string; class: string }> = {
-  'live': { label: t('projects.status.live'), class: 'bg-green-500/20 text-green-600 dark:text-green-400' },
-  'in-progress': { label: t('projects.status.progress'), class: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' },
-  'planned': { label: t('projects.status.planned'), class: 'bg-brand-purple/20 text-brand-purple' },
-};
-
-const colorConfig: Record<string, string> = {
-  purple: 'from-brand-purple/12 to-transparent',
-  terracotta: 'from-brand-terracotta/12 to-transparent',
-  green: 'from-brand-green/12 to-transparent',
-};
-
-const CARD_TAG_LIMIT = 3;
-const MOBILE_TAG_LIMIT = 2;
-
+const hrefFor = (slug: string) => lang === 'pt' ? `/projects/${slug}` : `/${lang}/projects/${slug}`;
+const words = lang === 'pt'
+  ? { eyebrow: '01 / arquivo', title: 'trabalhos selecionados', kind: 'projeto', view: 'ver projeto', note: 'interfaces, ferramentas e pequenos lugares na web' }
+  : { eyebrow: '01 / index', title: 'selected work', kind: 'project', view: 'view project', note: 'interfaces, tools and small places on the web' };
 ---
-
-<section id="projects" class="w-full max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-32 relative">
-  
-  <!-- Section Header -->
-  <div class="mb-10 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-4 reveal">
-    <h2 class="font-display font-bold text-4xl md:text-5xl text-brand-dark dark:text-brand-light tracking-tight lowercase" data-section-title>
-      {t('nav.projects')}<span class="text-brand-purple">.</span>
-    </h2>
-    <div class="h-px bg-brand-dark/10 dark:bg-brand-light/10 flex-1 ml-6 mb-2 hidden md:block"></div>
-    <span class="text-xs font-mono uppercase tracking-widest text-brand-dark/50 dark:text-brand-light/50 mb-1.5 hidden md:block">
-      {t('projects.sectionLabel')}
-    </span>
-  </div>
-
-  <div class="md:hidden -mx-6 pl-6 pr-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] mobile-projects-strip">
-    <div class="flex gap-4 snap-x snap-mandatory pb-2">
-      {projects.map((project) => (
-        <a
-          href={projectHref(project.slug)}
-          data-astro-prefetch="viewport"
-          aria-label={`${t('projects.details')}: ${project.title}`}
-          class="project-card group snap-start shrink-0 w-[82vw] max-w-[340px] rounded-[2rem] surface overflow-hidden text-left"
-        >
-          <div class={`h-44 relative overflow-hidden bg-gradient-to-br ${colorConfig[project.color]}`}>
-            {project.resolvedImage ? (
-              <img
-                src={project.resolvedImage}
-                alt={project.imageAlt}
-                class={`project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${project.slug === 'riji' ? '' : 'object-left'}`}
-                loading="lazy"
-              />
-            ) : null}
-            <div class="absolute inset-0 bg-linear-to-t from-black/18 via-transparent to-transparent"></div>
-          </div>
-
-          <div class="p-5 space-y-4">
-            <div class="flex items-start justify-between gap-3">
-              <div class="min-w-0">
-                <h3 class="font-display font-bold text-2xl tracking-tight text-brand-dark dark:text-brand-light lowercase">
-                  {project.title}
-                </h3>
-                <p class="text-sm text-brand-dark/52 dark:text-brand-light/52 lowercase truncate">
-                  {project.subtitle}
-                </p>
-              </div>
-              <span class={`shrink-0 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.18em] leading-none whitespace-nowrap ${statusConfig[project.status].class}`}>
-                {statusConfig[project.status].label}
-              </span>
-            </div>
-
-            <p class="text-sm leading-relaxed text-brand-dark/72 dark:text-brand-light/72 line-clamp-2">
-              {project.overview}
-            </p>
-
-            <div class="flex flex-wrap items-center gap-2 min-w-0">
-              {project.stack.slice(0, MOBILE_TAG_LIMIT).map((tag) => (
-              <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono leading-none text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
-                  {tag}
-                </span>
-              ))}
-              {project.stack.length > MOBILE_TAG_LIMIT && (
-                <span class="shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-purple bg-brand-purple/10 px-2.5 py-1 rounded-lg">
-                  +{project.stack.length - MOBILE_TAG_LIMIT}
-                </span>
-              )}
-            </div>
-
-            <div class="inline-flex items-center gap-2 text-sm font-medium text-brand-purple">
-              <span>{t('projects.details')}</span>
-              <Icon name="ph:arrow-right-bold" class="w-4 h-4" />
-            </div>
-          </div>
-        </a>
-      ))}
+<section id="projects" class="editorial-projects" aria-labelledby="projects-heading">
+  <header class="projects-heading">
+    <div>
+      <p class="eyebrow">{words.eyebrow}</p>
+      <h2 id="projects-heading">{words.title}</h2>
     </div>
+    <p class="projects-note">{words.note}</p>
+  </header>
+
+  <div class="projects-layout">
+    <ol class="project-index">
+      {projects.map((project, index) => (
+        <li class="project-entry">
+          <a href={hrefFor(project.slug)} data-preview={project.slug} aria-label={`${words.view}: ${project.title}`}>
+            <span class="project-number">{String(index + 1).padStart(2, '0')}</span>
+            <span class="project-main">
+              <span class="project-name">{project.title}</span>
+              <span class="project-subtitle">{project.subtitle}</span>
+              {project.resolvedImage && <img class="project-inline-image" src={project.resolvedImage} alt={project.imageAlt} loading="lazy" decoding="async" />}
+            </span>
+            <span class="project-year">2026</span>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <aside class="project-preview" aria-hidden="true">
+      <span class="preview-label">preview / <span data-preview-number>01</span></span>
+      {projects.map((project, index) => project.resolvedImage && (
+        <img src={project.resolvedImage} alt="" loading="lazy" decoding="async" data-preview-image={project.slug} class={index === 0 ? 'active' : ''} />
+      ))}
+      <span class="preview-caption" data-preview-caption>{projects[0]?.title}</span>
+    </aside>
   </div>
-
-  <!-- Projects Grid -->
-  <div class="hidden md:grid grid-cols-1 md:grid-cols-2 gap-6">
-    {projects.map((project, index) => (
-      <a 
-        href={projectHref(project.slug)}
-        data-astro-prefetch="viewport"
-        aria-label={`${t('projects.details')}: ${project.title}`}
-        class={`project-card group relative p-0 rounded-3xl surface text-left overflow-hidden reveal reveal-delay-${(index + 1) * 100} cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50 md:min-h-[240px] motion-reduce:transform-none motion-reduce:transition-none`}
-      >
-        <!-- Gradient Background on Hover -->
-        <div class={`absolute inset-0 bg-gradient-to-br ${colorConfig[project.color]} opacity-0 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none`}></div>
-        
-        <!-- Content -->
-        <div class="relative z-10 flex flex-col md:grid md:grid-cols-[minmax(190px,32%)_minmax(0,1fr)] h-full">
-          <div class="w-full shrink-0 overflow-hidden bg-black/[0.04] dark:bg-white/5 md:h-full border-b md:border-b-0 md:border-r border-black/8 dark:border-brand-light/10">
-            <div class="w-full h-full">
-              {project.resolvedImage ? (
-                <img
-                  src={project.resolvedImage}
-                  alt={project.imageAlt}
-                  class={`project-card-image w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${project.slug === 'riji' ? '' : 'object-left'}`}
-                  loading="lazy"
-                />
-              ) : (
-                <div class="w-full h-full flex items-center justify-center text-xs uppercase tracking-wider text-brand-dark/40 dark:text-brand-light/40 font-mono">
-                  {t('projects.modal.preview')}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div class="min-w-0 grid grid-rows-[auto_auto_1fr_auto] p-5 md:px-5 md:py-4">
-            <div class="flex items-start justify-between gap-4 mb-3">
-              <div class="min-w-0">
-                <h3 class="font-display font-bold text-xl md:text-2xl text-brand-dark dark:text-brand-light group-hover:text-brand-purple transition-colors duration-300 lowercase">
-                  {project.title}
-                </h3>
-                <span class="text-sm text-brand-dark/50 dark:text-brand-light/50 lowercase">
-                  {project.subtitle}
-                </span>
-              </div>
-              <span class={`shrink-0 px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-[0.18em] leading-none whitespace-nowrap ${statusConfig[project.status].class}`}>
-                {statusConfig[project.status].label}
-              </span>
-            </div>
-
-            <p class="text-base text-brand-dark/70 dark:text-brand-light/70 leading-relaxed mb-4 max-w-[40ch]">
-              {project.overview}
-            </p>
-
-            <div class="flex flex-wrap items-center gap-2 min-w-0">
-              {project.stack.slice(0, CARD_TAG_LIMIT).map((tag) => (
-                <span class="inline-flex shrink-0 text-[11px] uppercase tracking-wider font-mono leading-none text-brand-dark/45 dark:text-brand-light/40 bg-black/[0.045] dark:bg-white/5 px-2.5 py-1 rounded-lg">
-                  {tag}
-                </span>
-              ))}
-              {project.stack.length > CARD_TAG_LIMIT && (
-                <span class="shrink-0 text-[11px] uppercase tracking-wider font-mono text-brand-purple bg-brand-purple/10 px-2.5 py-1 rounded-lg">
-                  +{project.stack.length - CARD_TAG_LIMIT}
-                </span>
-              )}
-            </div>
-
-            <div class="pt-4 flex items-center gap-2 text-sm font-medium text-brand-purple opacity-70 md:opacity-0 translate-y-1 transition-all duration-300 lowercase group-hover:opacity-100 group-hover:translate-y-0">
-              <span>{t('projects.details')}</span>
-              <Icon name="ph:arrow-right-bold" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </div>
-          </div>
-        </div>
-        
-        <!-- Corner Decoration -->
-        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-brand-purple/5 rounded-full blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700"></div>
-      </a>
-    ))}
-  </div>
-
-  <!-- GitHub Link -->
-  <div class="text-center mt-12 reveal">
-    <a 
-      href="https://github.com/rugo-cafe" 
-      target="_blank"
-      class="inline-flex items-center gap-2 text-sm text-brand-dark/50 dark:text-brand-light/50 hover:text-brand-purple transition-colors duration-300 lowercase"
-    >
-      <Icon name="simple-icons:github" class="w-4 h-4" />
-      <span>{t('projects.github.more')}</span>
-      <Icon name="ph:arrow-up-right-bold" class="w-3 h-3" />
-    </a>
-  </div>
-
+  <p class="all-projects"><a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">{t('projects.github.more')} ↗</a></p>
 </section>
 
-<style is:global>
-  .mobile-projects-strip::-webkit-scrollbar {
-    display: none;
+<script>
+  const setup = () => {
+    const root = document.querySelector<HTMLElement>('.editorial-projects');
+    if (!root) return;
+    const entries = root.querySelectorAll<HTMLAnchorElement>('[data-preview]');
+    const imgs = root.querySelectorAll<HTMLElement>('[data-preview-image]');
+    const num = root.querySelector<HTMLElement>('[data-preview-number]');
+    const caption = root.querySelector<HTMLElement>('[data-preview-caption]');
+    const activate = (link: HTMLAnchorElement, index: number) => {
+      imgs.forEach(img => img.classList.toggle('active', img.dataset.previewImage === link.dataset.preview));
+      if (num) num.textContent = String(index + 1).padStart(2, '0');
+      if (caption) caption.textContent = link.querySelector('.project-name')?.textContent ?? '';
+    };
+    entries.forEach((link, index) => {
+      link.addEventListener('pointerenter', () => activate(link, index));
+      link.addEventListener('focus', () => activate(link, index));
+    });
+  };
+  document.addEventListener('astro:page-load', setup);
+  setup();
+</script>
+
+<style>
+  .editorial-projects{width:100%;max-width:1400px;margin:auto;padding:clamp(4rem,9vw,9rem) clamp(1.25rem,4vw,3rem);color:var(--text)}
+  .projects-heading{display:flex;justify-content:space-between;align-items:end;gap:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+  .eyebrow,.projects-note,.project-number,.project-year,.preview-label,.preview-caption{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;letter-spacing:.025em}
+  .eyebrow{color:var(--accent);margin-bottom:1.25rem}
+  h2{font-size:clamp(1.6rem,3vw,2.5rem);letter-spacing:-.045em;font-weight:550;line-height:1.1}
+  .projects-note{max-width:24ch;text-align:right;opacity:.65}
+  .projects-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(2rem,5vw,6rem);padding-top:1.5rem}
+  .project-index{list-style:none;padding:0;margin:0}
+  .project-entry{border-bottom:1px solid var(--border)}
+  .project-entry a{color:inherit;display:grid;grid-template-columns:2.6rem minmax(0,1fr) 3rem 1.2rem;gap:.75rem;align-items:start;text-decoration:none;padding:1.5rem 0;transition:color .18s ease}
+  .project-entry a:hover,.project-entry a:focus-visible{color:var(--accent)}
+  .project-number,.project-year{opacity:.56;padding-top:.42rem}
+  .project-arrow{font-size:1.1rem;text-align:right}
+  .project-main{min-width:0}
+  .project-name{display:block;font-size:clamp(1.35rem,2.15vw,2rem);letter-spacing:-.045em;line-height:1.12;font-weight:500}
+  .project-subtitle{display:block;font-size:.82rem;margin-top:.5rem;opacity:.65;color:var(--text);line-height:1.45}
+  .project-inline-image{display:none}
+  .project-preview{align-self:start;position:sticky;top:7.5rem;min-height:19rem;aspect-ratio:5/4;background:color-mix(in srgb,var(--text) 4%,transparent);overflow:hidden}
+  .project-preview img{position:absolute;inset:2rem 0 1.8rem;width:100%;height:calc(100% - 3.8rem);object-fit:cover;opacity:0;transition:opacity .23s ease;display:block}
+  .project-preview img.active{opacity:1}
+  .preview-label,.preview-caption{position:absolute;z-index:2;left:1rem;color:var(--text);opacity:.65}
+  .preview-label{top:.75rem}.preview-caption{bottom:.55rem}
+  .all-projects{margin-top:2rem;font-size:.85rem}
+  .all-projects a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
+  @media(max-width:760px){
+    .projects-heading{display:block}
+    .projects-note{text-align:left;margin-top:1rem}
+    .projects-layout{display:block;padding-top:0}
+    .project-preview{display:none}
+    .project-entry a{grid-template-columns:2rem minmax(0,1fr) 1.4rem;gap:.55rem;padding:1.5rem 0 1.75rem}
+    .project-year{display:none}
+    .project-inline-image{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;margin-top:1.2rem;background:color-mix(in srgb,var(--text) 5%,transparent)}
   }
-
-  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-    .project-card {
-      transform-origin: center;
-      will-change: transform;
-      transition:
-        transform 520ms cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 520ms cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 360ms ease;
-    }
-
-    .project-card:hover {
-      transform: translateY(-10px) scale(1.06);
-      border-color: rgba(176, 102, 255, 0.35);
-      box-shadow:
-        0 42px 90px -56px rgba(176, 102, 255, 0.65),
-        0 20px 50px -30px rgba(0, 0, 0, 0.45);
-      z-index: 10;
-    }
-
-    .project-card:hover .project-card-image {
-      transform: scale(1.08);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .project-card,
-    .project-card-image {
-      transition-duration: 1ms !important;
-      transform: none !important;
-    }
-  }
+  @media(prefers-reduced-motion:reduce){.project-preview img,.project-entry a{transition:none}}
 </style>
