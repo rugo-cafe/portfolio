@@ -1,37 +1,58 @@
 ---
-import { useTranslations } from '../i18n/utils';
-import SectionHeading from './SectionHeading.astro';
 interface Props { lang: string }
 const { lang } = Astro.props;
-const t = useTranslations(lang as any);
-const isPt = lang === 'pt';
+const pt = lang === 'pt';
+const content = pt ? {
+  label: 'um pouco sobre mim',
+  heading: 'não é só sobre trabalho.',
+  lead: 'gosto da parte da internet onde ainda cabe experimentar.',
+  first: 'venho do design de produto e trabalho com interfaces, código e automações. gosto de entender como uma coisa funciona, desenhar uma maneira de usá-la e depois construí-la.',
+  second: 'fora do expediente, sou rugo: faço música, apresento o coisas bonitas na hkcr e passo bastante tempo juntando referências sonoras e visuais.',
+  note: 'ainda gosto de pensar no navegador como um espaço para brincar e fazer coisas estranhas.',
+  listen: 'ouvir coisas bonitas'
+} : {
+  label: 'a little about me',
+  heading: 'it’s not all about work.',
+  lead: 'i like the part of the internet where there’s still room to experiment.',
+  first: 'i come from product design and work with interfaces, code and automation. i like understanding how something works, designing ways to use it, and then building it.',
+  second: 'outside of work, i’m rugo: i make music, host coisas bonitas on hkcr, and spend a lot of time collecting sounds and visual references.',
+  note: 'i still like to think of the browser as somewhere to play and make strange things.',
+  listen: 'listen to coisas bonitas'
+};
 ---
-<section id="about" class="container section-space" aria-labelledby="about-heading">
-  <SectionHeading id="about-heading" index="02 /" title={t('nav.about')} aside={isPt ? 'processo, prática e interesses' : 'process, practice and interests'} />
-  <div class="about-grid">
-    <figure class="portrait" data-animate>
-      <img src="/avatar/vitor-hugo-avatar.webp" alt={isPt ? 'retrato de vitor hugo cunha' : 'portrait of vitor hugo cunha'} loading="lazy" decoding="async" width="800" height="800" />
-      <figcaption class="meta-label">vitor hugo cunha / florianópolis</figcaption>
-    </figure>
-    <div class="about-copy">
-      <p class="about-lead" data-animate>{t('about.intro.1')}</p>
-      <p data-animate>{t('about.intro.2')}</p>
-      <p data-animate>{t('about.intro.3')}</p>
-      <div class="about-links" data-animate>
-        <a class="text-link" href="mailto:contato@vitorhugocunha.com">{t('about.cta.contact')} ↗</a>
-        <a class="text-link" href="https://www.linkedin.com/in/vitor-hugo-cunha/" target="_blank" rel="noopener noreferrer">{t('about.cta.linkedin')} ↗</a>
-      </div>
+<section id="about" class="container about" aria-labelledby="about-heading">
+  <div class="about-label"><span class="marker">✳</span><span class="small">{content.label}</span></div>
+  <div class="about-main">
+    <div>
+      <h2 id="about-heading">{content.heading}</h2>
+      <p class="lead">{content.lead}</p>
+      <p>{content.first}</p>
+      <p>{content.second}</p>
+      <a class="listen" href="https://coisasbonitas.neocities.org/" target="_blank" rel="noopener noreferrer">{content.listen} ↗</a>
     </div>
+    <aside class="margin-note">
+      <span class="note-line" aria-hidden="true">↳</span>
+      <p>{content.note}</p>
+      <span class="signature">— vitor</span>
+    </aside>
   </div>
 </section>
 <style>
-  .about-grid { display: grid; grid-template-columns: minmax(12rem, .7fr) minmax(0, 1.3fr); gap: clamp(2rem, 10vw, 10rem); align-items: start; padding-top: clamp(2rem, 5vw, 5rem); }
-  .portrait { max-width: 24rem; }
-  .portrait img { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; object-position: center top; filter: saturate(.78); }
-  .portrait figcaption { padding-top: .9rem; }
-  .about-copy { max-width: 56ch; display: grid; gap: 1.5rem; }
-  .about-copy p { font-size: clamp(.98rem, 1.2vw, 1.13rem); line-height: 1.72; color: var(--muted); }
-  .about-copy .about-lead { font-size: clamp(1.35rem, 2.25vw, 2rem); font-weight: 500; letter-spacing: -.035em; line-height: 1.3; color: var(--text); }
-  .about-links { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: .65rem; font-size: .88rem; }
-  @media (max-width: 720px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } .portrait { width: min(64vw, 22rem); } }
+  .about { padding-block: clamp(5rem, 12vw, 12rem); display: grid; grid-template-columns: 1fr 5fr; gap: clamp(1rem, 5vw, 5rem); }
+  .about-label { display: flex; flex-direction: column; gap: 1.5rem; color: var(--accent); }
+  .marker { display: block; font-size: 2.25rem; line-height: 1; }
+  .small { font: .73rem/1.5 var(--font-mono); color: var(--muted); }
+  .about-main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(11rem, .65fr); gap: clamp(2rem, 7vw, 7rem); align-items: end; }
+  h2 { font: 400 clamp(1.7rem, 3vw, 3rem)/1.12 var(--font-display); letter-spacing: -.05em; margin-bottom: 2rem; max-width: 20ch; }
+  .about-main p { font-size: clamp(.98rem, 1.2vw, 1.15rem); max-width: 56ch; line-height: 1.7; margin-top: 1.25rem; }
+  .about-main .lead { font-size: clamp(1.2rem, 1.8vw, 1.65rem); max-width: 35ch; line-height: 1.45; letter-spacing: -.02em; }
+  .listen { display: inline-block; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .25rem; margin-top: 2rem; font-size: .9rem; }
+  .listen:hover { color: var(--accent); }
+  .margin-note { color: var(--muted); padding-bottom: 2rem; transform: rotate(-2deg); max-width: 22ch; }
+  .margin-note p { font: .86rem/1.65 var(--font-mono); }
+  .signature { display: block; margin-top: .8rem; font: .76rem var(--font-mono); }
+  .note-line { color: var(--accent); font-size: 1.8rem; }
+  @media(max-width:900px){.about{grid-template-columns:1fr}.about-label{flex-direction:row;align-items:center}.about-main{grid-template-columns:minmax(0, 1fr) minmax(9rem,.4fr)}}
+  @media(max-width:600px){.about-main{grid-template-columns:1fr}.margin-note{margin-left:auto;max-width:29ch;padding-bottom:0}}
+  @media(prefers-reduced-motion: reduce){.margin-note{transform:none}}
 </style>
