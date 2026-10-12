@@ -28,3 +28,6 @@
 
 ## adding projects
 add translated content and an asset to `src/data/projects.ts`; ensure links work and image alt is meaningful. only publish concrete work and honestly sourced claims.
+
+## artifact identity
+Each project detail page uses `ArtifactIdentity.astro`, with a single accessible decorative scaffold and a different visual material per project (lines, rings, audio bars, dot field). Do not add arbitrary movement to reading content; keep decorative CSS hover-only, no infinite loops.
