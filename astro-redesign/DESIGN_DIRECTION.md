@@ -52,3 +52,5 @@ a foto anterior foi retirada do layout da home, mas o arquivo permanece salvo. u
 - uma cor-sinal cítrica (`--accent-signal`) experimentada nos glifos, não como fundo indiscriminado.
 - começar a reescrita conforme `EDITORIAL_VOICE.md`; textos da v0.3 são propostas revisáveis.
 - NÃO fazer merge antes de ver a composição e as interações no navegador.
+
+- As imagens podem deslocar no máximo 12 px no scroll, usando transforms e sem alterar opacidade; fundos geométricos remetem ao material dos projetos (linhas/escrita, ondas/rádio, faixas/som, pontos/dither). Esta escolha é experimental e reversível.

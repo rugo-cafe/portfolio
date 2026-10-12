@@ -44,6 +44,8 @@ if (gallery && section) {
       const relative = Math.max(-1, Math.min(1, (middle - center) / viewportHeight));
       glyph.style.setProperty('--glyph-y', (relative * -18).toFixed(1) + 'px');
       glyph.style.setProperty('--glyph-rotation', (relative * -16).toFixed(1) + 'deg');
+      const artwork = plate.querySelector<HTMLElement>('[data-scroll-art]');
+      artwork?.style.setProperty('--art-y', (relative * -12).toFixed(1) + 'px');
     }
 
     if (nearest !== activeIndex) {
@@ -76,9 +78,11 @@ if (gallery && section) {
   motionPreference.addEventListener?.('change', () => {
     for (const plate of plates) {
       const glyph = plate.querySelector<HTMLElement>('[data-archive-glyph]');
-      if (glyph && motionPreference.matches) {
-        glyph.style.removeProperty('--glyph-y');
-        glyph.style.removeProperty('--glyph-rotation');
+      const artwork = plate.querySelector<HTMLElement>('[data-scroll-art]');
+      if (motionPreference.matches) {
+        glyph?.style.removeProperty('--glyph-y');
+        glyph?.style.removeProperty('--glyph-rotation');
+        artwork?.style.removeProperty('--art-y');
       }
     }
     schedule();
