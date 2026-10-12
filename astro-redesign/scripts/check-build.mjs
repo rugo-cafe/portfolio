@@ -20,4 +20,9 @@ for (const [prefix, expectedLang] of [['', 'pt-br'], ['en', 'en']]) {
     assert.ok(readFileSync(page, 'utf8').includes('id="main-content"'), 'missing skip target: ' + slug);
   }
 }
+const layoutSource = readFileSync(join(process.cwd(), 'src/layouts/Layout.astro'), 'utf8');
+assert.ok(!layoutSource.includes('ClientRouter'), 'ClientRouter can introduce an unwanted page crossfade');
+assert.ok(!layoutSource.includes('scripts/motion'), 'global scroll-reveal animation must not run');
+const portfolioSource = readFileSync(join(process.cwd(), 'src/components/Projects.astro'), 'utf8');
+assert.ok(portfolioSource.includes('ProjectPlate'), 'project gallery should be artifact-based, not hidden previews');
 console.log('static smoke checks passed: 2 languages, 8 project pages, essential landmarks.');
