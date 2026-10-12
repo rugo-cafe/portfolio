@@ -25,4 +25,11 @@ assert.ok(!layoutSource.includes('ClientRouter'), 'ClientRouter can introduce an
 assert.ok(!layoutSource.includes('scripts/motion'), 'global scroll-reveal animation must not run');
 const portfolioSource = readFileSync(join(process.cwd(), 'src/components/Projects.astro'), 'utf8');
 assert.ok(portfolioSource.includes('ProjectPlate'), 'project gallery should be artifact-based, not hidden previews');
+const archiveGallery = readFileSync(join(process.cwd(), 'src/components/Projects.astro'), 'utf8');
+const archivePlate = readFileSync(join(process.cwd(), 'src/components/ProjectPlate.astro'), 'utf8');
+const archiveMotion = readFileSync(join(process.cwd(), 'src/scripts/archive-motion.ts'), 'utf8');
+assert.ok(archiveGallery.includes('ArchiveRail') && archiveGallery.includes('data-archive-gallery'), 'archive index is missing');
+assert.ok(archivePlate.includes('data-archive-plate') && archivePlate.includes('data-archive-glyph'), 'project glyph hooks are missing');
+assert.ok(archiveMotion.includes('requestAnimationFrame') && archiveMotion.includes('prefers-reduced-motion'), 'accessible scroll logic is missing');
+assert.ok(!archiveMotion.includes('opacity'), 'scroll interaction must not hide and flash content');
 console.log('static smoke checks passed: 2 languages, 8 project pages, essential landmarks.');
