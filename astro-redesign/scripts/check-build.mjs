@@ -37,7 +37,7 @@ const identity = readFileSync(join(process.cwd(), 'src/components/ArtifactIdenti
 const hero = readFileSync(join(process.cwd(), 'src/components/Hero.astro'), 'utf8');
 assert.ok(detail.includes('ArtifactIdentity') && identity.includes('data-identity'), 'project-specific identity should appear in detail pages');
 assert.ok(!detail.includes('.tiny,.eyebrow,.case-path,.identity-wrapper {'), 'case metadata styling regression');
-assert.ok(hero.includes('sou vitor') && hero.includes('i’m vitor'), 'both languages need a personal introduction');
+assert.ok(hero.includes('design de interfaces e desenvolvimento web') && hero.includes('interface design and web development'), 'both languages need a factual introduction');
 for (const lang of ['', 'en']) {
   const html = readFileSync(join(dist, lang, 'index.html'), 'utf8');
   for (const slug of slugs) {
