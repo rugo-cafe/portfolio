@@ -11,7 +11,7 @@ const identity: Record<string, { glyph: string; labelPt: string; labelEn: string
 };
 const motif = identity[kind] ?? identity.riji;
 ---
-<div class="artifact-identity" data-identity={kind} aria-hidden="true">
+<div class="artifact-identity" data-identity={kind} data-interactive-object aria-hidden="true">
   <span class="identity-label">{pt ? motif.labelPt : motif.labelEn}</span>
   <span class="identity-sign">{motif.glyph}</span>
   <span class="identity-detail">{motif.detail}</span>
@@ -28,7 +28,7 @@ const motif = identity[kind] ?? identity.riji;
   .artifact-identity[data-identity="dither-studio"]{background:#d9cade}
   .identity-label,.identity-detail{position:absolute;z-index:3;font:.68rem/1.3 var(--font-mono)}
   .identity-label{left:1rem;top:1rem}.identity-detail{right:1rem;bottom:1rem}
-  .identity-sign{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);font:400 clamp(5rem,11vw,11rem)/1 var(--font-mono);letter-spacing:-.08em}
+  .identity-sign{transition:transform 550ms var(--ease-out);position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);font:400 clamp(5rem,11vw,11rem)/1 var(--font-mono);letter-spacing:-.08em}
   .writing-lines{position:absolute;inset:20% 12% 15%;display:grid;align-content:space-evenly}
   .writing-lines i{height:1px;background:#554f6160}
   .writing-lines i:nth-child(even){width:82%}
@@ -40,8 +40,14 @@ const motif = identity[kind] ?? identity.riji;
   .sound-bars i:nth-child(3n){height:65%}.sound-bars i:nth-child(5n){height:24%}
   .dither-field{position:absolute;inset:7%;opacity:.4;background-image:radial-gradient(#514063 1px,transparent 1px);background-size:9px 9px}
   @media(prefers-reduced-motion:no-preference){
+    .artifact-identity[data-identity="riji"]:hover .identity-sign { transform:translate(-50%,-53%) rotate(-3deg); }
+    .artifact-identity[data-identity="coisas-bonitas"]:hover .identity-sign { transform:translate(-50%,-50%) rotate(8deg); }
+    .artifact-identity[data-identity="ambi-mixer"]:hover .identity-sign { transform:translate(-50%,-53%) scaleX(1.15); }
+    .artifact-identity[data-identity="dither-studio"]:hover .identity-sign { transform:translate(-50%,-50%) scale(.92); }
+
     .artifact-identity[data-identity="coisas-bonitas"]:hover .radio-rings{transform:scale(1.045)}
     .artifact-identity[data-identity="ambi-mixer"]:hover .sound-bars{transform:scaleY(.9)}
     .radio-rings,.sound-bars{transition:transform 650ms var(--ease-out)}
   }
+  @media(prefers-reduced-motion:reduce){.identity-sign,.radio-rings,.sound-bars{transition:none!important;transform:none!important}}
 </style>

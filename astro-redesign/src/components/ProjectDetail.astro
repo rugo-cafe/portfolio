@@ -30,12 +30,12 @@ const label = motif[pt ? 'pt' : 'en'];
     </div>
     <header class="case-hero">
       <aside class="case-marginal">
-        <span class="tiny">{pt ? 'um pequeno objeto digital' : 'a small digital object'}</span>
+        <span class="tiny">{pt ? 'nota de projeto' : 'project note'}</span>
         <span class="case-motif" aria-hidden="true">{motif.symbol}</span>
         <span class="tiny">↳ {label}</span>
       </aside>
       <div class="case-intro">
-        <p class="eyebrow">{pt ? 'feito para a web' : 'made for the web'} / {label}</p>
+        <p class="eyebrow">{label} / {String(position + 1).padStart(2, '0')}</p>
         <h1>{project.title}</h1>
         <p class="case-subtitle">{project.subtitle}</p>
         {project.links && project.links.length > 0 && (

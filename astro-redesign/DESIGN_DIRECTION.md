@@ -54,3 +54,19 @@ a foto anterior foi retirada do layout da home, mas o arquivo permanece salvo. u
 - NÃO fazer merge antes de ver a composição e as interações no navegador.
 
 - As imagens podem deslocar no máximo 12 px no scroll, usando transforms e sem alterar opacidade; fundos geométricos remetem ao material dos projetos (linhas/escrita, ondas/rádio, faixas/som, pontos/dither). Esta escolha é experimental e reversível.
+
+
+## referências pesquisadas / 2026-10-12
+
+Referências usadas como **princípios**, não como templates:
+
+1. [Are.na](https://www.are.na/about): conteúdo como coleção conectável, não listagem de serviços. Aplicação: índice de objetos com categorias simples e navegação que aproxima os projetos.
+2. [The Pudding](https://pudding.cool/resources/): scroll como mudança de contexto e instrumento de leitura. Aplicação: índice de capítulo, barra de progresso e movimento pequeno nos elementos gráficos, sem revelar/esconder texto.
+3. [Bruno Simon](https://bruno-simon.com/): interação como evidência do que o autor sabe construir. Não copiar 3D, mas demonstrar autonomia digital por pequenas respostas táteis.
+4. [Active Theory](https://activetheory.net): movimento com sistema e direção de arte própria. Rejeitamos a escala WebGL e o alto custo de performance para este projeto.
+
+### próximos limites de qualidade
+- identidade visual não é uma cor aleatória por projeto: cada gramática (linhas/ondas/barras/pontos) deve corresponder a uma prática concreta.
+- movimento não deve impor performance, atrasar leitura ou exigir JavaScript para navegar.
+- medir FPS/CLS e conferir clique, foco, toque e navegação em aparelhos reais **antes do merge**.
+- evitar slogans de portfólio, inclusive metáforas ambiciosas demais.
