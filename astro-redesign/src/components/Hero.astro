@@ -3,42 +3,56 @@ interface Props { lang: string }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
 const copy = pt
-  ? { label: 'portfólio pessoal / 2026', role: 'desenvolvimento web, interfaces e experimentos digitais.', body: 'trabalho entre design e código, criando ferramentas e experiências para a web. alguns projetos são profissionais; outros surgem da curiosidade.', location: 'florianópolis, br', work: 'ver trabalhos', contact: 'entrar em contato' }
-  : { label: 'personal portfolio / 2026', role: 'web development, interfaces and digital experiments.', body: 'i work between design and code, building tools and experiences for the web. some projects are professional; others come from curiosity.', location: 'florianópolis, br', work: 'selected work', contact: 'get in touch' };
+  ? {
+      label: 'portfólio pessoal / 2026',
+      role: 'desenvolvimento web, interfaces e experimentos digitais.',
+      body: 'trabalho entre design e código, criando ferramentas e experiências para a web. alguns projetos são profissionais; outros surgem da curiosidade.',
+      location: 'florianópolis, br',
+      work: 'trabalhos selecionados',
+      contact: 'conversar'
+    }
+  : {
+      label: 'personal portfolio / 2026',
+      role: 'web development, interfaces and digital experiments.',
+      body: 'i work between design and code, building tools and experiences for the web. some projects are professional; others come from curiosity.',
+      location: 'florianópolis, br',
+      work: 'selected work',
+      contact: 'get in touch'
+    };
 ---
-<section id="home" class="editorial-hero" aria-labelledby="hero-name">
-  <div class="hero-meta"><span>{copy.label}</span><span>{copy.location}</span></div>
+<section id="home" class="container editorial-hero" aria-labelledby="hero-name">
+  <div class="hero-meta" data-animate><span>{copy.label}</span><span>{copy.location}</span></div>
   <div class="hero-composition">
-    <p class="hero-side">01 — 04<br />independent web<br />& interaction</p>
-    <div>
-      <h1 id="hero-name">vitor hugo cunha<span class="hero-period">.</span></h1>
-      <p class="hero-role">{copy.role}</p>
-      <p class="hero-body">{copy.body}</p>
-      <div class="hero-links"><a href="#projects">{copy.work} <span aria-hidden="true">↘</span></a><a href="mailto:contato@vitorhugocunha.com">{copy.contact} <span aria-hidden="true">↗</span></a></div>
+    <p class="hero-side meta-label" data-animate data-delay="90">00 / 04<br />{pt ? 'design + código' : 'design + code'}<br />web independente</p>
+    <div class="hero-text">
+      <h1 id="hero-name" data-animate>vitor hugo cunha<span class="hero-period">.</span></h1>
+      <p class="hero-role" data-animate data-delay="60">{copy.role}</p>
+      <p class="hero-body" data-animate data-delay="100">{copy.body}</p>
+      <div class="hero-links" data-animate data-delay="140">
+        <a href="#projects">{copy.work} <span aria-hidden="true">↘</span></a>
+        <a href="mailto:contato@vitorhugocunha.com">{copy.contact} <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </div>
-  <div class="hero-end"><span>design × code</span><span>scroll ↓</span></div>
+  <div class="hero-end meta-label"><span>v.01 — 2026</span><a href="#projects">{pt ? 'explorar ↓' : 'explore ↓'}</a></div>
 </section>
 <style>
-  .editorial-hero{width:100%;max-width:1400px;margin:auto;padding:clamp(6.5rem,12vw,11rem) clamp(1.25rem,4vw,3rem) clamp(3rem,6vw,6rem);min-height:min(92svh,840px);display:flex;flex-direction:column;justify-content:space-between;color:var(--text)}
-  .hero-meta,.hero-side,.hero-end{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;line-height:1.6;letter-spacing:.02em;color:color-mix(in srgb,var(--text) 55%,transparent)}
-  .hero-meta,.hero-end{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--border);padding-bottom:1rem}
-  .hero-end{border-bottom:0;border-top:1px solid var(--border);padding:1rem 0 0}
-  .hero-composition{display:grid;grid-template-columns:minmax(8rem,1fr) minmax(0,4fr);gap:clamp(1rem,5vw,5rem);align-items:start;padding:clamp(3rem,8vw,8rem) 0}
-  .hero-side{margin-top:.7rem}
-  h1{font-size:clamp(2.6rem,5.25vw,5.7rem);letter-spacing:-.065em;line-height:1.03;font-weight:550;max-width:17ch}
-  .hero-period{color:var(--accent)}
-  .hero-role{font-size:clamp(1.15rem,2vw,1.65rem);line-height:1.28;letter-spacing:-.025em;max-width:28ch;margin-top:1.6rem}
-  .hero-body{font-size:clamp(.95rem,1.2vw,1.08rem);line-height:1.7;max-width:52ch;opacity:.7;margin-top:1.6rem}
-  .hero-links{display:flex;flex-wrap:wrap;gap:1.8rem;margin-top:2.5rem;font-size:.88rem}
-  .hero-links a{color:inherit;text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:.4rem}
-  .hero-links a:hover{color:var(--accent);border-color:var(--accent)}
-  @media(max-width:760px){
-    .editorial-hero{min-height:80svh;padding-top:7.5rem}
-    .hero-composition{grid-template-columns:1fr}
-    .hero-side{order:2;margin-top:2rem}
-    h1{font-size:clamp(2.65rem,11vw,4.6rem)}
-    .hero-body{max-width:40ch}
-    .hero-end{margin-top:2rem}
-  }
+  .editorial-hero { min-height: min(83svh, 800px); padding-top: clamp(2rem, 4vw, 4rem); padding-bottom: clamp(2rem, 5vw, 5rem); display: flex; flex-direction: column; justify-content: space-between; }
+  .hero-meta, .hero-end { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+  .hero-meta { font: .71rem/1.5 var(--font-mono); color: var(--muted); }
+  .hero-end { border-bottom: 0; border-top: 1px solid var(--border); padding: 1rem 0 0; }
+  .hero-end a { text-decoration: none; }
+  .hero-end a:hover { color: var(--accent); }
+  .hero-composition { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(0, 4fr); gap: clamp(1rem, 5vw, 5rem); align-items: start; padding: clamp(3rem, 7vw, 7rem) 0; }
+  .hero-side { margin-top: .45rem; }
+  .hero-text { max-width: 790px; }
+  h1 { font: 400 clamp(2.6rem, 4.8vw, 4.8rem)/1.04 var(--font-display); letter-spacing: -.061em; max-width: 17ch; }
+  .hero-period { color: var(--accent); }
+  .hero-role { font: 500 clamp(1.2rem, 2vw, 1.7rem)/1.3 var(--font-body); letter-spacing: -.025em; max-width: 29ch; margin-top: 1.6rem; }
+  .hero-body { font-size: clamp(.96rem, 1.15vw, 1.1rem); line-height: 1.7; max-width: 51ch; color: var(--muted); margin-top: 1.35rem; }
+  .hero-links { display: flex; flex-wrap: wrap; gap: 1.7rem; margin-top: 2.4rem; font-size: .9rem; }
+  .hero-links a { display: inline-flex; gap: .8rem; color: inherit; text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: .4rem; transition: color var(--speed-fast) ease, border-color var(--speed-fast) ease; }
+  .hero-links a:hover { color: var(--accent); border-color: var(--accent); }
+  @media(max-width:740px){.editorial-hero{min-height:80svh}.hero-composition{grid-template-columns:1fr;gap:2.5rem}.hero-side{order:2}h1{font-size:clamp(2.5rem,9vw,4rem)}}
+  @media(max-width:480px){.editorial-hero{min-height:calc(84svh - 4rem)}.hero-meta{font-size:.64rem}.hero-body{max-width:38ch}}
 </style>

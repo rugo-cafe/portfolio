@@ -3,27 +3,21 @@ import { useTranslations } from '../../i18n/utils';
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Hero from '../../components/Hero.astro';
-import About from '../../components/About.astro';
 import Projects from '../../components/Projects.astro';
+import About from '../../components/About.astro';
 import Experience from '../../components/Experience.astro';
-
-export async function getStaticPaths() {
-  return [
-    { params: { lang: 'en' } },
-  ];
-}
-
+import Contact from '../../components/Contact.astro';
+export async function getStaticPaths() { return [{ params: { lang: 'en' } }]; }
 const { lang } = Astro.params;
 const t = useTranslations(lang as any);
-const htmlLang = lang === 'pt' ? 'pt-br' : 'en';
 ---
-
-<Layout title={t('meta.title')} description={t('meta.description')} lang={htmlLang}>
-  <Navbar currentLang={lang} />
-  <main class="min-h-screen pt-24 md:pt-28 pb-20 flex flex-col items-center relative overflow-hidden">
-    <Hero lang={lang} />
-    <About lang={lang} />
-    <Projects lang={lang} />
-    <Experience lang={lang} />
+<Layout title={t('meta.title')} description={t('meta.description')} lang="en">
+  <Navbar currentLang={lang!} />
+  <main id="main-content">
+    <Hero lang={lang!} />
+    <Projects lang={lang!} />
+    <About lang={lang!} />
+    <Experience lang={lang!} />
   </main>
+  <Contact lang={lang!} />
 </Layout>

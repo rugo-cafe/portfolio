@@ -9,8 +9,8 @@ export const ui = {
   pt: {
     // --- NAV & HERO ---
     'role.title': 'frontend + crm',
-    'meta.title': 'vitor hugo cunha | frontend + crm',
-    'meta.description': 'portfólio de vitor hugo cunha, com foco em frontend, automação de crm e projetos autorais.',
+    'meta.title': 'vitor hugo cunha | desenvolvimento web e interfaces',
+    'meta.description': 'portfólio de vitor hugo cunha: desenvolvimento web, interfaces e projetos digitais autorais.',
     'nav.home': 'início',
     'nav.about': 'sobre',
     'nav.projects': 'projetos',

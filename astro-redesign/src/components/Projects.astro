@@ -1,108 +1,36 @@
 ---
 import { getProjectEntries } from '../data/projects';
 import { useTranslations } from '../i18n/utils';
-
+import SectionHeading from './SectionHeading.astro';
+import ProjectRow from './ProjectRow.astro';
+import ProjectStage from './ProjectStage.astro';
 interface Props { lang: string }
 const { lang } = Astro.props;
 const t = useTranslations(lang as any);
 const projects = getProjectEntries(lang as any);
-const hrefFor = (slug: string) => lang === 'pt' ? `/projects/${slug}` : `/${lang}/projects/${slug}`;
-const words = lang === 'pt'
-  ? { eyebrow: '01 / arquivo', title: 'trabalhos selecionados', kind: 'projeto', view: 'ver projeto', note: 'interfaces, ferramentas e pequenos lugares na web' }
-  : { eyebrow: '01 / index', title: 'selected work', kind: 'project', view: 'view project', note: 'interfaces, tools and small places on the web' };
 ---
-<section id="projects" class="editorial-projects" aria-labelledby="projects-heading">
-  <header class="projects-heading">
-    <div>
-      <p class="eyebrow">{words.eyebrow}</p>
-      <h2 id="projects-heading">{words.title}</h2>
-    </div>
-    <p class="projects-note">{words.note}</p>
-  </header>
-
-  <div class="projects-layout">
-    <ol class="project-index">
-      {projects.map((project, index) => (
-        <li class="project-entry">
-          <a href={hrefFor(project.slug)} data-preview={project.slug} aria-label={`${words.view}: ${project.title}`}>
-            <span class="project-number">{String(index + 1).padStart(2, '0')}</span>
-            <span class="project-main">
-              <span class="project-name">{project.title}</span>
-              <span class="project-subtitle">{project.subtitle}</span>
-              {project.resolvedImage && <img class="project-inline-image" src={project.resolvedImage} alt={project.imageAlt} loading="lazy" decoding="async" />}
-            </span>
-            <span class="project-year">2026</span>
-            <span class="project-arrow" aria-hidden="true">↗</span>
-          </a>
-        </li>
-      ))}
+<section id="projects" class="container section-space" aria-labelledby="projects-heading" data-project-index>
+  <SectionHeading
+    id="projects-heading"
+    index="01 /"
+    title={lang === 'pt' ? 'trabalhos selecionados' : 'selected work'}
+    aside={lang === 'pt' ? 'interfaces, ferramentas e experiências para a web' : 'interfaces, tools and experiences for the web'}
+  />
+  <div class="project-layout">
+    <ol class="project-list">
+      {projects.map((project, index) => <ProjectRow project={project} index={index} lang={lang} />)}
     </ol>
-    <aside class="project-preview" aria-hidden="true">
-      <span class="preview-label">preview / <span data-preview-number>01</span></span>
-      {projects.map((project, index) => project.resolvedImage && (
-        <img src={project.resolvedImage} alt="" loading="lazy" decoding="async" data-preview-image={project.slug} class={index === 0 ? 'active' : ''} />
-      ))}
-      <span class="preview-caption" data-preview-caption>{projects[0]?.title}</span>
-    </aside>
+    <ProjectStage projects={projects} />
   </div>
-  <p class="all-projects"><a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">{t('projects.github.more')} ↗</a></p>
+  <div class="project-bottom">
+    <span class="meta-label">{String(projects.length).padStart(2, '0')} / {lang === 'pt' ? 'projetos' : 'projects'}</span>
+    <a class="text-link" href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">{t('projects.github.more')} ↗</a>
+  </div>
 </section>
-
-<script>
-  const setup = () => {
-    const root = document.querySelector<HTMLElement>('.editorial-projects');
-    if (!root) return;
-    const entries = root.querySelectorAll<HTMLAnchorElement>('[data-preview]');
-    const imgs = root.querySelectorAll<HTMLElement>('[data-preview-image]');
-    const num = root.querySelector<HTMLElement>('[data-preview-number]');
-    const caption = root.querySelector<HTMLElement>('[data-preview-caption]');
-    const activate = (link: HTMLAnchorElement, index: number) => {
-      imgs.forEach(img => img.classList.toggle('active', img.dataset.previewImage === link.dataset.preview));
-      if (num) num.textContent = String(index + 1).padStart(2, '0');
-      if (caption) caption.textContent = link.querySelector('.project-name')?.textContent ?? '';
-    };
-    entries.forEach((link, index) => {
-      link.addEventListener('pointerenter', () => activate(link, index));
-      link.addEventListener('focus', () => activate(link, index));
-    });
-  };
-  document.addEventListener('astro:page-load', setup);
-  setup();
-</script>
-
+<script>import '../scripts/project-previews';</script>
 <style>
-  .editorial-projects{width:100%;max-width:1400px;margin:auto;padding:clamp(4rem,9vw,9rem) clamp(1.25rem,4vw,3rem);color:var(--text)}
-  .projects-heading{display:flex;justify-content:space-between;align-items:end;gap:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-  .eyebrow,.projects-note,.project-number,.project-year,.preview-label,.preview-caption{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;letter-spacing:.025em}
-  .eyebrow{color:var(--accent);margin-bottom:1.25rem}
-  h2{font-size:clamp(1.6rem,3vw,2.5rem);letter-spacing:-.045em;font-weight:550;line-height:1.1}
-  .projects-note{max-width:24ch;text-align:right;opacity:.65}
-  .projects-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(2rem,5vw,6rem);padding-top:1.5rem}
-  .project-index{list-style:none;padding:0;margin:0}
-  .project-entry{border-bottom:1px solid var(--border)}
-  .project-entry a{color:inherit;display:grid;grid-template-columns:2.6rem minmax(0,1fr) 3rem 1.2rem;gap:.75rem;align-items:start;text-decoration:none;padding:1.5rem 0;transition:color .18s ease}
-  .project-entry a:hover,.project-entry a:focus-visible{color:var(--accent)}
-  .project-number,.project-year{opacity:.56;padding-top:.42rem}
-  .project-arrow{font-size:1.1rem;text-align:right}
-  .project-main{min-width:0}
-  .project-name{display:block;font-size:clamp(1.35rem,2.15vw,2rem);letter-spacing:-.045em;line-height:1.12;font-weight:500}
-  .project-subtitle{display:block;font-size:.82rem;margin-top:.5rem;opacity:.65;color:var(--text);line-height:1.45}
-  .project-inline-image{display:none}
-  .project-preview{align-self:start;position:sticky;top:7.5rem;min-height:19rem;aspect-ratio:5/4;background:color-mix(in srgb,var(--text) 4%,transparent);overflow:hidden}
-  .project-preview img{position:absolute;inset:2rem 0 1.8rem;width:100%;height:calc(100% - 3.8rem);object-fit:cover;opacity:0;transition:opacity .23s ease;display:block}
-  .project-preview img.active{opacity:1}
-  .preview-label,.preview-caption{position:absolute;z-index:2;left:1rem;color:var(--text);opacity:.65}
-  .preview-label{top:.75rem}.preview-caption{bottom:.55rem}
-  .all-projects{margin-top:2rem;font-size:.85rem}
-  .all-projects a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
-  @media(max-width:760px){
-    .projects-heading{display:block}
-    .projects-note{text-align:left;margin-top:1rem}
-    .projects-layout{display:block;padding-top:0}
-    .project-preview{display:none}
-    .project-entry a{grid-template-columns:2rem minmax(0,1fr) 1.4rem;gap:.55rem;padding:1.5rem 0 1.75rem}
-    .project-year{display:none}
-    .project-inline-image{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;margin-top:1.2rem;background:color-mix(in srgb,var(--text) 5%,transparent)}
-  }
-  @media(prefers-reduced-motion:reduce){.project-preview img,.project-entry a{transition:none}}
+  .project-layout { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: clamp(2rem, 5vw, 6rem); padding-top: 2rem; align-items: start; }
+  .project-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border); }
+  .project-bottom { display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; margin-top: 2rem; font-size: .85rem; }
+  @media(max-width:850px){.project-layout{display:block}.project-bottom{margin-top:1.4rem}}
 </style>
