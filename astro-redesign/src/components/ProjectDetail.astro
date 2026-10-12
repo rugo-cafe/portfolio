@@ -30,7 +30,7 @@ const label = motif[pt ? 'pt' : 'en'];
     </div>
     <header class="case-hero">
       <aside class="case-marginal">
-        <span class="tiny">{pt ? 'nota de projeto' : 'project note'}</span>
+        <span class="tiny">{pt ? 'projeto' : 'project'}</span>
         <span class="case-motif" aria-hidden="true">{motif.symbol}</span>
         <span class="tiny">↳ {label}</span>
       </aside>
@@ -56,7 +56,7 @@ const label = motif[pt ? 'pt' : 'en'];
     )}
     <div class="notes">
       <aside class="notes-aside">
-        <span class="tiny">{pt ? 'anotações sobre o projeto' : 'notes about this project'}</span>
+        <span class="tiny">{pt ? 'detalhes' : 'details'}</span>
         <span class="notes-mark" aria-hidden="true">↳</span>
       </aside>
       <div class="notes-body">
@@ -65,7 +65,7 @@ const label = motif[pt ? 'pt' : 'en'];
           <p class="opening">{project.overview}</p>
         </section>
         <section>
-          <h2>{pt ? 'o que tentei resolver' : 'what i tried to solve'}</h2>
+          <h2>{pt ? 'desenvolvimento' : 'development'}</h2>
           <p>{project.challengeAndSolution}</p>
         </section>
       </div>
@@ -81,7 +81,7 @@ const label = motif[pt ? 'pt' : 'en'];
       </div>
     </div>
     <nav class="next-case" aria-label={pt ? 'próximo projeto' : 'next project'}>
-      <span class="tiny">{pt ? 'seguir explorando' : 'keep exploring'} ↘</span>
+      <span class="tiny">{pt ? 'próximo projeto' : 'next project'} ↘</span>
       <a href={href(next.slug)}>{next.title} <span aria-hidden="true">↗</span></a>
     </nav>
   </main>
@@ -93,7 +93,7 @@ const label = motif[pt ? 'pt' : 'en'];
   .case[data-kind="coisas-bonitas"] { --wash: #c1d1c6; }
   .case[data-kind="ambi-mixer"] { --wash: #d9c4b7; }
   .case[data-kind="dither-studio"] { --wash: #c7c9d9; }
-  .tiny,.eyebrow,.case-path,/* Caption typography and case-path metadata share the document's monospaced rhythm. */
+  .tiny,.eyebrow,.case-path,.case-artwork figcaption { font: .73rem/1.55 var(--font-mono); color: var(--muted); }
   .identity-wrapper { margin-bottom: clamp(1.5rem, 3vw, 3rem); }
   .case[data-kind="riji"] .case-intro h1 { font-family: var(--font-mono); font-weight: 400; letter-spacing: -.085em; }
   .case[data-kind="coisas-bonitas"] .case-motif { font-size: clamp(4rem, 10vw, 9rem); }

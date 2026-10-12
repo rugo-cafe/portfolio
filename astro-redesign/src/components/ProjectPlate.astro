@@ -4,20 +4,19 @@ interface Props { project: ProjectEntry; index: number; lang: string }
 const { project, index, lang } = Astro.props;
 const pt = lang === 'pt';
 const route = pt ? '/projects/' + project.slug : '/' + lang + '/projects/' + project.slug;
-const fragments: Record<string, { pt: [string,string]; en: [string,string]; glyph: string }> = {
-  riji: { pt: ['escrita / privacidade', 'um lugar para deixar as palavras em paz.'], en: ['writing / privacy', 'a place to let the words be.'], glyph: '日' },
-  'coisas-bonitas': { pt: ['rádio / arquivo', 'sons que passaram pelo ar, guardados aqui.'], en: ['radio / archive', 'sounds that passed through the air, kept here.'], glyph: '◉' },
-  'ambi-mixer': { pt: ['som / interação', 'vários sons dividindo o mesmo espaço.'], en: ['sound / interaction', 'different sounds sharing the same space.'], glyph: '≈' },
-  'dither-studio': { pt: ['imagem / experimento', 'uma imagem refeita ponto por ponto.'], en: ['image / experiment', 'an image rebuilt dot by dot.'], glyph: '░' }
+const glyphs: Record<string,string> = {
+  riji: '日',
+  'coisas-bonitas': '◉',
+  'ambi-mixer': '≈',
+  'dither-studio': '░',
 };
-const fragment = fragments[project.slug];
-const [category, line] = fragment[pt ? 'pt' : 'en'];
+const category = project.subtitle;
 ---
 <li class="plate" id={'artifact-' + project.slug} data-archive-plate={project.slug} data-kind={project.slug}>
   <a href={route} class="plate-link" aria-label={(pt ? 'abrir projeto: ' : 'open project: ') + project.title}>
     <div class="visual">
       {project.resolvedImage && <div class="visual-image" data-scroll-art><img src={project.resolvedImage} alt={project.imageAlt} width="1120" height="800" loading="lazy" decoding="async" /></div>}
-      <span class="artifact-glyph" data-archive-glyph aria-hidden="true">{fragment.glyph}</span>
+      <span class="artifact-glyph" data-archive-glyph aria-hidden="true">{glyphs[project.slug]}</span>
       <span class="visual-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
       <span class="frame-corner" aria-hidden="true">+</span>
     </div>
@@ -25,7 +24,7 @@ const [category, line] = fragment[pt ? 'pt' : 'en'];
       <div class="caption-title">
         <span class="caption-verb">{category} / {String(index + 1).padStart(2, '0')}</span>
         <h3>{project.title}</h3>
-        <p>{line}</p>
+
       </div>
       <span class="arrow" aria-hidden="true">↗</span>
     </div>

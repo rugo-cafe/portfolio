@@ -3,19 +3,15 @@ interface Props { lang: string }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
 const copy = pt ? {
-  marker: 'florianópolis → qualquer navegador',
-  title: 'entre páginas, sons e pequenos programas.',
-  intro: 'sou vitor. desenho e desenvolvo interfaces. como rugo, faço o coisas bonitas, programa de rádio e arquivo de transmissões na hkcr. este site reúne parte do que construo.',
-  explore: 'abrir o arquivo',
-  elsewhere: 'outros endereços',
-  note: 'entre tela e transmissão'
+  marker: 'florianópolis, sc',
+  title: 'vitor hugo cunha',
+  intro: 'design de interfaces e desenvolvimento web.',
+  explore: 'projetos',
 } : {
-  marker: 'florianópolis → any browser',
-  title: 'between pages, sounds, and small programs.',
-  intro: 'i’m vitor. i design and develop interfaces. as rugo, i make coisas bonitas, a radio show and archive on hkcr. this site brings together some of the things i build.',
-  explore: 'open the archive',
-  elsewhere: 'other addresses',
-  note: 'between screen and transmission'
+  marker: 'florianópolis, brazil',
+  title: 'vitor hugo cunha',
+  intro: 'interface design and web development.',
+  explore: 'projects',
 };
 ---
 <section id="home" class="hero container" aria-labelledby="hero-title">
@@ -26,23 +22,15 @@ const copy = pt ? {
   <div class="hero-grid">
     <div class="hero-left">
       <span class="asterisk" aria-hidden="true">✳</span>
-      <p class="micro hero-aside">{copy.note}<br />↳ vitor hugo cunha</p>
+      
     </div>
     <div class="hero-content">
       <h1 id="hero-title">{copy.title}</h1>
       <p class="intro">{copy.intro}</p>
       <div class="hero-bottom">
         <a href="#projects" class="explore">{copy.explore} <span aria-hidden="true">↘</span></a>
-        <div class="elsewhere">
-          <span class="micro">{copy.elsewhere}</span>
-          <a href="https://coisasbonitas.neocities.org/" target="_blank" rel="noopener noreferrer">coisas bonitas ↗</a>
-          <a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">github ↗</a>
-        </div>
       </div>
     </div>
-  </div>
-  <div class="hero-bottomline" aria-hidden="true">
-    <span>{pt ? 'tela / som / arquivo' : 'screen / sound / archive'}</span><span>✳</span><span>{pt ? 'em aberto' : 'open-ended'}</span>
   </div>
 </section>
 <style>
@@ -50,18 +38,18 @@ const copy = pt ? {
   .micro { font: .72rem/1.55 var(--font-mono); color: var(--muted); }
   .hero-top { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
   .hero-grid { display: grid; grid-template-columns: minmax(6rem, 3fr) minmax(0, 9fr); gap: clamp(1rem, 5vw, 5rem); padding-block: clamp(4rem, 9vw, 8.5rem); }
-  .hero-left { display: flex; flex-direction: column; justify-content: space-between; align-items: start; gap: 3rem; }
+  .hero-left { display: flex; flex-direction: column; justify-content: start; align-items: start; gap: 3rem; }
   .asterisk { font-size: clamp(2.25rem, 5vw, 5rem); line-height: 1; color: var(--accent); display: block; transform: rotate(-12deg); transition: transform 850ms var(--ease-out); }
   .hero-grid:hover .asterisk { transform: rotate(32deg); }
-  .hero-aside { max-width: 18ch; }
-  h1 { max-width: 21ch; font: 400 clamp(2.2rem, 3.7vw, 3.8rem)/1.14 var(--font-display); letter-spacing: -.045em; text-wrap: balance; }
+
+  h1 { max-width: 21ch; font: 400 clamp(2.4rem, 4vw, 4.2rem)/1.14 var(--font-display); letter-spacing: -.045em; }
   .intro { max-width: 53ch; margin-top: clamp(2rem, 4vw, 3.5rem); font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.66; }
   .hero-bottom { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-top: 3rem; }
   a { color: inherit; text-decoration: none; }
   a:hover { color: var(--accent); }
   .explore { display: inline-flex; align-items: baseline; gap: .8rem; border-bottom: 1px solid currentColor; padding-bottom: .3rem; font-size: .95rem; }
-  .elsewhere { display: grid; gap: .2rem; text-align: right; font-size: .79rem; }
-  .elsewhere .micro { margin-bottom: .4rem; }
+
+
   .hero-bottomline { border-top: 1px solid var(--border); padding-top: .9rem; display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font: .69rem/1.4 var(--font-mono); }
   .hero-bottomline span:nth-child(2) { color: var(--accent); }
   @media(max-width:750px) {

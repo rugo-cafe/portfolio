@@ -13,10 +13,9 @@ const pt = lang === 'pt';
 <section id="projects" class="container projects" aria-labelledby="projects-heading" data-archive-section>
   <header class="work-intro">
     <div>
-      <p class="work-small">{pt ? 'pequeno arquivo / 01—04' : 'small archive / 01—04'}</p>
-      <h2 id="projects-heading">{pt ? 'coisas que ganharam endereço' : 'things that found an address'}<span aria-hidden="true"> ↘</span></h2>
+      <p class="work-small">01—04</p>
+      <h2 id="projects-heading">{pt ? 'projetos' : 'projects'}<span aria-hidden="true"> ↘</span></h2>
     </div>
-    <p class="work-margin">{pt ? 'um diário, uma rádio, um mixer, uma imagem desfeita em pontos.' : 'a journal, a radio show, a mixer, an image rebuilt from dots.'}</p>
   </header>
   <div class="gallery-frame">
     <ArchiveRail projects={projects} lang={lang} />
@@ -25,7 +24,7 @@ const pt = lang === 'pt';
     </ol>
   </div>
   <div class="gallery-end">
-    <span>{pt ? 'o arquivo não termina aqui.' : 'the archive doesn’t end here.'}</span>
+
     <a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">{t('projects.github.more')} ↗</a>
   </div>
 </section>
