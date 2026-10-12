@@ -7,16 +7,21 @@
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 let observer: IntersectionObserver | null = null;
 let running: Animation[] = [];
+let initializedFor: Element | null = null;
 
 function destroy(): void {
   observer?.disconnect();
   observer = null;
   running.forEach(animation => animation.cancel());
   running = [];
+  initializedFor = null;
 }
 
 function init(): void {
+  const page = document.getElementById('main-content');
+  if (page && initializedFor === page) return;
   destroy();
+  initializedFor = page;
   if (reduced.matches || !('IntersectionObserver' in window) || !('animate' in Element.prototype)) return;
   observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
