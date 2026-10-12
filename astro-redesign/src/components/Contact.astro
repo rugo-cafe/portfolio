@@ -2,6 +2,7 @@
 interface Props { lang: string }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
+const home = pt ? '/' : '/en';
 ---
 <footer id="contact" class="contact-footer container" aria-labelledby="contact-heading">
   <div class="footer-top" data-animate>
@@ -16,7 +17,7 @@ const pt = lang === 'pt';
     <nav aria-label={pt ? 'links externos' : 'external links'}>
       <a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">github ↗</a>
       <a href="https://www.linkedin.com/in/vitor-hugo-cunha/" target="_blank" rel="noopener noreferrer">linkedin ↗</a>
-      <a href="#home">{pt ? 'voltar ao início ↑' : 'back to top ↑'}</a>
+      <a href={home + '#home'}>{pt ? 'voltar ao início ↑' : 'back to top ↑'}</a>
     </nav>
   </div>
 </footer>
