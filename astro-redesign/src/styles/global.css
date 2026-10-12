@@ -16,6 +16,7 @@
   --signal-ink: #24271a;
   --font-body: "Hanken Grotesk", system-ui, sans-serif;
   --font-display: "Bricolage Grotesque", "Hanken Grotesk", system-ui, sans-serif;
+  --font-note: Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --page-width: 1400px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
@@ -39,6 +40,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--bg); scroll-padding-top: 6rem; }
+html { overflow-x: clip; }
 body { margin: 0; min-width: 320px; background: var(--bg); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
 body, a, button { -webkit-tap-highlight-color: transparent; }
 /* No full-page opacity/color transitions: content should never flash on navigation. */

@@ -93,10 +93,11 @@ const label = motif[pt ? 'pt' : 'en'];
   .case[data-kind="coisas-bonitas"] { --wash: #c1d1c6; }
   .case[data-kind="ambi-mixer"] { --wash: #d9c4b7; }
   .case[data-kind="dither-studio"] { --wash: #c7c9d9; }
-  .tiny,.eyebrow,.case-path,.identity-wrapper { margin-bottom: clamp(1.5rem, 3vw, 3rem); }
+  .tiny,.eyebrow,.case-path,/* Caption typography and case-path metadata share the document's monospaced rhythm. */
+  .identity-wrapper { margin-bottom: clamp(1.5rem, 3vw, 3rem); }
   .case[data-kind="riji"] .case-intro h1 { font-family: var(--font-mono); font-weight: 400; letter-spacing: -.085em; }
   .case[data-kind="coisas-bonitas"] .case-motif { font-size: clamp(4rem, 10vw, 9rem); }
-  .case[data-kind="ambi-mixer"] .artwork-field { border-radius: 0 5rem 0 0; }
+  .case[data-kind="ambi-mixer"] .artwork-field { border-radius: 0 3.5rem 0 0; }
   .case[data-kind="dither-studio"] .artwork-field { background-image: radial-gradient(#4a345b22 .7px, transparent .7px); background-size: 6px 6px; }
   .case-artwork figcaption { font: .73rem/1.55 var(--font-mono); color: var(--muted); }
   .case-path { display: flex; justify-content: space-between; gap: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }

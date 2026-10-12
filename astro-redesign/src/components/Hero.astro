@@ -4,15 +4,15 @@ const { lang } = Astro.props;
 const pt = lang === 'pt';
 const copy = pt ? {
   marker: 'florianópolis → qualquer navegador',
-  title: 'escrevo código para coisas que se usam, se escutam ou se guardam.',
-  intro: 'sou vitor. trabalho com interfaces e desenvolvimento web. como rugo, faço rádio e reúno transmissões no coisas bonitas, na hkcr. aqui essas linhas acabam se cruzando.',
+  title: 'entre páginas, sons e pequenos programas.',
+  intro: 'sou vitor. desenho e desenvolvo interfaces. como rugo, faço o coisas bonitas, programa de rádio e arquivo de transmissões na hkcr. este site reúne parte do que construo.',
   explore: 'abrir o arquivo',
   elsewhere: 'outros endereços',
   note: 'entre tela e transmissão'
 } : {
   marker: 'florianópolis → any browser',
-  title: 'i write code for things you use, listen to, or keep.',
-  intro: 'i’m vitor. i work with interfaces and web development. as rugo, i make radio and collect broadcasts through coisas bonitas on hkcr. this is where those lines cross.',
+  title: 'between pages, sounds, and small programs.',
+  intro: 'i’m vitor. i design and develop interfaces. as rugo, i make coisas bonitas, a radio show and archive on hkcr. this site brings together some of the things i build.',
   explore: 'open the archive',
   elsewhere: 'other addresses',
   note: 'between screen and transmission'
@@ -54,7 +54,7 @@ const copy = pt ? {
   .asterisk { font-size: clamp(2.25rem, 5vw, 5rem); line-height: 1; color: var(--accent); display: block; transform: rotate(-12deg); transition: transform 850ms var(--ease-out); }
   .hero-grid:hover .asterisk { transform: rotate(32deg); }
   .hero-aside { max-width: 18ch; }
-  h1 { max-width: 26ch; font: 400 clamp(2.15rem, 3.65vw, 3.9rem)/1.13 var(--font-display); letter-spacing: -.055em; }
+  h1 { max-width: 21ch; font: 400 clamp(2.2rem, 3.7vw, 3.8rem)/1.14 var(--font-display); letter-spacing: -.045em; text-wrap: balance; }
   .intro { max-width: 53ch; margin-top: clamp(2rem, 4vw, 3.5rem); font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.66; }
   .hero-bottom { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-top: 3rem; }
   a { color: inherit; text-decoration: none; }
