@@ -3,20 +3,20 @@ import { useTranslations } from '../i18n/utils';
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
 import Projects from '../components/Projects.astro';
+import About from '../components/About.astro';
 import Experience from '../components/Experience.astro';
-
+import Contact from '../components/Contact.astro';
 const lang = 'pt';
 const t = useTranslations(lang);
 ---
-
 <Layout title={t('meta.title')} description={t('meta.description')} lang="pt-br">
   <Navbar currentLang={lang} />
-  <main class="min-h-screen pt-24 md:pt-28 pb-20 flex flex-col items-center relative overflow-hidden">
+  <main id="main-content">
     <Hero lang={lang} />
-    <About lang={lang} />
     <Projects lang={lang} />
+    <About lang={lang} />
     <Experience lang={lang} />
   </main>
+  <Contact lang={lang} />
 </Layout>

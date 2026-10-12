@@ -1,63 +1,39 @@
 ---
 import '../styles/global.css';
-import '@fontsource/bricolage-grotesque/200.css';
 import '@fontsource/bricolage-grotesque/400.css';
-import '@fontsource/bricolage-grotesque/800.css';
 import '@fontsource/hanken-grotesk/400.css';
 import '@fontsource/hanken-grotesk/600.css';
 import { ClientRouter } from 'astro:transitions';
-
-
-interface Props {
-  title: string;
-  description: string;
-  lang?: string;
-}
-
+interface Props { title: string; description: string; lang?: string }
 const { title, description, lang = 'pt-br' } = Astro.props;
 ---
-
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0efea" />
     <link rel="icon" type="image/svg+xml" href="/logo-light.svg" />
-    <meta name="generator" content={Astro.generator} />
     <title>{title.toLowerCase()}</title>
     <ClientRouter />
-    
     <script is:inline>
-      (function() {
+      (() => {
         try {
-          document.documentElement.classList.add('js');
-          const stored = localStorage.getItem('theme');
-          const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = stored === 'dark' || stored === 'light' ? stored : (systemDark ? 'dark' : 'light');
-          document.documentElement.classList.toggle('dark', theme === 'dark');
-          document.documentElement.dataset.theme = theme;
-        } catch (e) {
-          // no-op
-        }
+          const preference = localStorage.getItem('theme');
+          const useDark = preference === 'dark' || (!preference && matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', useDark);
+          document.documentElement.dataset.theme = useDark ? 'dark' : 'light';
+        } catch {}
       })();
     </script>
   </head>
-  <body class="
-    lowercase 
-    theme-body 
-    transition-colors duration-500 
-    font-sans antialiased overflow-x-hidden 
-    selection:bg-[#B066FF] selection:text-white
-  ">
-    <div class="bg-noise" style="z-index: 0;"></div>
-    
+  <body>
+    <a href="#main-content" class="skip-link">{lang === 'en' ? 'skip to content' : 'pular para o conteúdo'}</a>
     <slot />
-
     <script>
       import '../scripts/theme';
-      import '../scripts/navbar';
-      import '../scripts/scroll-animations';
+      import '../scripts/motion';
     </script>
   </body>
 </html>

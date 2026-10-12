@@ -1,0 +1,23 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  id: string;
+  aside?: string;
+}
+const { index, title, id, aside } = Astro.props;
+---
+<header class="section-heading" data-animate>
+  <div class="section-heading-title">
+    <span class="meta-label">{index}</span>
+    <h2 id={id}>{title}</h2>
+  </div>
+  {aside && <p class="meta-label section-aside">{aside}</p>}
+</header>
+<style>
+  .section-heading { border-top: 1px solid var(--border); padding-top: 1.25rem; display: flex; align-items: start; justify-content: space-between; gap: 1.5rem; }
+  .section-heading-title { display: flex; align-items: baseline; gap: clamp(1.2rem, 5vw, 5rem); }
+  h2 { font: 500 clamp(1.65rem, 3vw, 2.5rem)/1.1 var(--font-display); letter-spacing: -.045em; }
+  .section-aside { padding-top: .4rem; text-align: right; max-width: 24ch; }
+  @media (max-width: 620px) { .section-heading { display: block; } .section-heading-title { gap: 1rem; } .section-aside { text-align: left; margin-top: 1rem; } }
+</style>

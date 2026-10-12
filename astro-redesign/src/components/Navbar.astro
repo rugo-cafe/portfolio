@@ -1,184 +1,55 @@
 ---
-import { Icon } from 'astro-icon/components';
-import { useTranslations } from '../i18n/utils';
-
-interface Props {
-  currentLang: string;
-}
+interface Props { currentLang: string }
 const { currentLang } = Astro.props;
-const t = useTranslations(currentLang as any);
-
-function getRoute(targetLang: string) {
-  if (targetLang === 'pt') return '/';
-
-  const currentPath = Astro.url.pathname;
-  const safePath = currentPath.endsWith('/') && currentPath.length > 1 ? currentPath.slice(0, -1) : currentPath;
-  const segments = safePath.split('/');
-
-  if (segments[1] && segments[1] !== 'pt') {
-    segments[1] = targetLang;
-  } else {
-    segments.splice(1, 0, targetLang);
-  }
-
-  return segments.join('/');
-}
-
-const navItems = [
-  { name: t('nav.home'), path: '#home', active: true },
-  { name: t('nav.about'), path: '#about', active: false },
-  { name: t('nav.projects'), path: '#projects', active: false },
-];
-
-const languages = [
-  { code: 'pt', label: 'pt', href: getRoute('pt') },
-  { code: 'en', label: 'en', href: getRoute('en') },
-];
+const pt = currentLang === 'pt';
+const home = pt ? '/' : '/en';
+const path = Astro.url.pathname;
+const slugMatch = path.match(/\/projects\/([^/]+)\/?$/);
+const otherLangHref = slugMatch
+  ? (pt ? '/en/projects/' : '/projects/') + slugMatch[1]
+  : (pt ? '/en' : '/');
 ---
-
-<header 
-  id="main-header"
-  class="fixed top-0 left-0 right-0 z-[100] w-full pointer-events-none transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
->
-  <div class="max-w-[1400px] mx-auto px-6 py-6 md:px-12 md:py-8 flex items-start justify-between">
-
-    <!-- Logo -->
-    <a href={currentLang === 'pt' ? '/' : `/${currentLang}`} class="flex items-center gap-3 md:gap-4 pointer-events-auto select-none glass glass-hover py-2 px-4 rounded-full transition-all cursor-pointer">
-      <div class="relative w-8 h-8 md:w-9 md:h-9">
-        <div class="grid grid-cols-1 grid-rows-1 items-center">
-          <img src="/logo-dark.svg" alt="Logo" class="col-start-1 row-start-1 h-full w-auto transition-all duration-500 ease-in-out opacity-0 rotate-12 scale-90 dark:opacity-100 dark:rotate-0 dark:scale-100" />
-          <img src="/logo-light.svg" alt="Logo" class="col-start-1 row-start-1 h-full w-auto transition-all duration-500 ease-in-out opacity-100 rotate-0 scale-100 dark:opacity-0 dark:-rotate-12 dark:scale-90" />
-        </div>
-      </div>
-      <span class="font-display font-bold text-lg md:text-xl text-brand-dark dark:text-brand-light tracking-tight lowercase leading-none mt-0.5">
-        vitor hugo cunha
-      </span>
+<header class="site-header" id="main-header">
+  <div class="container header-inner">
+    <a class="site-brand" href={home} aria-label="vitor hugo cunha — home">
+      <span class="brand-full">vitor hugo cunha</span><span class="brand-short" aria-hidden="true">vhc.</span>
     </a>
-
-    <!-- Language Selector -->
-    <div class="pointer-events-auto relative z-50">
-      <details id="lang-menu" class="relative group w-[90px] md:w-[98px]">
-        <summary 
-          class="
-            list-none
-            w-full flex items-center justify-between 
-            h-10 md:h-12 
-            pl-3 pr-2.5 
-            rounded-t-[1.25rem] md:rounded-t-[1.5rem]
-            rounded-b-[1.25rem] md:rounded-b-[1.5rem]
-            group-open:rounded-b-none group-open:border-b-transparent
-            glass glass-hover
-            text-brand-dark dark:text-brand-light 
-            transition-all duration-150 ease-out
-            cursor-pointer
-            relative z-20
-          "
-          aria-label={t('nav.aria.language')}
-        >
-          <Icon name="ph:translate-bold" class="w-3.5 h-3.5 md:w-4 md:h-4 opacity-70 shrink-0" />
-          <span class="text-xs md:text-sm font-medium lowercase opacity-90 -ml-1">
-            {currentLang}
-          </span>
-          
-          <Icon 
-            name="ph:caret-down-bold" 
-            class="w-3 h-3 opacity-50 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-open:rotate-180" 
-          />
-        </summary>
-
-        <div 
-          id="lang-dropdown" 
-          class="
-            pointer-events-auto 
-            absolute left-0 w-full top-full 
-            -mt-[1px]
-            rounded-t-none
-            rounded-b-[1.25rem] md:rounded-b-[1.5rem] 
-            glass-strong
-            border-t-0
-            origin-top
-            invisible opacity-0 scale-y-0
-            group-open:visible group-open:opacity-100 group-open:scale-y-100
-            flex flex-col z-10 
-            overflow-hidden 
-            transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]
-          "
-        >
-          <div class="flex flex-col">
-            {languages.map((lang) => (
-              <a 
-                href={lang.href}
-                data-astro-prefetch="viewport"
-                class={`
-                  w-full relative flex items-center 
-                  pl-9 pr-2 py-3
-                  rounded-none
-                  text-xs md:text-sm font-sans font-medium 
-                  hover:bg-black/[0.035] dark:hover:bg-white/10 
-                  transition-all duration-200 
-                  text-left group/item cursor-pointer
-                  ${currentLang === lang.code ? 'text-brand-dark dark:text-brand-light font-bold' : 'text-brand-dark/70 dark:text-brand-light/70'}
-                `} 
-              >
-                <span class="lowercase group-hover/item:opacity-100">{lang.label}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </details>
+    <nav class="site-links" aria-label={pt ? 'navegação principal' : 'main navigation'}>
+      <a href={home + '#projects'}>{pt ? 'trabalhos' : 'work'}</a>
+      <a href={home + '#about'}>{pt ? 'sobre' : 'about'}</a>
+      <a href={home + '#contact'}>{pt ? 'contato' : 'contact'}</a>
+    </nav>
+    <div class="site-controls">
+      <a class="language-switch" href={otherLangHref} aria-label={pt ? 'switch to english' : 'mudar para português'}>{pt ? 'en' : 'pt'}</a>
+      <button type="button" id="theme-toggle" class="theme-switch" aria-label={pt ? 'alternar tema' : 'toggle theme'} aria-pressed="false"><span class="theme-symbol" aria-hidden="true">◐</span></button>
     </div>
-
   </div>
 </header>
-
-<nav 
-  id="main-nav"
-  class="
-    fixed z-[90] w-full pointer-events-none transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-    bottom-6 left-0 flex justify-center
-    md:top-8 md:bottom-auto md:w-auto md:left-1/2 md:-translate-x-1/2 md:h-0
-  "
->
-  <div class="pointer-events-auto">
-    <div class="
-      relative flex items-center gap-1 p-1.5 px-2
-      glass glass-hover nav-shell
-      rounded-full
-      transition-all duration-500
-    ">
-      
-      {navItems.map((item) => (
-        <a href={item.path} class="nav-link relative px-4 py-2 md:px-6 group transition-transform duration-300">
-          <div class="nav-glow"></div>
-          <span class="relative z-10 font-sans text-sm md:text-[15px] font-medium transition-all duration-300 lowercase block text-brand-dark/70 dark:text-brand-light/70 group-hover:text-brand-dark dark:group-hover:text-brand-light">
-            {item.name}
-          </span>
-        </a>
-      ))}
-
-      <div class="w-px h-4 bg-brand-dark/10 dark:bg-brand-light/10 mx-1"></div>
-
-      <button id="theme-toggle" class="group w-9 h-9 flex items-center justify-center rounded-full bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-300 cursor-pointer relative z-50" aria-label={t('nav.aria.theme')}>
-        <div class="relative w-5 h-5 transition-transform duration-300 group-hover:scale-110">
-          <span class="theme-icon theme-sun">
-            <Icon name="ph:sun-bold" class="w-5 h-5 text-orange-500 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-100 rotate-0 scale-100 dark:opacity-0 dark:rotate-90 dark:scale-0"/>
-          </span>
-          <span class="theme-icon theme-moon">
-            <Icon name="ph:moon-bold" class="w-5 h-5 text-purple-400 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] opacity-0 -rotate-90 scale-0 dark:opacity-100 dark:rotate-0 dark:scale-100"/>
-          </span>
-        </div>
-      </button>
-    </div>
-  </div>
-</nav>
-
-<script is:inline>
-function attachThemeToggle() {
-  const btn = document.getElementById('theme-toggle');
-  if (btn && typeof window.toggleTheme === 'function') {
-    btn.onclick = window.toggleTheme;
-  }
-}
-attachThemeToggle();
-document.addEventListener('astro:page-load', attachThemeToggle);
+<script>
+  const initThemeButton = () => {
+    const button = document.getElementById('theme-toggle');
+    if (!button || button.dataset.bound === 'true') return;
+    button.dataset.bound = 'true';
+    const sync = () => button.setAttribute('aria-pressed', String(document.documentElement.classList.contains('dark')));
+    sync();
+    button.addEventListener('click', () => { window.toggleTheme?.(); sync(); });
+  };
+  document.addEventListener('astro:page-load', initThemeButton);
+  initThemeButton();
 </script>
+<style>
+  .site-header { z-index: 40; position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--border); transition: background-color var(--speed-medium) var(--ease-standard); }
+  .header-inner { min-height: 4.75rem; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.5rem; }
+  .site-brand { font: 550 .98rem/1.2 var(--font-display); letter-spacing: -.035em; text-decoration: none; white-space: nowrap; }
+  .brand-short { display: none; }
+  .site-links, .site-controls { display: flex; align-items: center; }
+  .site-links { gap: clamp(1.25rem, 3vw, 3.5rem); }
+  .site-links a, .language-switch { font-size: .81rem; text-decoration: none; color: var(--muted); transition: color var(--speed-fast) ease; }
+  .site-links a:hover, .site-brand:hover, .language-switch:hover { color: var(--accent); }
+  .site-controls { justify-self: end; gap: 1.1rem; }
+  .theme-switch { height: 2.5rem; width: 2.5rem; border: 1px solid var(--border); border-radius: 50%; background: transparent; color: var(--text); transition: transform var(--speed-medium) var(--ease-out), border-color var(--speed-fast) ease; }
+  .theme-switch:hover { transform: rotate(35deg); border-color: var(--accent); }
+  .theme-symbol { display: block; font-size: 1.15rem; line-height: 1; }
+  @media(max-width:720px){.header-inner{grid-template-columns:1fr auto auto;gap:.8rem;min-height:4.1rem}.site-links{gap:1.1rem}.site-links a:nth-child(2){display:none}.site-controls{gap:.7rem}}
+  @media(max-width:490px){.brand-full{display:none}.brand-short{display:inline}.site-links a:last-child{display:none}.site-controls{gap:.6rem}}
+</style>

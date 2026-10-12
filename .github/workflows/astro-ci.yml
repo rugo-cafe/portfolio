@@ -1,0 +1,38 @@
+name: astro site validation
+
+on:
+  push:
+    branches:
+      - "redesign/**"
+    paths:
+      - "astro-redesign/**"
+      - ".github/workflows/astro-ci.yml"
+  pull_request:
+    paths:
+      - "astro-redesign/**"
+      - ".github/workflows/astro-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: astro-redesign
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: astro-redesign/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Build static site
+        run: npm run build
+      - name: Check static routes and content
+        run: node scripts/check-build.mjs
