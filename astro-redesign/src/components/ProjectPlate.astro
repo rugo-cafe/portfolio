@@ -1,0 +1,58 @@
+---
+import type { ProjectEntry } from '../data/projects';
+interface Props { project: ProjectEntry; index: number; lang: string }
+const { project, index, lang } = Astro.props;
+const route = lang === 'pt' ? '/projects/' + project.slug : '/' + lang + '/projects/' + project.slug;
+const labels: Record<string, {pt: string; en: string}> = {
+  riji: {pt: 'escrever', en: 'write'},
+  'coisas-bonitas': {pt: 'escutar', en: 'listen'},
+  'ambi-mixer': {pt: 'misturar', en: 'mix'},
+  'dither-studio': {pt: 'transformar', en: 'transform'}
+};
+const verb = labels[project.slug]?.[lang === 'pt' ? 'pt' : 'en'] ?? project.subtitle;
+---
+<li class="plate" data-kind={project.slug}>
+  <a href={route} class="plate-link" aria-label={(lang === 'pt' ? 'abrir: ' : 'open: ') + project.title}>
+    <div class="visual">
+      {project.resolvedImage && <img src={project.resolvedImage} alt={project.imageAlt} width="1120" height="800" loading="lazy" decoding="async" />}
+      <span class="visual-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+    </div>
+    <div class="caption">
+      <div class="caption-title">
+        <span class="caption-verb">{verb} / {String(index + 1).padStart(2, '0')}</span>
+        <h3>{project.title}</h3>
+        <p>{project.subtitle}</p>
+      </div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </div>
+  </a>
+</li>
+<style>
+  .plate { min-width: 0; list-style: none; --wash: #dcd4cb; }
+  .plate[data-kind="riji"] { grid-column: span 7; --wash: #d8d1c8; }
+  .plate[data-kind="coisas-bonitas"] { grid-column: span 5; margin-top: clamp(4rem, 12vw, 11rem); --wash: #c3d2c9; }
+  .plate[data-kind="ambi-mixer"] { grid-column: span 5; margin-top: -1rem; --wash: #d8c5b8; }
+  .plate[data-kind="dither-studio"] { grid-column: span 7; margin-top: clamp(2rem, 8vw, 7rem); --wash: #c6cad9; }
+  .plate-link { color: inherit; text-decoration: none; display: block; }
+  .visual { position: relative; overflow: hidden; background: var(--wash); isolation: isolate; }
+  .visual img { width: 100%; height: 100%; object-fit: contain; transform: scale(.98); transition: transform 550ms var(--ease-out); }
+  .plate-link:hover .visual img, .plate-link:focus-visible .visual img { transform: scale(1.015); }
+  .plate[data-kind="riji"] .visual { aspect-ratio: 1.35; }
+  .plate[data-kind="coisas-bonitas"] .visual { aspect-ratio: .97; }
+  .plate[data-kind="ambi-mixer"] .visual { aspect-ratio: 1.19; }
+  .plate[data-kind="dither-studio"] .visual { aspect-ratio: 1.51; }
+  .visual-number { position: absolute; right: 1rem; top: 1rem; z-index: 1; color: #2b2b28; font: .75rem/1.2 var(--font-mono); background: #f4f2eecc; padding: .25rem .4rem; }
+  .caption { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; }
+  .caption-verb { display: block; font: .71rem/1.4 var(--font-mono); color: var(--muted); margin-bottom: .6rem; }
+  h3 { font: 500 clamp(1.35rem, 2vw, 2rem)/1.15 var(--font-display); letter-spacing: -.045em; }
+  p { margin-top: .45rem; color: var(--muted); line-height: 1.55; font-size: .88rem; }
+  .arrow { font-size: 1.4rem; line-height: 1; transition: transform 250ms var(--ease-out); }
+  .plate-link:hover .arrow, .plate-link:focus-visible .arrow { transform: translate(3px, -3px); color: var(--accent); }
+  @media(max-width:780px){
+    .plate, .plate[data-kind] { grid-column: span 1; margin-top: 0; }
+    .plate:nth-child(even) { margin-left: min(8vw, 3rem); }
+    .plate:nth-child(odd) { margin-right: min(8vw, 3rem); }
+    .plate[data-kind="coisas-bonitas"] .visual { aspect-ratio: 1.23; }
+  }
+  @media(prefers-reduced-motion:reduce){ .visual img,.arrow { transition: none; transform: none !important; } }
+</style>
