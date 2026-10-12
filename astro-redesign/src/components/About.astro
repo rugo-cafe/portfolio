@@ -3,21 +3,17 @@ interface Props { lang: string }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
 const content = pt ? {
-  label: 'um pouco sobre mim',
-  heading: 'um pé no design, outro no som.',
-  lead: 'me interessam as interfaces que deixam alguma coisa acontecer.',
-  first: 'venho do design de produto e trabalho com interfaces, código e automações. gosto de entender como uma coisa funciona, desenhar uma maneira de usá-la e depois construí-la.',
-  second: 'fora do expediente, sou rugo: faço música, apresento o coisas bonitas na hkcr e passo bastante tempo juntando referências sonoras e visuais.',
-  note: 'o coisas bonitas começou pela escuta. o resto deste arquivo, por perguntas diferentes.',
-  listen: 'ouvir coisas bonitas'
+  label: 'sobre',
+  heading: 'sobre',
+  first: 'estudo design de produto na ufsc e trabalho com interfaces, desenvolvimento web e automações.',
+  second: 'também faço música como rugo e apresento o coisas bonitas na hkcr.',
+  listen: 'coisas bonitas',
 } : {
-  label: 'a little about me',
-  heading: 'one foot in design, the other in sound.',
-  lead: 'i’m interested in interfaces that make room for something to happen.',
-  first: 'i come from product design and work with interfaces, code and automation. i like understanding how something works, designing ways to use it, and then building it.',
-  second: 'outside of work, i’m rugo: i make music, host coisas bonitas on hkcr, and spend a lot of time collecting sounds and visual references.',
-  note: 'coisas bonitas started with listening. the rest of this archive, with different questions.',
-  listen: 'listen to coisas bonitas'
+  label: 'about',
+  heading: 'about',
+  first: 'i study product design at ufsc and work with interfaces, web development and automation.',
+  second: 'i also make music as rugo and host coisas bonitas on hkcr.',
+  listen: 'coisas bonitas',
 };
 ---
 <section id="about" class="container about" aria-labelledby="about-heading">
@@ -25,16 +21,11 @@ const content = pt ? {
   <div class="about-main">
     <div>
       <h2 id="about-heading">{content.heading}</h2>
-      <p class="lead">{content.lead}</p>
       <p>{content.first}</p>
       <p>{content.second}</p>
       <a class="listen" href="https://coisasbonitas.neocities.org/" target="_blank" rel="noopener noreferrer">{content.listen} ↗</a>
     </div>
-    <aside class="margin-note">
-      <span class="note-line" aria-hidden="true">↳</span>
-      <p>{content.note}</p>
-      <span class="signature">— vitor</span>
-    </aside>
+
   </div>
 </section>
 <style>
@@ -42,7 +33,7 @@ const content = pt ? {
   .about-label { display: flex; flex-direction: column; gap: 1.5rem; color: var(--accent); }
   .marker { display: block; font-size: 2.25rem; line-height: 1; }
   .small { font: .73rem/1.5 var(--font-mono); color: var(--muted); }
-  .about-main { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(11rem, .65fr); gap: clamp(2rem, 7vw, 7rem); align-items: end; }
+  .about-main { max-width: 50rem; }
   h2 { font: 400 clamp(1.7rem, 3vw, 3rem)/1.12 var(--font-display); letter-spacing: -.05em; margin-bottom: 2rem; max-width: 20ch; }
   .about-main p { font-size: clamp(.98rem, 1.2vw, 1.15rem); max-width: 56ch; line-height: 1.7; margin-top: 1.25rem; }
   .about-main .lead { font-size: clamp(1.2rem, 1.8vw, 1.65rem); max-width: 35ch; line-height: 1.45; letter-spacing: -.02em; }

@@ -12,7 +12,7 @@ const signs: Record<string, string> = {
 ---
 <nav class="archive-rail" aria-label={pt ? 'índice dos projetos' : 'project index'} data-archive-rail>
   <div class="rail-heading">
-    <span class="rail-heading-name">{pt ? 'índice de coisas' : 'index of things'}</span>
+    <span class="rail-heading-name">{pt ? 'índice' : 'index'}</span>
     <span class="rail-counter"><span data-current-number>01</span> / {String(projects.length).padStart(2, '0')}</span>
   </div>
   <ol class="rail-list">
@@ -33,7 +33,7 @@ const signs: Record<string, string> = {
   </ol>
   <div class="rail-bottom">
     <div class="rail-progress" aria-hidden="true"><span data-gallery-progress></span></div>
-    <span class="rail-foot">{pt ? 'desça para folhear' : 'scroll to browse'} ↘</span>
+    <span class="rail-foot"></span>
   </div>
 </nav>
 <style>
