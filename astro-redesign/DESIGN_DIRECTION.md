@@ -42,3 +42,38 @@ a foto anterior foi retirada do layout da home, mas o arquivo permanece salvo. u
 - validar visualmente 320–390px, tablet, desktop, dark mode, foco/teclado, mobile touch.
 - nenhuma transição de opacidade de seções, nenhum piscar entre rotas.
 - sempre manter rotas e conteúdo PT/EN.
+
+
+## proposta experimental v0.3: movimento com significado (não publicada)
+- pequenos glifos relacionados ao projeto respondem à passagem do scroll; o conteúdo e as capturas permanecem visíveis e imóveis.
+- o índice lateral atualiza a posição da leitura e oferece âncoras reais, inclusive sem JavaScript.
+- barra de percurso com escala transformada por requestAnimationFrame sob demanda, sem loops de renderização permanentes.
+- nenhuma animação de entrada de seções, mudança de opacidade do texto ou roteamento em crossfade.
+- uma cor-sinal cítrica (`--accent-signal`) experimentada nos glifos, não como fundo indiscriminado.
+- começar a reescrita conforme `EDITORIAL_VOICE.md`; textos da v0.3 são propostas revisáveis.
+- NÃO fazer merge antes de ver a composição e as interações no navegador.
+
+- As imagens podem deslocar no máximo 12 px no scroll, usando transforms e sem alterar opacidade; fundos geométricos remetem ao material dos projetos (linhas/escrita, ondas/rádio, faixas/som, pontos/dither). Esta escolha é experimental e reversível.
+
+
+## referências pesquisadas / 2026-10-12
+
+Referências usadas como **princípios**, não como templates:
+
+1. [Are.na](https://www.are.na/about): conteúdo como coleção conectável, não listagem de serviços. Aplicação: índice de objetos com categorias simples e navegação que aproxima os projetos.
+2. [The Pudding](https://pudding.cool/resources/): scroll como mudança de contexto e instrumento de leitura. Aplicação: índice de capítulo, barra de progresso e movimento pequeno nos elementos gráficos, sem revelar/esconder texto.
+3. [Bruno Simon](https://bruno-simon.com/): interação como evidência do que o autor sabe construir. Não copiar 3D, mas demonstrar autonomia digital por pequenas respostas táteis.
+4. [Active Theory](https://activetheory.net): movimento com sistema e direção de arte própria. Rejeitamos a escala WebGL e o alto custo de performance para este projeto.
+
+### próximos limites de qualidade
+- identidade visual não é uma cor aleatória por projeto: cada gramática (linhas/ondas/barras/pontos) deve corresponder a uma prática concreta.
+- movimento não deve impor performance, atrasar leitura ou exigir JavaScript para navegar.
+- medir FPS/CLS e conferir clique, foco, toque e navegação em aparelhos reais **antes do merge**.
+- evitar slogans de portfólio, inclusive metáforas ambiciosas demais.
+
+## acabamento v0.4 / revisão de implementação
+- Reescrita do hero com afirmações mais específicas e menos grandiosas: design e desenvolvimento de interfaces, rádio, arquivo HKCR.
+- Tipografia deliberadamente distinta apenas onde serve à personalidade do projeto: registro com nota serifada no coisas bonitas, mono no dither studio, sem sacrificar legibilidade.
+- Metadados de case detail corrigidos após detectar seletor CSS indevido.
+- Âncoras da galeria, espaçamento de toque no índice mobile e no-JS progressivo reforçados pelos testes estáticos.
+- Compilação não equivale a teste visual em navegador. A fotografia permanece fora do site até escolha do proprietário.

@@ -1,0 +1,66 @@
+---
+import type { ProjectEntry } from '../data/projects';
+interface Props { projects: ProjectEntry[]; lang: string }
+const { projects, lang } = Astro.props;
+const pt = lang === 'pt';
+const signs: Record<string, string> = {
+  riji: '日',
+  'coisas-bonitas': '◉',
+  'ambi-mixer': '≈',
+  'dither-studio': '░',
+};
+---
+<nav class="archive-rail" aria-label={pt ? 'índice dos projetos' : 'project index'} data-archive-rail>
+  <div class="rail-heading">
+    <span class="rail-heading-name">{pt ? 'índice de coisas' : 'index of things'}</span>
+    <span class="rail-counter"><span data-current-number>01</span> / {String(projects.length).padStart(2, '0')}</span>
+  </div>
+  <ol class="rail-list">
+    {projects.map((project, index) => (
+      <li>
+        <a
+          href={'#artifact-' + project.slug}
+          data-rail-link={project.slug}
+          class:list={{ 'is-current': index === 0 }}
+          aria-label={project.title}
+          aria-current={index === 0 ? 'location' : undefined}
+        >
+          <span class="rail-sign" aria-hidden="true">{signs[project.slug] ?? '✳'}</span>
+          <span class="rail-title">{project.title}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+  <div class="rail-bottom">
+    <div class="rail-progress" aria-hidden="true"><span data-gallery-progress></span></div>
+    <span class="rail-foot">{pt ? 'desça para folhear' : 'scroll to browse'} ↘</span>
+  </div>
+</nav>
+<style>
+  .archive-rail { position: sticky; top: 6.3rem; align-self: start; display: grid; gap: 1.65rem; min-width: 0; padding-top: .35rem; }
+  .rail-heading { display: grid; gap: .3rem; }
+  .rail-heading-name,.rail-counter,.rail-foot { font: .7rem/1.5 var(--font-mono); letter-spacing: .015em; color: var(--muted); }
+  .rail-counter { color: var(--text); }
+  .rail-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
+  .rail-list a { text-decoration: none; display: flex; align-items: center; gap: .6rem; width: fit-content; min-height: 2.2rem; color: var(--muted); transition: color 180ms ease; }
+  .rail-list a.is-current, .rail-list a:hover, .rail-list a:focus-visible { color: var(--text); }
+  .rail-sign { width: 1.85rem; height: 1.85rem; flex: 0 0 1.85rem; display: grid; place-items: center; font: 1.04rem/1 var(--font-mono); transition: background-color 240ms ease, color 240ms ease, transform 340ms var(--ease-out); }
+  .is-current .rail-sign { background: var(--accent-signal); color: var(--signal-ink); transform: rotate(-8deg); }
+  .rail-title { font: .73rem/1.35 var(--font-mono); overflow-wrap: anywhere; }
+  .rail-bottom { display: grid; gap: .8rem; }
+  .rail-progress { width: min(100%, 7.5rem); height: 2px; background: var(--border); overflow: hidden; }
+  .rail-progress span { display: block; background: var(--accent); width: 100%; height: 100%; transform-origin: left center; transform: scaleX(0); }
+  @media(max-width:900px) {
+    .archive-rail { position: sticky; top: 4.1rem; z-index: 12; display: flex; justify-content: space-between; align-items: center; gap: .8rem 2rem; flex-wrap: wrap; padding: .75rem 0 1rem; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .rail-heading { gap: 0; }
+    .rail-list { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .rail-title { display: none; }
+    .rail-list a { min-height: 2.75rem; min-width: 2.75rem; justify-content: center; }
+    .rail-sign { width: 2.75rem; height: 2.75rem; flex-basis: 2.75rem; }
+    .rail-bottom { flex-basis: 100%; }
+    .rail-list { gap: .5rem; }
+    .rail-progress { width: 100%; }
+    .rail-foot { display: none; }
+  }
+  @media(prefers-reduced-motion:reduce){.rail-sign,.rail-list a{transition:none}.is-current .rail-sign{transform:none}.rail-progress{display:none}}
+</style>
