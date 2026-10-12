@@ -2,99 +2,135 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from './Navbar.astro';
 import Contact from './Contact.astro';
-import { useTranslations } from '../i18n/utils';
 import { getProjectEntries, type ProjectEntry, type ProjectLang } from '../data/projects';
 interface Props { lang: ProjectLang; project: ProjectEntry }
 const { lang, project } = Astro.props;
-const t = useTranslations(lang);
-const entries = getProjectEntries(lang);
-const currentIndex = entries.findIndex(item => item.slug === project.slug);
-const nextProject = entries[(currentIndex + 1) % entries.length];
-const projectHref = (slug: string) => lang === 'pt' ? '/projects/' + slug : '/' + lang + '/projects/' + slug;
-const home = lang === 'pt' ? '/' : '/en';
+const projects = getProjectEntries(lang);
+const position = projects.findIndex(entry => entry.slug === project.slug);
+const next = projects[(position + 1) % projects.length];
 const pt = lang === 'pt';
+const home = pt ? '/' : '/en';
+const href = (slug: string) => (pt ? '/projects/' : '/en/projects/') + slug;
+const kind: Record<string, { pt: string; en: string; symbol: string }> = {
+  riji: { pt: 'escrever', en: 'write', symbol: '✳' },
+  'coisas-bonitas': { pt: 'escutar', en: 'listen', symbol: '◌' },
+  'ambi-mixer': { pt: 'misturar', en: 'mix', symbol: '≈' },
+  'dither-studio': { pt: 'transformar', en: 'transform', symbol: '░' },
+};
+const motif = kind[project.slug] ?? {pt: 'experimentar', en: 'experiment', symbol: '*' };
+const label = motif[pt ? 'pt' : 'en'];
 ---
 <Layout title={project.title + ' | vitor hugo cunha'} description={project.overview} lang={pt ? 'pt-br' : 'en'}>
   <Navbar currentLang={lang} />
-  <main id="main-content" class="project-detail container" data-project-type={project.slug}>
-    <header class="detail-header">
-      <div class="detail-meta">
-        <a class="back-link" href={home + '#projects'}>← {t('project.back')}</a>
-        <span class="meta-label">{String(currentIndex + 1).padStart(2, '0')} / {String(entries.length).padStart(2, '0')}</span>
-      </div>
-      <div class="detail-intro" data-animate>
-        <span class="meta-label">{t('project.eyebrow')}</span>
+  <main id="main-content" class="case container" data-kind={project.slug}>
+    <div class="case-path">
+      <a href={home + '#projects'}>← {pt ? 'voltar para os projetos' : 'back to projects'}</a>
+      <span>{String(position + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</span>
+    </div>
+    <header class="case-hero">
+      <aside class="case-marginal">
+        <span class="tiny">{pt ? 'um pequeno objeto digital' : 'a small digital object'}</span>
+        <span class="case-motif" aria-hidden="true">{motif.symbol}</span>
+        <span class="tiny">↳ {label}</span>
+      </aside>
+      <div class="case-intro">
+        <p class="eyebrow">{pt ? 'feito para a web' : 'made for the web'} / {label}</p>
         <h1>{project.title}</h1>
-        <p>{project.subtitle}</p>
+        <p class="case-subtitle">{project.subtitle}</p>
+        {project.links && project.links.length > 0 && (
+          <div class="primary-links">
+            {project.links.map((link, index) => <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}
+          </div>
+        )}
       </div>
     </header>
     {project.resolvedImage && (
-      <figure class="detail-image" data-animate>
-        <img src={project.resolvedImage} alt={project.imageAlt} width="1440" height="900" decoding="async" fetchpriority="high" />
-        <figcaption class="meta-label">fig. 01 / {project.title}</figcaption>
+      <figure class="case-artwork">
+        <div class="artwork-field">
+          <img src={project.resolvedImage} alt={project.imageAlt} width="1440" height="900" decoding="async" fetchpriority="high" />
+        </div>
+        <figcaption><span>fig. 01</span><span>{project.title} / {label}</span></figcaption>
       </figure>
     )}
-    <div class="detail-grid">
-      <div class="detail-story">
-        <section data-animate aria-labelledby="overview-label">
-          <h2 id="overview-label" class="meta-label">{t('project.overview.title')}</h2>
-          <p class="detail-lead">{project.overview}</p>
+    <div class="notes">
+      <aside class="notes-aside">
+        <span class="tiny">{pt ? 'anotações sobre o projeto' : 'notes about this project'}</span>
+        <span class="notes-mark" aria-hidden="true">↳</span>
+      </aside>
+      <div class="notes-body">
+        <section>
+          <h2>{pt ? 'o que é' : 'what it is'}</h2>
+          <p class="opening">{project.overview}</p>
         </section>
-        <section data-animate aria-labelledby="challenge-label">
-          <h2 id="challenge-label" class="meta-label">{t('project.challenge.title')}</h2>
+        <section>
+          <h2>{pt ? 'o que tentei resolver' : 'what i tried to solve'}</h2>
           <p>{project.challengeAndSolution}</p>
         </section>
       </div>
-      <aside class="detail-aside">
-        <div class="detail-fact" data-animate>
-          <h2 class="meta-label">{t('project.role.title')}</h2>
-          <ul>{project.role.map(item => <li>{item}</li>)}</ul>
-        </div>
-        <div class="detail-fact" data-animate>
-          <h2 class="meta-label">{t('project.stack.title')}</h2>
-          <ul>{project.stack.map(item => <li>{item}</li>)}</ul>
-        </div>
-        {project.links?.length ? (
-          <div class="detail-fact" data-animate>
-            <h2 class="meta-label">{t('project.links.title')}</h2>
-            <ul>{project.links.map(link => <li><a class="text-link" href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a></li>)}</ul>
-          </div>
-        ) : null}
-      </aside>
     </div>
-    {nextProject && (
-      <nav class="next-project" aria-label={pt ? 'próximo projeto' : 'next project'}>
-        <span class="meta-label">{pt ? 'próximo projeto' : 'next project'} / {String((currentIndex + 1) % entries.length + 1).padStart(2, '0')}</span>
-        <a href={projectHref(nextProject.slug)}>{nextProject.title} <span aria-hidden="true">↗</span></a>
-      </nav>
-    )}
+    <div class="materials">
+      <div>
+        <h2>{pt ? 'o que fiz' : 'what i did'}</h2>
+        <p>{project.role.join(' · ')}</p>
+      </div>
+      <div>
+        <h2>{pt ? 'ferramentas' : 'tools'}</h2>
+        <p>{project.stack.join(' · ')}</p>
+      </div>
+    </div>
+    <nav class="next-case" aria-label={pt ? 'próximo projeto' : 'next project'}>
+      <span class="tiny">{pt ? 'seguir explorando' : 'keep exploring'} ↘</span>
+      <a href={href(next.slug)}>{next.title} <span aria-hidden="true">↗</span></a>
+    </nav>
   </main>
   <Contact lang={lang} />
 </Layout>
 <style>
-  .project-detail { padding-top: clamp(3rem, 7vw, 7rem); }
-  .detail-meta { display: flex; justify-content: space-between; gap: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-  .back-link { font-size: .83rem; text-decoration: none; }
-  .back-link:hover { color: var(--accent); }
-  .detail-intro { padding-block: clamp(3rem, 6vw, 6rem); }
-  .detail-intro h1 { font: 400 clamp(2.8rem, 5vw, 5rem)/1.1 var(--font-display); letter-spacing: -.058em; margin-top: 1rem; }
-  .detail-intro p { margin-top: 1rem; font-size: clamp(1.1rem, 1.7vw, 1.5rem); color: var(--muted); max-width: 50ch; }
-  .detail-image { border-top: 1px solid var(--border); padding-top: 1.25rem; }
-  .detail-image img { background: var(--surface); width: 100%; max-height: 680px; object-fit: contain; }
-  .detail-image figcaption { margin-top: .8rem; text-align: right; }
-  .detail-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(13rem, .7fr); gap: clamp(3rem, 12vw, 12rem); padding-block: clamp(4rem, 8vw, 8rem); }
-  .detail-story { display: grid; gap: 3.5rem; }
-  .detail-story h2, .detail-aside h2 { margin-bottom: 1rem; }
-  .detail-story p { font-size: 1.05rem; line-height: 1.75; color: var(--muted); max-width: 57ch; }
-  .detail-story .detail-lead { font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.45; color: var(--text); letter-spacing: -.025em; }
-  .detail-aside { display: grid; align-content: start; gap: 2.3rem; }
-  .detail-fact { border-top: 1px solid var(--border); padding-top: 1rem; }
-  .detail-fact ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .85rem; }
-  .detail-fact li { font-size: .82rem; line-height: 1.6; color: var(--muted); }
-  .detail-fact a { color: var(--text); }
-  .next-project { border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.7rem 0 clamp(2rem, 5vw, 5rem); }
-  .next-project a { font: 500 clamp(1.25rem, 2.5vw, 2rem)/1.15 var(--font-display); letter-spacing: -.035em; text-decoration: none; }
-  .next-project a:hover { color: var(--accent); }
-  [data-project-type="coisas-bonitas"] .detail-image img { object-position: left center; }
-  @media(max-width:750px){.detail-grid{grid-template-columns:1fr;gap:3rem}.next-project{display:grid}}
+  .case { --wash: #d8d1c8; padding-top: clamp(2rem, 4vw, 4rem); }
+  .case[data-kind="riji"] { --wash: #d9d2c6; }
+  .case[data-kind="coisas-bonitas"] { --wash: #c1d1c6; }
+  .case[data-kind="ambi-mixer"] { --wash: #d9c4b7; }
+  .case[data-kind="dither-studio"] { --wash: #c7c9d9; }
+  .tiny,.eyebrow,.case-path,.case-artwork figcaption { font: .73rem/1.55 var(--font-mono); color: var(--muted); }
+  .case-path { display: flex; justify-content: space-between; gap: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .case-path a { text-decoration: none; color: var(--text); }
+  .case-path a:hover { color: var(--accent); }
+  .case-hero { display: grid; grid-template-columns: minmax(7rem, 3fr) minmax(0, 9fr); gap: clamp(1.5rem, 5vw, 5rem); padding-block: clamp(4rem, 8vw, 8rem); }
+  .case-marginal { display: flex; flex-direction: column; align-items: start; justify-content: space-between; gap: 1.5rem; }
+  .case-motif { font: 400 clamp(3rem, 8vw, 8rem)/.8 var(--font-display); color: var(--accent); transform: rotate(-13deg); }
+  .eyebrow { color: var(--accent); }
+  h1 { font: 400 clamp(2.8rem, 5.8vw, 5.8rem)/1.04 var(--font-display); letter-spacing: -.065em; margin-top: 1.4rem; }
+  .case-subtitle { font-size: clamp(1.15rem, 2vw, 1.75rem); letter-spacing: -.025em; line-height: 1.4; margin-top: 1.5rem; max-width: 39ch; }
+  .primary-links { display: flex; flex-wrap: wrap; gap: .8rem 1.7rem; margin-top: 2.5rem; }
+  .primary-links a { border-bottom: 1px solid currentColor; text-decoration: none; padding-bottom: .25rem; font-size: .86rem; }
+  .primary-links a:hover { color: var(--accent); }
+  .artwork-field { display: flex; align-items: center; justify-content: center; background: var(--wash); padding: clamp(1rem, 4vw, 4rem); min-height: 20rem; }
+  .artwork-field img { display: block; width: 100%; max-height: 65vh; object-fit: contain; }
+  .case[data-kind="riji"] .artwork-field img { max-width: 77%; }
+  .case[data-kind="coisas-bonitas"] .artwork-field { padding: clamp(.8rem,2vw,2rem); }
+  .case[data-kind="ambi-mixer"] .artwork-field img { max-width: 88%; }
+  .case[data-kind="dither-studio"] .artwork-field { padding: clamp(.7rem,1.5vw,1.5rem); }
+  .case-artwork figcaption { display: flex; justify-content: space-between; gap: 2rem; padding-top: .75rem; }
+  .notes { display: grid; grid-template-columns: minmax(7rem,3fr) minmax(0,9fr); gap: clamp(1.5rem,5vw,5rem); padding-block: clamp(5rem, 10vw, 10rem); }
+  .notes-aside { display: flex; flex-direction: column; align-items: start; gap: 1rem; }
+  .notes-mark { font-size: 2rem; line-height: 1; color: var(--accent); }
+  .notes-body { max-width: 57ch; display: grid; gap: clamp(2.7rem, 6vw, 5rem); }
+  .notes-body h2,.materials h2 { font: .75rem/1.4 var(--font-mono); color: var(--muted); margin-bottom: 1.15rem; }
+  .notes-body p { font-size: clamp(1rem,1.3vw,1.14rem); line-height: 1.7; }
+  .notes-body .opening { font-size: clamp(1.3rem,2vw,1.85rem); line-height: 1.42; letter-spacing: -.025em; }
+  .materials { padding: 1.5rem 0 clamp(4rem,8vw,8rem); border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+  .materials p { font-size: .88rem; line-height: 1.8; }
+  .next-case { border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; padding: 1.5rem 0 clamp(2rem,6vw,6rem); }
+  .next-case a { font: 400 clamp(1.4rem,2.4vw,2.4rem)/1.2 var(--font-display); letter-spacing: -.04em; text-decoration: none; }
+  .next-case a:hover { color: var(--accent); }
+  @media(max-width:720px){
+    .case-hero,.notes{grid-template-columns:1fr;}
+    .case-marginal{flex-direction:row;align-items:center;}
+    .case-motif{font-size:3rem;transform:none;}
+    .case-marginal>.tiny:last-child{display:none;}
+    .case-hero{padding-block:3rem;}
+    .case[data-kind="riji"] .artwork-field img { max-width: 100%; }
+    .artwork-field{min-height:12rem;}
+  }
+  @media(max-width:530px){.materials{grid-template-columns:1fr;gap:1.5rem}.next-case{flex-direction:column}}
 </style>

@@ -32,8 +32,8 @@ const projectContent: Record<ProjectLang, Record<ProjectSlug, ProjectContent>> =
     riji: {
       title: '日记 riji',
       subtitle: 'registro diário minimalista e seguro.',
-      overview: 'um espaço focado em privacidade e fluidez para anotações do dia a dia. a ideia principal foi criar um diário digital sem distrações visuais.',
-      challengeAndSolution: 'o maior foco foi garantir a privacidade de quem escreve. o app utiliza criptografia local para assegurar que as notas sejam lidas apenas pelo próprio usuário, unindo uma interface extremamente limpa com uma arquitetura segura por baixo dos panos.',
+      overview: 'um diário no navegador para escrever sem distrações. o visual tenta sair do caminho e deixar a página para quem escreve.',
+      challengeAndSolution: 'a privacidade era central: as notas são criptografadas localmente. tentei fazer essa camada técnica conviver com uma experiência simples de escrita.',
       role: ['product design', 'frontend', 'arquitetura de dados'],
       imageAlt: 'captura da interface do riji',
       links: [
@@ -46,8 +46,8 @@ const projectContent: Record<ProjectLang, Record<ProjectSlug, ProjectContent>> =
     'coisas-bonitas': {
       title: 'coisas bonitas',
       subtitle: 'rádio, arquivo e identidade visual.',
-      overview: 'o hub central para o programa de rádio coisas bonitas. um espaço para reunir os mixes, as entrevistas e as colaborações musicais transmitidas na hkcr.',
-      challengeAndSolution: 'o desafio aqui foi traduzir a atmosfera sonora do projeto para o navegador. desenvolvi uma identidade visual interativa que funciona não apenas como um portfólio de áudio, mas como uma extensão imersiva da experiência da rádio.',
+      overview: 'o site do coisas bonitas, meu programa na hkcr. reúne episódios, participações e materiais de cada transmissão num arquivo que continua crescendo.',
+      challengeAndSolution: 'queria que o site tivesse algo do ritmo do programa, sem virar só uma lista de players. construí um arquivo navegável onde textos e imagens acompanham cada transmissão.',
       role: ['identidade visual', 'frontend', 'curadoria'],
       imageAlt: 'captura do site coisas bonitas',
       links: [
@@ -68,16 +68,16 @@ const projectContent: Record<ProjectLang, Record<ProjectSlug, ProjectContent>> =
     'dither-studio': {
       title: 'dither studio',
       subtitle: 'processamento de imagens em real-time.',
-      overview: 'uma ferramenta web experimental focada em aplicar algoritmos de dithering em imagens direto no navegador.',
-      challengeAndSolution: 'o objetivo foi criar uma interface responsiva que permitisse o ajuste fino dos parâmetros do filtro visual com feedback imediato. o projeto une exploração estética com manipulação eficiente de canvas no front-end.',
+      overview: 'uma ferramenta para aplicar dithering em imagens e acompanhar o resultado enquanto ajusto os parâmetros.',
+      challengeAndSolution: 'o exercício foi deixar a manipulação do canvas imediata, com controles que não disputam a atenção com a imagem.',
       role: ['creative coding', 'canvas & shaders', 'frontend'],
       imageAlt: 'captura do dither studio',
     },
     'ambi-mixer': {
       title: 'ambi mixer',
       subtitle: 'gerador de ambiências para foco.',
-      overview: 'um web app desenhado para ajudar na concentração, combinando diferentes texturas sonoras para criar a atmosfera perfeita para trabalhar ou estudar.',
-      challengeAndSolution: 'atualmente em desenvolvimento, o foco está na criação de uma interface limpa onde a manipulação dos canais de áudio seja tátil e intuitiva, rodando de forma leve em segundo plano.',
+      overview: 'um pequeno mixer de ambiências que permite combinar camadas de som durante a escuta.',
+      challengeAndSolution: 'ainda em andamento: estou tentando tornar a mistura de canais intuitiva, sem deixar os controles atrapalharem a escuta.',
       role: ['frontend', 'web audio api', 'design de interação'],
       imageAlt: 'captura do ambi mixer em funcionamento',
       links: [
@@ -92,8 +92,8 @@ const projectContent: Record<ProjectLang, Record<ProjectSlug, ProjectContent>> =
     riji: {
       title: '日记 riji',
       subtitle: 'a minimal, private daily journal.',
-      overview: 'a space focused on privacy and flow for everyday writing. the core idea was building a digital journal without visual distractions.',
-      challengeAndSolution: "the main focus was protecting the writer's privacy. the app uses local encryption so entries can only be read by their author, pairing an extremely clean interface with a secure architecture underneath.",
+      overview: 'a browser-based journal for writing without distractions. the interface tries to get out of the way and leave room for the words.',
+      challengeAndSolution: "privacy was essential: entries are encrypted locally. i wanted that technical layer to coexist with a simple writing experience.",
       role: ['product design', 'frontend', 'data architecture'],
       imageAlt: 'screenshot of the riji interface',
       links: [
@@ -106,8 +106,8 @@ const projectContent: Record<ProjectLang, Record<ProjectSlug, ProjectContent>> =
     'coisas-bonitas': {
       title: 'coisas bonitas',
       subtitle: 'radio, archive, and visual identity.',
-      overview: 'the central hub for the coisas bonitas radio show. a space to gather the mixes, interviews, and musical collaborations broadcast on hkcr.',
-      challengeAndSolution: "the challenge was translating the project's sonic atmosphere to the browser. i built an interactive visual identity that works not just as an audio portfolio, but as an immersive extension of the radio experience.",
+      overview: 'the site for coisas bonitas, my show on hkcr. it brings episodes, guests and material from each broadcast into a growing archive.',
+      challengeAndSolution: "i wanted the site to carry some of the show's rhythm without becoming a list of players. i built a browsable archive where text and images accompany each episode.",
       role: ['visual identity', 'frontend', 'curation'],
       imageAlt: 'screenshot of the coisas bonitas site',
       links: [
@@ -128,16 +128,16 @@ const projectContent: Record<ProjectLang, Record<ProjectSlug, ProjectContent>> =
     'dither-studio': {
       title: 'dither studio',
       subtitle: 'real-time image processing.',
-      overview: 'an experimental web tool focused on applying dithering algorithms to images directly in the browser.',
-      challengeAndSolution: "the goal was a responsive interface for fine-tuning the visual filter's parameters with immediate feedback. the project blends aesthetic exploration with efficient canvas manipulation on the frontend.",
+      overview: 'a tool to apply dithering to images and see the result while adjusting the parameters.',
+      challengeAndSolution: "the challenge was making canvas manipulation immediate, with controls that don't compete with the image.",
       role: ['creative coding', 'canvas & shaders', 'frontend'],
       imageAlt: 'screenshot of dither studio',
     },
     'ambi-mixer': {
       title: 'ambi mixer',
       subtitle: 'an ambience generator for focus.',
-      overview: 'a web app designed to help with concentration, blending different sound textures to create the perfect atmosphere for work or study.',
-      challengeAndSolution: "currently in development, the focus is a clean interface where mixing audio channels feels tactile and intuitive, running lightly in the background.",
+      overview: 'a small ambient mixer for combining layers of sound while listening.',
+      challengeAndSolution: "still in progress: i'm trying to make audio channel mixing feel intuitive without letting the controls get in the way of listening.",
       role: ['frontend', 'web audio api', 'interaction design'],
       imageAlt: 'screenshot of ambi mixer in action',
       links: [
