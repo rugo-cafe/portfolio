@@ -44,4 +44,15 @@ for (const lang of ['', 'en']) {
     assert.ok(html.includes('id="artifact-' + slug + '"'), 'missing in-page artifact anchor: ' + slug);
   }
 }
+const profileSource = readFileSync(join(process.cwd(), 'src/data/profile.ts'), 'utf8');
+assert.ok(profileSource.includes('vitorhug.cunha@gmail.com'), 'contact address must match profile');
+for (const lang of ['', 'en']) {
+  const page = readFileSync(join(dist, lang, 'index.html'), 'utf8');
+  assert.ok(page.includes('mailto:vitorhug.cunha@gmail.com'), 'missing correct email');
+  assert.ok(page.includes('github.com/rugo-cafe') && page.includes('linkedin.com/in/vitor-hugo-cunha/'), 'missing professional links');
+  for (const slug of slugs) {
+    const details = readFileSync(join(dist, lang, 'projects', slug, 'index.html'), 'utf8');
+    assert.ok(details.includes(lang === 'en' ? 'key features and decisions' : 'principais funcionalidades e decisões'), 'missing detailed feature list: ' + slug);
+  }
+}
 console.log('static smoke checks passed: 2 languages, 8 project pages, essential landmarks.');
