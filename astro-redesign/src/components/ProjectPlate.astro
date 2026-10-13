@@ -24,6 +24,7 @@ const category = project.subtitle;
       <div class="caption-title">
         <span class="caption-verb">{category} / {String(index + 1).padStart(2, '0')}</span>
         <h3>{project.title}</h3>
+        <p class="project-description">{project.overview}</p>
 
       </div>
       <span class="arrow" aria-hidden="true">↗</span>
@@ -58,6 +59,7 @@ const category = project.subtitle;
   .plate[data-kind='coisas-bonitas'] h3 { font-family: var(--font-note); font-style: italic; font-weight: 400; letter-spacing: -.03em; font-size: clamp(1.65rem, 2.25vw, 2.35rem); }
   .plate[data-kind='dither-studio'] h3 { font-family: var(--font-mono); font-size: clamp(1.2rem, 1.6vw, 1.6rem); letter-spacing: -.05em; }
   p { margin-top: .45rem; color: var(--muted); line-height: 1.55; font-size: .88rem; }
+  .project-description { max-width: 49ch; }
   .arrow { font-size: 1.4rem; line-height: 1; transition: transform 250ms var(--ease-out); }
   .plate-link:hover .arrow, .plate-link:focus-visible .arrow { transform: translate(3px, -3px); color: var(--accent); }
   @media(max-width:780px){

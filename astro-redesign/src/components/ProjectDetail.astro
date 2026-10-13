@@ -68,6 +68,10 @@ const label = motif[pt ? 'pt' : 'en'];
           <h2>{pt ? 'desenvolvimento' : 'development'}</h2>
           <p>{project.challengeAndSolution}</p>
         </section>
+        <section class="highlights">
+          <h2>{pt ? 'principais funcionalidades e decisões' : 'key features and decisions'}</h2>
+          <ul>{project.highlights.map((item) => <li>{item}</li>)}</ul>
+        </section>
       </div>
     </div>
     <div class="materials">
@@ -126,6 +130,8 @@ const label = motif[pt ? 'pt' : 'en'];
   .notes-body h2,.materials h2 { font: .75rem/1.4 var(--font-mono); color: var(--muted); margin-bottom: 1.15rem; }
   .notes-body p { font-size: clamp(1rem,1.3vw,1.14rem); line-height: 1.7; }
   .notes-body .opening { font-size: clamp(1.3rem,2vw,1.85rem); line-height: 1.42; letter-spacing: -.025em; }
+  .highlights ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border); }
+  .highlights li { border-bottom: 1px solid var(--border); padding: .9rem 0; font-size: .95rem; line-height: 1.6; }
   .materials { padding: 1.5rem 0 clamp(4rem,8vw,8rem); border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
   .materials p { font-size: .88rem; line-height: 1.8; }
   .next-case { border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; padding: 1.5rem 0 clamp(2rem,6vw,6rem); }

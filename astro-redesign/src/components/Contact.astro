@@ -1,4 +1,5 @@
 ---
+import { profile } from '../data/profile';
 interface Props { lang: string }
 const { lang } = Astro.props;
 const pt = lang === 'pt';
@@ -9,14 +10,18 @@ const home = pt ? '/' : '/en';
     <span class="small">{pt ? 'contato' : 'contact'}</span>
     <div>
       <h2 id="contact-heading">{pt ? 'contato' : 'contact'}</h2>
-      <a href="mailto:contato@vitorhugocunha.com" class="email">contato@vitorhugocunha.com <span aria-hidden="true">↗</span></a>
+      <a href={`mailto:${profile.email}`} class="email">{profile.email} <span aria-hidden="true">↗</span></a>
+      <nav class="contact-profiles" aria-label={pt ? 'perfis profissionais' : 'professional profiles'}>
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">linkedin ↗</a>
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">github ↗</a>
+      </nav>
     </div>
   </div>
   <div class="footer-bottom">
     <span>vitor hugo cunha © {new Date().getFullYear()}</span>
     <nav aria-label={pt ? 'links externos' : 'external links'}>
-      <a href="https://github.com/rugo-cafe" target="_blank" rel="noopener noreferrer">github ↗</a>
-      <a href="https://www.linkedin.com/in/vitor-hugo-cunha/" target="_blank" rel="noopener noreferrer">linkedin ↗</a>
+      <a href={profile.github} target="_blank" rel="noopener noreferrer">github ↗</a>
+      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">linkedin ↗</a>
       <a href={home + '#home'}>{pt ? 'voltar ao início ↑' : 'back to top ↑'}</a>
     </nav>
   </div>
@@ -30,6 +35,8 @@ const home = pt ? '/' : '/en';
   a { text-decoration: none; }
   .email { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; margin-top: 2.5rem; padding-bottom: .3rem; border-bottom: 1px solid currentColor; font-size: clamp(.95rem, 1.65vw, 1.35rem); overflow-wrap: anywhere; }
   a:hover { color: var(--accent); }
+  .contact-profiles { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.25rem; font: .86rem/1.6 var(--font-mono); }
+  .contact-profiles a { text-decoration: underline; text-underline-offset: .3rem; }
   .footer-bottom { margin-top: clamp(6rem, 12vw, 12rem); border-top: 1px solid var(--border); padding-top: 1.1rem; display: flex; align-items: baseline; justify-content: space-between; gap: 1.3rem; color: var(--muted); font: .72rem/1.5 var(--font-mono); }
   .footer-bottom nav { display: flex; flex-wrap: wrap; gap: 1.6rem; }
   @media(max-width:650px){.contact-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column}}
